@@ -1,0 +1,157 @@
+<!doctype html>
+<meta charset=utf-8>
+<meta http-equiv="Cache-Control"
+	content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="format-detection" content="telephone=no" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="renderer" content="webkit">
+
+<title>SB2转换与播放界面</title>
+<link rel=stylesheet href=player.css>
+<link rel=stylesheet href=index.css>
+<style>
+body {
+	-webkit-overflow-scrolling: touch;
+}
+</style>
+<div class=area id=player-area>
+	<div class=player></div>
+	<div class=progress-bar></div>
+	<div class="mask mask-play"></div>
+	<div class=internal-error>sb2转换成html时出错了!</div>
+</div>
+<div class="control_wrap">
+	<div class=controls>
+		<span class=stop></span> <span class=pause></span> <span class=flag
+			title="Shift+click to enable turbo mode."></span>
+		<div class=turbo>Turbo Mode</div>
+		<span class=full-screen hidden></span>
+	</div>
+	        <!--点击跳转到千聊 -->
+	<button class="invent" onclick="learn()">我也要学</button>
+</div>
+
+<!--<script src=fonts.js></script>-->
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+<script src=lib/jszip.2.4.0.min.js></script>
+<script src=lib/rgbcolor.js></script>
+<script src=lib/StackBlur.js></script>
+<script src=lib/canvg.js></script>
+<script src=phosphorus.js></script>
+<script src=player.js></script>
+<script>
+  $.ajaxSetup({
+    cache: false
+  });
+  /* document.addEventListener('touchmove', function(event) {
+            console.log(111);
+            var e = event||window.event;
+            e.preventDefault();
+        },false);*/
+
+  function learn(){
+	  //让父页面跳转
+	  var html = "/";
+	  window.parent.parent.location.href=html;
+  }
+
+  
+  function urlParams(paramName) {
+    var reg = new RegExp("[\?&]" + paramName + "=([^&]*)[&]?", "i");
+    var paramVal = window.location.search.match(reg);
+    return paramVal == null ? "" : decodeURIComponent(paramVal[1]);
+  }
+  (function() {
+    'use strict';
+    var body = document.getElementsByTagName("body")[0];
+    var player = document.querySelector('.player');
+    var playerArea = document.querySelector('#player-area');
+    playerArea.style.height = 'auto';
+    var playerAreaHeight = playerArea.offsetHeight;
+    playerArea.style.height = 0;
+
+    function load(url) {
+      playerArea.style.height = url ? playerAreaHeight + 'px' : 0;
+
+      P.player.load(url, function(s) {
+        s.triggerGreenFlag();
+      }, function(title) {
+        //
+      });
+    }
+
+    var  curUrl = location.href;
+    var host = curUrl.substr(0,curUrl.indexOf("scratch-online",0));
+
+    var fileUrl = host + urlParams("file")
+    load(fileUrl);
+
+    setTimeout(function() {
+      function setTransition(el) {
+        el.style.WebkitTransition =
+          el.style.MozTransition =
+          el.style.OTransition =
+          el.style.transition = 'height 0.2s';
+      }
+      setTransition(playerArea);
+    });
+
+    var _scroll;
+    document.body.addEventListener('touchstart', function(e) {
+      _scroll = parent.window.document.getElementById("content").scrollTop;
+    }, false);
+    document.body.addEventListener('touchmove', function(e) {
+      console.log(parent.window.document.getElementById("content").scrollTop)
+    }, false);
+
+  }());
+
+
+
+  document.getElementsByClassName('invent')[0].addEventListener('click', function(e) {
+    var e = e || event;
+    e.stopPropagation()
+    window.parent.document.getElementById('form_shade').style.display = 'block';
+    window.parent.document.getElementsByClassName('kaptchaimg')[0].click();
+  });
+  document.ontouchend = function() {
+    $(window.parent.document.getElementsByClassName('control')[0]).show();
+    $(window.parent.document.getElementsByClassName('control')[0]).animate({
+      top: '-0.03rem'
+    }, 'slow');
+  };
+  window.parent.document.getElementsByClassName('up')[0].addEventListener('touchstart', function(e) {
+    keyDownFn2.call(stage, e);
+  }, false);
+  window.parent.document.getElementsByClassName('up')[0].addEventListener('touchend', function(e) {
+    keyUpFn2.call(stage, e);
+  }, false);
+  window.parent.document.getElementsByClassName('left')[0].addEventListener('touchstart', function(e) {
+    keyDownFn2.call(stage, e);
+  }, false);
+  window.parent.document.getElementsByClassName('left')[0].addEventListener('touchend', function(e) {
+    keyUpFn2.call(stage, e);
+  }, false);
+  window.parent.document.getElementsByClassName('right')[0].addEventListener('touchstart', function(e) {
+    keyDownFn2.call(stage, e);
+  }, false);
+  window.parent.document.getElementsByClassName('right')[0].addEventListener('touchend', function(e) {
+    keyUpFn2.call(stage, e);
+  }, false);
+  window.parent.document.getElementsByClassName('down')[0].addEventListener('touchstart', function(e) {
+    keyDownFn2.call(stage, e);
+  }, false);
+  window.parent.document.getElementsByClassName('down')[0].addEventListener('touchend', function(e) {
+    keyUpFn2.call(stage, e);
+  }, false);
+  window.parent.document.getElementsByClassName('space')[0].addEventListener('touchstart', function(e) {
+    keyDownFn2.call(stage, e);
+  }, false);
+  window.parent.document.getElementsByClassName('space')[0].addEventListener('touchend', function(e) {
+    keyUpFn2.call(stage, e);
+  }, false);
+</script>

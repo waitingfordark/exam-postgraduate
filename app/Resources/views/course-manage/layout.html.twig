@@ -1,0 +1,44 @@
+{% extends 'courseset-manage/layout.html.twig' %}
+{% block title %}
+  {{ 'course.plan_task.manage'|trans }} - {{ parent() }}
+{% endblock %}
+
+{% set hasMulCourses = has_mul_courses(courseSet.id) %}
+{% set side_nav =  hasMulCourses ? 'plan' : 'default-course-info' %}
+
+{% block breadcrumb %}
+{% endblock %}
+
+{% block courseset_header %}
+  {{ render(controller('AppBundle:Course/CourseSetManage:header', {courseSet:courseSet, course: course|default(null), foldType: 1})) }}
+{% endblock %}
+
+
+{% block paddingClass %}course-manage-body {% endblock %}
+
+{% block course_header %}
+  {% if hasMulCourses %}
+    <div class="course-manage-header-wrap">
+      {{ render(controller('AppBundle:Course/CourseManage:header', {courseSet:courseSet, course: course, manage: true})) }}
+    </div>
+  {% endif %}
+{% endblock %}
+
+{% block sidebar %}
+{% endblock %}
+
+{% block main %}
+  <div>
+    <div class="cd-main__heading {% block main_heading_class %}{% endblock %}">
+      {% block main_heading %}
+        <div class="cd-main__title">
+          {% block page_title %}{% endblock %}
+        </div>
+      {% endblock %}
+    </div>
+    <div class="cd-main__body">
+      {% block main_body %}
+      {% endblock %}
+    </div>
+  </div>
+{% endblock %}

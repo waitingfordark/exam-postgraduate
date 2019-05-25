@@ -1,0 +1,113 @@
+{% extends 'my/layout.html.twig' %}
+
+{% block title %}{{'my.teaching.testpaper.test_record'|trans}} - {{ parent() }}{% endblock %}
+{% set side_nav = 'my-testpaper' %}
+
+{% block main %}
+  <div class="panel panel-default panel-col">
+    <div class="panel-heading">{{'my.learning.testpaper'|trans}}</span></div>
+    <div class="panel-body">
+      {# <ul class="nav nav-pills mb15">
+        <li class="{% if nav == 'testpaper' %}active{% endif %}"><a href="{{ path('my_testpaper_list') }}">{{'my.learning.testpaper.record'|trans}}</a></li>
+        <li class="{% if nav == 'questionFavorite'%}active{% endif %}"><a href="{{ path('my_favorite_question_list') }}">{{'my.learning.testpaper.favorit_question'|trans}}</a></li>
+      </ul> #}
+
+      {% if paperResults %}
+        <table class="table">
+          <tbody>
+            <tr>
+              <td>序号</td>
+              <td>名称</td>
+              <td>时间</td>
+              <td>得分</td>
+              <td>操作</td>
+            </tr>
+            {% for paperResult in paperResults %}
+              {% set testpaper = testpapers[paperResult.testId]|default(null) %}
+              {% set task = tasks[paperResult.lessonId]|default(null) %}
+              {% set course = courses[paperResult.courseId]|default(null) %}
+              {% set courseSet = courseSets[paperResult.courseSetId]|default(null) %}
+
+              {% if paperResult %}
+                <tr>
+                  <td>{{ loop.index }}</td>
+                  <td>{{ paperResult.paperName|plain_text(60) }}</td>
+                  <td>{{ paperResult.beginTime|date('site.date_format'|trans) }}</td>
+                  <td>
+                    {% if paperResult.status == 'reviewing' %}
+                      <span class="color-warning">{{'my.teaching.testpaper.checking'|trans}}</span>
+                    {% elseif paperResult.status == 'finished' %}
+                      {{paperResult.score}}
+                    {% else %}
+                      <span class="color-gray">{{'my.teaching.testpaper.unsubmit'|trans}}</span>
+                    {% endif %}
+                  </td>
+                  <td>
+                    {% if paperResult.status in ['doing', 'paused'] and task %}
+                      <a class="color-primary" href="{{ path('course_task_show',{courseId:paperResult.courseId,id:task.id}) }}" >{{'my.teaching.testpaper.continue_do'|trans}}</a>
+                    {% elseif paperResult.status == 'finished' %}
+                      {% if task %}
+                        <a class="color-primary" href="{{ path('testpaper_result_show',{resultId:paperResult.id,action:'my'}) }}" class="btn btn-link btn-sm" target="_blank">{{'my.teaching.testpaper.watch_result'|trans}}</a>
+                      {% endif %}
+                    {% endif %}
+                  </td>
+                  
+                  {# <td width="55%">
+                    {% if task %}{{ task.title|plain_text(60) }}
+                    {% else %} {{ paperResult.paperName|plain_text(60) }}
+                    {% endif %}
+                    <div>
+                      <small class="color-gray">
+                        {{ 'come.from'|trans }}<a class="link-primary" href="{{ path('course_show',{id:course.id}) }}" target="_blank">《{{get_formated_course_title(course)}}》</a>
+                      </small>
+                      <small class="color-gray mhs">•</small>
+                      <small class="color-gray" title="{{'my.teaching.testpaper.start_test_time'|trans}}">{{ paperResult.beginTime|date('site.date_format'|trans) }}</small>
+                    </div>
+                  </td>
+
+                  <td class="vertical-middle">
+                    {% if paperResult.status == 'reviewing' %}
+                      <span class="color-warning">{{'my.teaching.testpaper.checking'|trans}}</span>
+                    {% elseif paperResult.status == 'finished' %}
+                      <span class="color-gray">{{'my.teaching.testpaper.check_total_score'|trans({'%totalScore%': paperResult.score})|raw}}</span><br>
+                      <small class="color-gray">
+                        {{'my.teaching.testpaper.check_right_count'|trans({'%rightCount%': paperResult.rightItemCount})|raw}}
+                        {% if testpaper %}/{{'my.teaching.testpaper.check_total_count'|trans({'%totalCount%': testpaper.itemCount})|raw}}{% endif %}
+                      </small>
+                    {% else %}
+                      <span class="color-gray">{{'my.teaching.testpaper.unsubmit'|trans}}</span>
+                    {% endif %}
+                  </td>
+                  <td class="vertical-middle">
+                    {% if paperResult.status in ['doing', 'paused'] and task %}
+                      <a class="color-primary" href="{{ path('course_task_show',{courseId:paperResult.courseId,id:task.id}) }}" >{{'my.teaching.testpaper.continue_do'|trans}}</a>
+                    {% elseif paperResult.status == 'finished' %}
+                      {% if task %}
+                        <a class="color-primary" href="{{ path('testpaper_result_show',{resultId:paperResult.id,action:'my'}) }}" class="btn btn-link btn-sm" target="_blank">{{'my.teaching.testpaper.watch_result'|trans}}</a>
+                      {% endif %}
+                    {% endif %}
+                  </td>
+                </tr>
+              {% else %}
+                <tr>
+                  <td colspan="3">
+                    {{ paperResult.paperName }}
+                    <br>
+                    <small>{{'my.teaching.testpaper.deleted'|trans}}</small>
+                  </td>
+                </tr>
+              {% endif %} #}
+              {% endif %}
+            {% endfor %}
+
+          </tbody>
+        </table>
+        {{ web_macro.paginator(paginator) }}
+      {% else %}
+        <div class="empty">{{'my.teaching.testpaper.not_participate_test'|trans}}</div>
+      {% endif %}
+
+    </div>
+  </div>
+
+{% endblock %}

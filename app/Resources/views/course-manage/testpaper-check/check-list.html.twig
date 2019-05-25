@@ -1,0 +1,15 @@
+{% extends 'course-manage/layout.html.twig' %}
+
+{% block title %}{{'course.testpaper_check'|trans}} - {{ course.title }} - {{ parent() }}{% endblock %}
+{% set course_side_nav = 'testpaper-check' %}
+
+{% block page_title %}{{ 'course.testpaper_check'|trans }}{% endblock %}
+
+{% block main_body %}
+  <div>
+    {% if isTeacher is defined and not isTeacher %}
+      <span class="color-danger">{{'course.testpaper_check.no_permission_tips'|trans}}</span>
+    {% endif %}
+    {{ render(controller('AppBundle:Testpaper/Manage:checkList',{request:app.request,targetId:course.id,targetType:'course',type:'testpaper'})) }}
+  </div>
+{% endblock %}

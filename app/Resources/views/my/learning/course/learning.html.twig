@@ -1,0 +1,62 @@
+{% extends 'my/learning/course/layout.html.twig' %}
+
+{% set mobile = is_show_mobile_page() %}
+{% set tab_nav = 'learning' %}
+{% block title %}{{ 'my.learning.course.learning'|trans }} - {{ parent() }}{% endblock %}
+{% do script(['libs/echo-js.js','app/js/my/learn/my-course/index.js'])%}
+
+{% block main %}
+
+  <div class="panel panel-default panel-col">
+
+    <div class="panel-heading">
+      {{ 'my.learning.course'|trans }}
+    </div>
+
+    <div class="panel-body">
+
+      {% set type = 'learning' %}
+
+      <table class="table">
+      <tr>
+        <th>序号</th>
+        <th>课程名字</th>
+        <th>操作</th>
+      </tr>
+
+      {% for courseSet in courseSets if courseSet %}
+        {% set currentCourses = courses[courseSet.id] %}
+        {% set classroom = courseSet['classroom']|default(null) %}
+
+        {% if currentCourses %}
+          <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ courseSet.title }}</td>
+            <td>
+              <a class="" href="{{ path('my_course_show', {id:currentCourses[0].id}) }}">查看</a>
+            </td>
+          </tr>
+          
+        {% endif %}
+      
+      {% endfor %}
+   
+      </table>
+      {% if courseSets|length == 0 %}
+        <tr><div class="cd-empty">{{ '暂无课程' }}</div></tr>
+      {% endif %}
+      {{ web_macro.paginator(paginator) }}
+    </div>
+  </div>
+{% endblock %}
+
+{# {% block main_mobile %}
+  {% if mobile %}
+    {% include 'my/learning/course/learning-mobile.html.twig' with {'courses':learningCourses} %}
+  {% endif %}
+{% endblock %}
+
+{% block bottom %}
+  {% include 'mobile/footer-tool-bar.html.twig' with { mobile_tool_bar: 'learning' } %}
+{% endblock %} #}
+

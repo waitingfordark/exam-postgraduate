@@ -1,0 +1,55 @@
+<?php
+
+namespace AppBundle\Component\Export;
+
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
+class Factory
+{
+    protected $container;
+
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
+
+    /**
+     * @param $name
+     * @param $conditions
+     *
+     * @return Exporter
+     */
+    public function create($name, $conditions = array())
+    {
+        $export = $this->exportMap($name);
+
+        return new $export($this->container, $conditions);
+    }
+
+    private function exportMap($name)
+    {
+        $map = array(
+            'invite-records' => 'AppBundle\Component\Export\Invite\InviteRecordsExporter',
+            'user-invite-records' => 'AppBundle\Component\Export\Invite\InviteUserRecordsExporter',
+            'order' => 'AppBundle\Component\Export\Order\OrderExporter',
+            'course-overview-student-list' => 'AppBundle\Component\Export\Course\OverviewStudentExporter',
+            'course-overview-task-list' => 'AppBundle\Component\Export\Course\OverviewTaskExporter',
+            'course-overview-normal-task-detail' => 'AppBundle\Component\Export\Course\OverviewNormalTaskDetailExporter',
+            'course-overview-testpaper-task-detail' => 'AppBundle\Component\Export\Course\OverviewTestpaperTaskDetailExporter',
+            'bill-cash-flow' => 'AppBundle\Component\Export\Bill\CashBillExporter',
+            'bill-coin-flow' => 'AppBundle\Component\Export\Bill\CoinBillExporter',
+            'user-learn-statistics' => 'AppBundle\Component\Export\UserLearnStatistics\UserLearnStatisticsExporter',
+            'course-students' => 'AppBundle\Component\Export\Course\StudentExporter',
+        );
+
+        $names = explode(':', $name);
+        if (2 == count($names)) {
+            $map = array_merge($map, $this->container->get($names[0].'_export_map')->getMap());
+        }
+        if (empty($map[$name])) {
+            throw new \RuntimeException('exporter class could be found');
+        }
+
+        return $map[$name];
+    }
+}

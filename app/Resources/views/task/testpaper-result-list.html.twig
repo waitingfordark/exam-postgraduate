@@ -1,0 +1,53 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">查看成绩</div>
+            <div class="panel-body">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>名称</th>
+                        <th>考生</th>
+                        <th>提交时间</th>
+                        <th>分数</th>
+                        <th>操作</th>
+                    </tr>  
+                    </thead>
+                    <tbody>
+                    
+                    {% for result in results %}
+                    {% set student = users[result.userId] %}
+                    <tr>
+                        <td>{{ result.paperName }}</td>
+                        <td>{{ student.nickname|default(null) }}</td>
+                        <td>{{ result.endTime|date('Y-m-d H:i:s') }}</td>
+                        <td>{{ result.score }}</td>
+                        <td>
+                        <a class="link-primary" href="{{ path(result.type ~ '_result_show',{resultId:result.id,action:'check'}) }}" id="show_testpaper_result" target="_blank">详情</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+
+                    
+                    <tbody>
+                </table>
+
+                {% if results|length == 0%}
+                    <tr><div class="empty">没有成绩记录</div></tr>
+                {% endif %}
+
+                <nav class="text-center">
+                {{ web_macro.paginator(paginator) }}
+                </nav>
+            </div>
+      </div>
+    </div>
+  </div>
+  
+  {# {{ dump(results) }} #}
+  
+
+{% endblock %}

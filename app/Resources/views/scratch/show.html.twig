@@ -1,0 +1,100 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}{{ 'scratch.title'|trans }} - {{ parent() }}{% endblock %}
+
+{% do script(['app/js/scratch/index.js']) %}
+
+{% block body %}
+  <link rel="stylesheet" type="text/css" href="{{ asset('assets/libs/scratch/css/scratch.css') }}">
+  <div>
+    <!-- 		 <div class="shareDialog" id="shareDlg"> -->
+    <!-- 		    <div class ="sharetext">编辑后记得保存哦！</div>  -->
+    <!-- 		    <img src="css/img/save.gif"></img> -->
+    <!-- 		 </div> -->
+    {% if is_work %}
+      <button class="published">{{ 'scratch.publish'|trans }}</button>
+    {% endif %}
+    <button class="invent">{{ 'scratch.share_wechat_or_QQ'|trans }}</button>
+    <div id="dialog" class="dialog">
+      <div class="title-bar">
+        <span class="title">{{ 'scratch.load_project'|trans }}</span>
+        <!-- <a class="pull-right glyphicon glyphicon-remove  btn-sm btn-danger" href="javascript:$('#dialog').fadeOut()" ondragstart="return false"></a> -->
+        <a class="pull-right glyphicon"
+           href="javascript:$('#dialog').fadeOut()" ondragstart="return false">
+          <img src="{{ asset('assets/libs/scratch/css/img/close.png') }}" width="29px" height="29px"
+               class="btn-danger"/>
+        </a> <a
+          class="pull-right glyphicon glyphicon-refresh  btn-sm btn-success"
+          href="javascript:projectList()" ondragstart="return false"></a>
+      </div>
+      <div class="content"></div>
+
+    </div>
+    <div id="scratch"
+         style="text-align: center; margin-top: 30px; visibility: hidden; position: relative;">
+      <div class="scratch_unsupported">
+        <p
+          style="color: #aaa; font-size: 22px; margin-top: 14px; line-height: 28px;">
+          {{ 'scratch.flash_version_backward'|trans }}</p>
+        <a href="http://www.adobe.com/go/getflashplayer"> <img
+            src="//www.adobe.com/images/shared/download_buttons/get_flash_player.gif"
+            alt="Get Adobe Flash player" target="_blank"/>
+        </a>
+      </div>
+      <div class="scratch_loading">Loading...</div>
+    </div>
+  </div>
+
+
+  <script type="text/javascript">
+    window.is_work = "{{ is_work }}"
+    window.project_id = "{{ project.id }}";
+    window.user_id = "{{ project.userId }}";
+    window.user_token = "daslhk53as3rag";
+    window.file_url = "{{ fileurl(project.fileUri,'../../libs/scratch/project.sb2','default') }}";
+
+    function JSeditorReady() {
+      try {
+        window.SWFready.resolve();
+        return true;
+      } catch (error) {
+        console.error(error.message, '\n', error.stack);
+        throw error;
+      }
+    }
+
+    //正在上传
+    function fileUploading(type) {
+      switch (type) {
+        case 0:
+          window.dialog('tip', '{{ 'scratch.tips'|trans }}', '<h3>{{ 'scratch.video_uploading'|trans }}</h3>');
+          break;
+        case 1:
+          window.dialog('tip', '{{ 'scratch.tips'|trans }}', '<h3>{{ 'scratch.project_uploading'|trans }}</h3>');
+          break;
+        case 2:
+          window.dialog('tip', '{{ 'scratch.tips'|trans }}', '<h3>{{ 'scratch.feedback'|trans }}</h3>');
+          break;
+        case 3:
+          var shareContent = '<div id="code" class="code"></div>'
+            + '<div class = "sharetext">{{ 'scratch.use_wechat_or_QQ_Scan'|trans }}</div>';
+          window.dialog('tip', '{{ 'scratch.share_success'|trans }}', shareContent);
+          break;
+      }
+    }
+
+    //上传文件成功的回调
+    function fileUploaded(type, fileurl) {
+      console.log('uploaded\n');
+      if (window.share) {
+        window.share = false;
+        window.generateShareMsg();
+      } else {
+        if (window.is_work) {
+          window.generateSaveMsg();
+        }
+        window.dialog('tip', '{{ 'scratch.tips'|trans }}', '<h3>{{ 'scratch.upload_success'|trans }}</h3>');
+      }
+    }
+  </script>
+{% endblock %}

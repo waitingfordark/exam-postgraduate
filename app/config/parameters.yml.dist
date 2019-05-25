@@ -1,0 +1,33 @@
+parameters:
+    database_driver:   pdo_mysql
+    database_host:     127.0.0.1
+    database_port:     3306
+    database_name:     edusoho
+    database_user:     root
+    database_password: ~
+    locale:            zh_CN
+    secret:            ThisTokenIsNotSoSecretChangeIt
+
+    # redis_host: 127.0.0.1:6379
+    # redis_timeout: 1
+    # redis_reserved: null
+    # redis_retry_interval: 100
+
+    #扩展参数
+    #oauth2_clients: #oauth2客户端配置
+    #    third_party_oauth:
+    #        name: 前台登录显示名称
+    #        admin_name: 后台显示名称
+    #        class: AnywhereClient\Component\AnywhereOAuthClient #oauth客户端类
+    #        icon_class: anywhere #图标的class
+    #        icon_img: bundles/anywhereclient/images/anywhere-icon.png //图标
+    #        large_icon_img: bundles/anywhereclient/images/anywhere-large-icon.png #大不图标
+    #        key_setting_label: 'App Key' # 后台显示
+    #        secret_setting_label: 'App Secret' #后台显示
+
+    #连连支付签名方式， MD5 | RSA
+    #  payment_sign_type: MD5
+
+    #sentry_dsn: "http://9697ef7b0b1b4bc793886d50eb7e96c9:fe6e85725c3d4b72ba432d2d1d7601c1@sentry.codeages.net/2"
+
+    #sentry_app_path: "/var/www/edusoho”

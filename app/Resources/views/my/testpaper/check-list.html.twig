@@ -1,0 +1,40 @@
+{% extends 'my/my-teaching.html.twig' %}
+
+{% block title %}{{'my.teaching.testpaper.check_title'|trans}} - {{ parent() }}{% endblock %}
+{% set side_nav = 'my-testpaper-check' %}
+
+{% block main %}
+
+<div class="row">
+  <div class="col-md-3">
+    <div class="sidenav">
+      <ul class="list-group">
+        <li class="list-group-heading">我的教学</li>
+        <li class="list-group-item">
+          <a href="{{ path('my_teaching_course_sets') }}">{{ 'my.teaching.course_set_menu'|trans }}</a>
+        </li>
+        <li class="list-group-item">
+          <a href="{{ path('my_testpaper_check_list',{status:'reviewing'}) }}">{{ 'my.teaching.testpaper_check_menu'|trans }}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-md-9" style="background: white;">
+    <div class="panel panel-default panel-col">
+
+      <div class="panel-heading">
+        {{'my.teaching.testpaper.check_title'|trans}}
+      </div>
+      <div class="panel-body">
+        <ul class="nav nav-pills mb15">
+          <li class="{% if status == 'reviewing' %}active{% endif %}"><a href="{{ path('my_testpaper_check_list',{status:'reviewing'}) }}">{{'my.teaching.testpaper.uncheck'|trans}}</a></li>
+          <li class="{% if status == 'finished' %}active{% endif %}"><a href="{{ path('my_testpaper_check_list',{status:'finished'}) }}">{{'my.teaching.testpaper.check_finished'|trans}}</a></li>
+        </ul>
+        {% include 'my/testpaper/check-table.html.twig' %}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,72 @@
+<li id="chapter-{{ lesson.id }}" class="task-manage-item js-task-manage-item drag clearfix">
+  {% set tasks = array_index(lesson.tasks, 'mode') %}
+  {% set task = tasks.lesson|default(null) %}
+
+  <div class="item-default-header clearfix">
+    <div class="item-line"></div>
+    <div class="item-content text-overflow js-item-content">
+      <span class="lesson-unpublish-status js-lesson-unpublish-status
+        {% if lesson.status == 'published' %}
+          hidden
+        {% endif %}">
+         {{'course.plan_task.task_unpublished'|trans}}
+      </span>
+
+      <span class="cd-tag cd-tag-blue mrm js-lesson-option-tag {% if not task.isOptional %}hidden{% endif %}">{{'course.plan_task.is_optional_task'|trans}}</span>
+      {% if not task.isOptional %}
+        {{'course.lesson'|trans}}<span class="number mls">{{ lesson.number }}</span>：
+      {% endif %}
+      {{ lesson.title|sub_text(30) }}
+
+      {% if task.activity.mediaType is same as('live') %}
+        {% if not task.activity.ext.roomCreated|default(true) %}
+          <span class="color-warning">{{ 'course.plan_task.edit_tips'|trans }}</span>
+        {% elseif task.activity.endTime < date().timestamp %}
+          <span class="color-gray cd-ml8">{{ 'course.plan_task.live_finish_tips'|trans }}</span>
+        {% else %}
+          <span class="color-success mls">
+          {{ task.activity.startTime|date('Y-n-j H:i')|trans }} ~ {{ task.activity.endTime|date('H:i')|trans }}</span>
+        {% endif %}
+      {% else %}
+        {% if task.activity.length|activity_length_format(task.activity.mediaType) %}<span class="mls">
+          （{{ task.activity.length|activity_length_format(task.activity.mediaType) }}）</span>{% endif %}
+      {% endif %}
+    </div>
+
+    <div class="item-actions">
+      <a class="cd-mr24 btn btn-primary" data-role='update-task' href="javascript:;" style="color: white;"
+        data-toggle="modal" data-target="#modal" data-url="{{ path('course_manage_task_update', {id:task.id, courseId:task.courseId}) }}">
+        编辑
+      </a>
+
+      {% if lesson.status|default('create') == 'published' %}
+        {% set isPublish = true %}
+      {% else %}
+        {% set isPublish = 0 %}
+      {% endif %}
+      <a class='cd-mr24 btn btn-primary js-unpublish-item {% if not isPublish %}hidden{% endif %}' href="javascript:;" style="color: white;"
+        data-url="{{ path('course_manage_lesson_unpublish', {lessonId:lesson.id, courseId:task.courseId}) }}">
+        {{'course.plan_task.unpublish_btn'|trans}}
+      </a>
+       <a class='cd-mr24 btn btn-primary js-publish-item {% if isPublish %}hidden{% endif %}' href="javascript:;" style="color: white;"
+        data-url="{{ path('course_manage_lesson_publish', {lessonId:lesson.id, courseId:task.courseId}) }}">
+        {{'course.plan_task.publish_btn'|trans}}{{ 'course.lesson'|trans }}
+      </a>
+       <a class='cd-mr24 btn btn-primary js-delete {% if isPublish %}hidden{% endif %}' href="javascript:;" style="color: white;" data-name="{{ ('site.data.lesson')|trans }}" data-url="{{ path('course_manage_lesson_delete', {lessonId:lesson.id, courseId:task.courseId}) }}">
+        {{'course.plan_task.delete_btn'|trans}}{{ 'course.lesson'|trans }}
+      </a>
+
+      {# 成绩管理 #}
+      <a class='cd-mr24 btn btn-primary {% if not isPublish %}hidden{% endif %}' href="{{ path('classroom_manage_exam_result_anlysis', {id: 1, activityId: lesson.id}) }}" style="color: white;">
+        结果分析
+      </a>
+      <a class='cd-mr24 btn btn-primary {% if not isPublish %}hidden{% endif %}' href="{{ path('lesson_testpaper_result', {activityId: lesson.id}) }}" style="color: white;">
+        查看成绩
+      </a>
+
+      {# {% include 'lesson-manage/default/lesson-manage.html.twig' %} #}
+    </div>
+  </div>
+
+  {# {% include 'lesson-manage/default/tasks.html.twig' %} #}
+</li>

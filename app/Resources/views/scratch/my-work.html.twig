@@ -1,0 +1,66 @@
+{% extends 'user/layout.html.twig' %}
+
+{% block title %}{{ parent() }}{% endblock %}
+
+{% set pageNav = 'my_scratch_work' %}
+
+{% block main %}
+  <div class="btn-group mb30">
+    <a class="btn btn-default btn-sm btn-primary pll prl" href="{{ path('user_scratch_work',{id:user.id}) }}">scratch</a>
+    <a class="btn btn-default btn-sm pll prl" href="{{ path('user_python_work',{id:user.id}) }}">python</a>
+  </div>
+  <section class="selected-works">
+    <div class="container">
+      <div class="course-list">
+        <div class="row">
+          {% for work in works %}
+            <div class="bcx-col-5">
+              <div class="course-item">
+                <div class="course-img">
+                  {% if app.user.isLogin()|default(0) and app.user.id == user.id %}
+                    <a target="_blank" href="{{ path('scratch_show',{projectId:work.projectId}) }}">
+                  {% else %}
+                    <a target="_blank" href="{{ path('scratch_my_work',{id:work.id}) }}">
+                  {% endif %}
+                      <img class="img-responsive" src="{{ filepath(work.middlePicture, 'courseSet.png') }}" alt="{{ work.title }}">
+                    </a>
+                </div>
+                <div class="course-info">
+                  <div class="title">
+                    {% if app.user.isLogin()|default(0) and app.user.id == user.id %}
+                      <a target="_blank" class="bcx-course-info-title" href="{{ path('scratch_show',{projectId:work.projectId}) }}">
+                    {% else %}
+                      <a target="_blank" class="bcx-course-info-title" href="{{ path('scratch_my_work',{id:work.id}) }}">
+                    {% endif %}
+                        {{ work.title|default('scratch.work.unname'|trans) }}</a>
+                    <div class="metas clearfix">
+                      <span class="comment">
+                        <i class="es-icon es-icon-visibility"></i>{{ work.hits }}
+                      </span>
+                      <span class="comment comment-right">
+                        <i class="es-icon es-icon-thumbup js-icon-thumbup" data-workId="{{ work.id }}" data-url="{{ path('scratch_my_work_like',{id:work.id}) }}"></i><span class="js-like-number">{{ work.upsNum }}</span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="works-publish-user">
+                  <div class="title">
+                    <div class="metas clearfix">
+                      <img class="avatar-xxs mr5" src="{{ filepath(user.smallAvatar, 'avatar.png') }}">
+                      {{ user.nickname }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% else %}
+            <div class="empty">{{ 'scratch.work.explore_empty'|trans }}</div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {{ web_macro.paginator(paginator) }}
+
+{% endblock %}

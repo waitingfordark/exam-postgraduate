@@ -1,0 +1,1 @@
+webpackJsonp(["app/js/mobile/index"],{"306963d30fa572c88a64":function(t,a,i){"use strict";$(".js-mobile-item").waypoint(function(){$(this).addClass("active")},{offset:500}),$(".js-btn-mobile").click(function(t){var a=$(t.currentTarget),i=$(a.attr("data-url"));$("html,body").animate({scrollTop:i.offset().top+50},300)})}},["306963d30fa572c88a64"]);

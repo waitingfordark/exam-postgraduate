@@ -1,0 +1,12 @@
+{% import 'admin/macro.html.twig' as admin_macro %}
+{% import "common/data-dict-macro.html.twig" as dict_macro %}
+
+<tr id="material-record-tr-{{ order.id }}">
+  <td>{{ material.title }}</td>
+  <td>{{ dict_text('scratchMaterialType', material.type) }}</td>
+  <td>{{ categories[material.categoryId]|default('') }}</td>
+  <td>{{ order.price }}</td>
+  <td>{{ admin_macro.user_link(creator) }}</td>
+  <td>{{ material.createdTime|date("Y-m-d H:i:s") }}</td>
+
+</tr>

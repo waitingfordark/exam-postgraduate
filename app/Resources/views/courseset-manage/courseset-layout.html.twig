@@ -1,0 +1,8 @@
+{% extends 'courseset-manage/layout.html.twig' %}
+
+{% block breadcrumb %}
+  
+{% endblock %}
+{% block courseset_header %}
+  {{ render(controller('AppBundle:Course/CourseSetManage:header', {courseSet:courseSet, course: course|default(null), foldType: 0})) }}
+{% endblock %}

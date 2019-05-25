@@ -1,0 +1,62 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% set menu = 'admin_course_python_work_manage' %}
+{% set script_controller = 'python-work/manage' %}
+
+{% block main %}
+  <div class="well well-sm mtl">
+    <form id="work-search-form" class="form-inline" action="" method="get" novalidate>
+      <div class="mbm">
+        <select class="form-control" name="datePicker" id="datePicker">
+          {{ select_options({publishDate:'admin.course.scratch_work_publish_manage.time_option.publish'|trans, createdDate: 'admin.course.scratch_work_publish_manage.time_option.create'|trans}, app.request.get('datePicker') ,'admin.user.manage.form.time_option.default'|trans) }}
+        </select>
+        <div class="form-group ">
+          <input class="form-control" type="text" id="startDate" name="startDate"
+                 value="{{ app.request.query.get('startDate') }}"
+                 placeholder="{{ 'admin.user.form.input_placeholder.startDate'|trans }}">
+          -
+          <input class="form-control" type="text" id="endDate" name="endDate"
+                 value="{{ app.request.query.get('endDate') }}"
+                 placeholder="{{ 'admin.user.form.input_placeholder.endDate'|trans }}">
+        </div>
+      </div>
+      <div class="form-group">
+        <select class="form-control" name="type">
+          {{ select_options({title:'admin.course.scratch_work_publish_manage.type_option.title'|trans,creator:'admin.course.scratch_work_publish_manage.type_option.creator'|trans}, app.request.query.get('type'), 'admin.course.scratch_work_publish_manage.type_option.default'|trans) }}
+        </select>
+      </div>
+      <div class="form-group">
+        <input class="form-control" type="text"
+               placeholder="{{ 'admin.course.scratch_work_publish_manage.keyWork_placeholder'|trans }}" name="keyword"
+               value="{{ app.request.get('keyword') }}">
+      </div>
+      <button class="btn btn-primary">{{ 'form.btn.search'|trans }}</button>
+    </form>
+  </div>
+  <table class="table table-striped table-hover" id="work-table" style="word-break:break-all;">
+    <thead>
+    <tr>
+      <th>{{ 'admin.course.scratch_work_publish_manage.thread_id_th'|trans }}</th>
+      <th width="20%">{{ 'admin.course.scratch_work_publish_manage.thread_title_th'|trans }}</th>
+      <th>{{ 'admin.course.scratch_work_publish_manage.thread_creator_th'|trans }}</th>
+      <th>{{ 'admin.course.scratch_work_publish_manage.thread_publish_time_th'|trans }}</th>
+      <th>{{ 'admin.course.python_work_publish_manage.thread_status_th'|trans }}</th>
+      <th>{{ 'admin.course.scratch_work_publish_manage.time_option.create'|trans }}</th>
+      <th>{{ 'admin.course.scratch_work_publish_manage.thread_operation_th'|trans }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for work in works %}
+      {% set creator = creators[work.userId] %}
+      {% include 'admin/python-work/tr.html.twig' %}
+    {% else %}
+      <tr>
+        <td colspan="20">
+          <div class="empty">{{ 'admin.course.scratch_work_publish_manage.empty'|trans }}</div>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {{ admin_macro.paginator(paginator) }}
+{% endblock %}

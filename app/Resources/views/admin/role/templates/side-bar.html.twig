@@ -1,0 +1,43 @@
+{# {% for groupedPermissions in grouped_permissions(menu|parent_permission.code|parent_permission.code|default(null)) %}
+  <div class="list-group left-navbar">
+
+    {% set groupedPermissions = arrays_key_convert(groupedPermissions, 'visable', 'visible') %}
+
+    {% for m in groupedPermissions if m.code in ['admin_course_show', 'admin_classroom'] %}
+
+      {% set menuClass = (m.code == menu|parent_permission.code|default(null) ? 'list-group-item active' : 'list-group-item') %}
+
+      {% set tabMenu = first_child_permission(m) %}
+      {% if tabMenu.mode|default('') == 'capsules' %}
+        {% set tabMenu = first_child_permission(tabMenu) %}
+      {% endif %}
+
+      <a
+          id="menu_{{ m.code|default() }}"
+          title="{{ m.name|trans({}, 'menu') }}"
+          class="{{ menuClass }}"
+          href="{{ permission_path(tabMenu) }}"
+      >
+        {{ m.name|trans({}, 'menu') }}
+      </a>
+    {% endfor %}
+
+    <a id="menu_admin_course_show" title="课程管理" class="list-group-item active" href="/admin/course_set/normal/index">
+        课程管理
+    </a>
+    <a id="menu_admin_classroom" title="班级管理" class="list-group-item" href="/admin/classroom/index">
+        班级管理
+    </a>
+    <a class="list-group-item" href="{{ path('admin_user') }}">用户管理</a>
+  </div>
+{% endfor %} #}
+  <div class="list-group left-navbar">
+
+    <a id="menu_admin_course_show" title="课程管理" class="list-group-item" href="/admin/course_set/normal/index">
+        课程管理
+    </a>
+    {# <a id="menu_admin_classroom" title="班级管理" class="list-group-item" href="/admin/classroom/index">
+        班级管理
+    </a> #}
+    <a class="list-group-item" href="{{ path('admin_user') }}">用户管理</a>
+  </div>

@@ -1,0 +1,1 @@
+webpackJsonp(["app/js/auth/is-weixin/index"],{fc7fd200dbcda876840c:function(e,i,n){"use strict";if("micromessenger"==window.navigator.userAgent.toLowerCase().match(/MicroMessenger/i)){var c="/login",o=$("#invite_code");o.length>0&&(c=c+"?inviteCode="+o.val()),window.location.href=c}}},["fc7fd200dbcda876840c"]);

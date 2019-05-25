@@ -1,0 +1,65 @@
+{% import "common/data-dict-macro.html.twig" as dict_macro %}
+{% extends 'my/my-teaching.html.twig' %}
+
+{% block title %}{{ 'my.teaching.page_title'|trans }} - {{ parent() }}{% endblock %}
+
+{% set side_nav = 'my-teaching-courses' %}
+
+{% set type="question" %}
+
+{% block main %}
+
+  <div class="row">
+    <div class="col-md-3">
+      <div class="sidenav">
+        <ul class="list-group">
+          <li class="list-group-heading">我的教学</li>
+          <li class="list-group-item">
+            <a href="{{ path('my_teaching_course_sets') }}">{{ 'my.teaching.course_set_menu'|trans }}</a>
+          </li>
+          <li class="list-group-item">
+            <a href="{{ path('my_testpaper_check_list',{status:'reviewing'}) }}">{{ 'my.teaching.testpaper_check_menu'|trans }}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-md-9">
+
+      <div class="panel panel-default">
+
+        <div class="panel-heading">
+          在教课程
+        </div>
+        <div class="panel-body">
+          <table class="table table-striped">
+            <tbody>
+              <tr>
+                <th>名称</th>
+                <th>最后更新时间</th>
+                <th>操作</th>
+              </tr>
+              {% for courseSet in courseSets %}
+                <div class="js-course-set-item">
+                  {% include 'my/teaching/course-set-list.html.twig' %}
+                </div>
+              {% else %}
+                <div class="empty">
+                  <a class="cd-link-primary" href="{{ path('course_set_manage_create') }}" target="_blank">
+                    {{ 'my.teaching.course_set.empty_hint'|trans }}
+                  </a>
+                </div>
+              {% endfor %}
+            </tbody>
+          </table>
+
+          <nav class="text-center">
+            {{ web_macro.paginator(paginator) }}
+          </nav>
+        </div>
+      </div>
+
+      
+    </div>
+  </div>
+ 
+{% endblock %}

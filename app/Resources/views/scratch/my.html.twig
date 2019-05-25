@@ -1,0 +1,30 @@
+{% extends 'user/layout.html.twig' %}
+
+{% block title %}{{ parent() }}{% endblock %}
+
+{% set pageNav = 'my_scratch' %}
+
+{% block main %}
+  <div class="scratch-list">
+    <div class="row">
+      {% for order in orders %}
+        {% set material = materials[order.productId] %}
+        <div class="col-sm-2">
+          <div class="scratch-item">
+            <img class="img-responsive" src="{{ filepath(material.fileUri) }}" alt="{{ material.title }}">
+            <div class="caption">
+              <h4>{{ material.title|plain_text(15) }}</h4>
+              <p class="small"><span class="color-gray">{{ material.price }} {{ setting('reward_point').name|default('admin.reward_point'|trans) }}</span></p>
+            </div>
+          </div>
+
+        </div>
+      {% else %}
+        <div class="empty">{{ 'scratch.material.explore_empty'|trans }}</div>
+      {% endfor %}
+    </div>
+  </div>
+
+  {{ web_macro.paginator(paginator) }}
+
+{% endblock %}

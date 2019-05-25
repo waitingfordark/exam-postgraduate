@@ -1,0 +1,154 @@
+.lock {
+	height: 77px;
+	width: 74px;
+	background-image: url('../img/map/lock.png');
+}
+
+.unlock {
+	height: 77px;
+	width: 74px;
+	background-image: url('../img/map/unlock.png');
+}
+
+.due {
+	height: 77px;
+	width: 74px;
+	background-image: url('../img/map/due.png');
+}
+
+.jump {
+	height: 77px;
+	width: 74px;
+	background-image: url('../img/map/jump.png');
+}
+
+.star1 {
+	height: 77px;
+	width: 74px;
+	background-image: url('../img/map/star2.png');
+}
+
+.star2 {
+	height: 77px;
+	width: 74px;
+	background-image: url('../img/map/star2.png');
+}
+
+.star3 {
+	height: 77px;
+	width: 74px;
+	background-image: url('../img/map/star3.png');
+}
+
+.tip {
+	position: relative;
+	top: -100px;
+	left: -28px;
+	width: 150px;
+	height: 100px;
+	z-index: 99;
+	background: rgba(0, 0, 0, 0.9);
+	border-radius: 10px;
+	padding: 5px;
+}
+
+.tip .title {
+	color: white;
+	padding-bottom: 5px;
+	border-bottom: solid 1px gray;
+}
+
+.tip .content {
+	padding-top: 5px;
+}
+
+.tip:after {
+	content: '';
+	position: relative;
+	display: block;
+	top: 8px;
+	left: 60px;
+	width: 0;
+	height: 0;
+	border-top: rgba(0, 0, 0, 0.9) 10px solid;
+	border-left: transparent 10px solid;
+	border-right: transparent 10px solid;
+}
+
+#cla-1 {
+	position: absolute;
+	top: 270px;
+	left: 30px;
+}
+
+#cla-2 {
+	position: absolute;
+	top: 150px;
+	left: 50px;
+}
+
+#cla-3 {
+	position: absolute;
+	top: 200px;
+	left: 170px;
+}
+
+#cla-4 {
+	position: absolute;
+	top: 280px;
+	left: 270px;
+}
+
+#cla-5 {
+	position: absolute;
+	top: 290px;
+	left: 50px;
+}
+
+#cla-6 {
+	position: absolute;
+	top: 290px;
+	left: 50px;
+}
+
+#cla-7 {
+	position: absolute;
+	top: 290px;
+	left: 50px;
+}
+
+#cla-8 {
+	position: absolute;
+	top: 290px;
+	left: 50px;
+}
+
+#cla-9 {
+	position: absolute;
+	top: 290px;
+	left: 50px;
+}
+
+#cla-10 {
+	position: absolute;
+	top: 290px;
+	left: 50px;
+}
+
+#cla-11 {
+	position: absolute;
+	top: 290px;
+	left: 50px;
+}
+
+#cla-12 {
+	position: absolute;
+	top: 290px;
+	left: 50px;
+}
+
+#cla-12 {
+	position: absolute;
+	top: 290px;
+	left: 50px;
+}

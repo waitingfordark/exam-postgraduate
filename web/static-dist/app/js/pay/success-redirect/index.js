@@ -1,0 +1,1 @@
+webpackJsonp(["app/js/pay/success-redirect/index"],{"47d4b17784443807baef":function(t,n,e){"use strict";function o(t){c.find(".js-countdown").text(t),--t>0?setTimeout(function(){o(t)},1e3):window.location.href=c.attr("data-url")}var c=$(".js-turn");o(c.find(".js-countdown").text())}},["47d4b17784443807baef"]);

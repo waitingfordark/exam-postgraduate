@@ -1,0 +1,57 @@
+{% extends 'course-manage/layout.html.twig' %}
+
+{% block title %}{{'course.coding_check'|trans}} - {{ course.title }} - {{ parent() }}{% endblock %}
+{% set course_side_nav = 'coding-check' %}
+
+{% block page_title %}{{ 'course.coding_check'|trans }}{% endblock %}
+
+{% block main_body %}
+  {% if isTeacher is defined and not isTeacher %}
+    <span class="color-danger">{{'course.coding_check.no_permission_tips'|trans}}</span>
+  {% else %}
+
+    <form id="coding-check-form" class="form-inline well well-sm" action="" method="get" novalidate="">
+      <div class="form-group">
+        <input class="form-control" type="text" name="nickname" value="{{ app.request.query.get('nickname', '') }}" placeholder="关键词">
+      </div>
+
+      <div class="form-group">
+        <select class="form-control" name="status">
+          {{ select_options(dict('codingResultStatus'), app.request.query.get('status'), 'course.coding_ceeck.table.status_placeholder'|trans) }}
+        </select>
+      </div>
+
+      <button class="cd-btn cd-btn-primary">{{ 'form.btn.search'|trans }}</button>
+    </form>
+
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>{{ 'course.coding_ceeck.table.name'|trans }}</th>
+        <th>{{ 'course.coding_ceeck.table.updated_time'|trans }}</th>
+        <th>{{ 'course.coding_ceeck.table.status'|trans }}</th>
+        <th>{{ 'course.coding_ceeck.table.option'|trans }}</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for result in results %}
+        <tr>
+          <th scope="row">{{ users[result.userId].nickname }}</th>
+          <td>{{ result.updatedTime|date('Y-m-d H:i:s') }}</td>
+          <td>{{ dict('codingResultStatus')[result.status] }}</td>
+          <td>
+            {% if result.status == 'finish' %}
+              <a class="btn btn-link btn-sm" href="{{ path('scratch_show', {projectId: result.scratchProjectId}) }}" target="_blank">{{'course.coding_ceeck.table.check_btn'|trans}}</a>
+            {% endif %}
+          </td>
+        </tr>
+      {% else %}
+        <tr><td class="empty" colspan="6">{{ 'course.coding_ceeck.table.empty'|trans }}</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+
+  {{ web_macro.paginator(paginator) }}
+
+{% endblock %}

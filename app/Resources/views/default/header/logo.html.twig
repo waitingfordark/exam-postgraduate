@@ -1,0 +1,37 @@
+<div class="navbar-header">
+  <div class="visible-xs  navbar-mobile">
+    <a href="javascript:;" class="navbar-more js-navbar-more">
+      <i class="es-icon es-icon-menu"></i>
+    </a>
+    <div class="html-mask"></div>
+    <div class="nav-mobile">
+      <form class="navbar-form" action="{{ path('search') }}" method="get">
+        <div class="form-group">
+          <input class="form-control" placeholder="{{'homepage.header.search'|trans}}" name="q">
+          <button class="button es-icon es-icon-search"></button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <a href="{{ path('homepage') }}" class="navbar-brand">
+      首页
+  </a>
+   
+
+    {% if app.user %}
+      {% if app.user.isTeacher() %}
+        <a class="navbar-brand" href="{{ path('my') }}">{{ '我的教学' }}</a>
+      {% endif %}
+    
+      <a class="navbar-brand" href="{{ path('my_courses_learning') }}">{{ '我的学习' }}</a>
+      <a class="navbar-brand" href="{{ path('settings') }}">个人设置</a>
+
+      {% if has_permission('admin') %}
+        <a class="navbar-brand" href="{{ url('admin_course_set', {filter: 'normal'}) }}">{{ '管理后台' }}</a>
+      {% endif %}
+
+      <a class="navbar-brand" href="{{ path('logout') }}"></i>退出登录</a>
+    {% endif %}
+</div>

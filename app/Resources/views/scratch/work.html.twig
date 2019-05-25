@@ -1,0 +1,11 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}{{ 'scratch.work_title'|trans }} - {{ parent() }}{% endblock %}
+
+{% block body %}
+  <div style="width: 363px;margin: 0 auto;height: 650px;">
+    <iframe class="iframe" frameborder="0" scrolling="no"
+            src="/scratch/work/{{ id }}/detail"
+            style="width: 363px;margin: 0 auto;height: 650px;"></iframe>
+  </div>
+{% endblock %}

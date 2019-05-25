@@ -1,0 +1,69 @@
+{% extends 'activity/activity-form-layout.html.twig' %}
+
+{% do script(['libs/bootstrap-datetimepicker.js','libs/jquery-nouislider.js','app/js/activity-manage/testpaper/index.js']) %}
+
+{% block activity_content %}
+  <div class="form-group">
+    <div class="col-sm-2 control-label">
+      <label for="testpaper-media" class="control-label-required">{{'试卷'}}</label>
+    </div>
+    <div class="col-sm-10 controls">
+      <select id="testpaper-media" class="form-control" name="mediaId"  data-get-testpaper-items="{{ path('course_set_manage_testpaper_info',{id:course.courseSetId}) }}">
+
+        <option value="">{{ 'course.plan_task.activity_manage.testpaper.choose'|trans }}</option>
+        {% for testpaper in testpapers if testpaper %}
+          <option value="{{ testpaper.id }}" {% if testpaper.id == activity.testpaperMediaId|default('') %}selected{% endif %} data-score="{{ testpaper.score }}">{{ testpaper.name }}</option>
+        {% endfor %}
+      </select>
+      {% if testpapers is empty %}
+        <div class="help-block color-danger">
+          {{'course.plan_task.activity_manage.testpaper.create'|trans({'%testpaperUrl%':path('course_set_manage_testpaper',{id:course.courseSetId})})|raw}}
+        </div>
+      {% else %}
+        <div class="help-block">{{'course.plan_task.activity_manage.testpaper.empty_tips'|trans}}</div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-sm-2 control-label"><label for="length">{{'course.plan_task.activity_manage.testpaper.time_limit'|trans}}</label></div>
+    <div class="col-sm-10 controls radios">
+      <input id="length" class="form-control inline-block width-150" type="text" name="length" value="{{ activity.length|default(0)}}"> {{'site.date.minute'|trans}}
+      <div class="help-block">{{'course.plan_task.activity_manage.testpaper.time_length_tips'|trans}}</div>
+    </div>
+  </div>
+  <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+  <input type="hidden" name="fromCourseId" value="{{ course.courseSetId }}">
+  
+  <div class="form-group">
+    <div class="col-sm-12 text-center">
+      <input class="btn btn-primary" type="submit" value="保存">
+    </div>
+  </div>
+
+
+{% endblock %}
+
+{% block activity_finish %}
+  <div class="form-group">
+    <div class="col-sm-2 control-label">
+      <label for="condition-select">{{ 'course.plan_task.activity_manage.finished_condition'|trans }}</label>
+    </div>
+    <div class="col-xs-4 controls">
+      <select class="form-control" id="condition-select" name="condition">
+        {{ select_options({'score':'course.plan_task.activity_manage.testpaper.pass'|trans,'submit':'course.plan_task.activity_manage.testpaper.submit'|trans}, activity.finishCondition['type']|default('score')) }}
+      </select>
+      <input type="hidden" name="finishScore" value="{{ activity.finishCondition['finishScore']|default('0') }}" />
+      <input type="hidden" name="mediaType" value="testpaper" />
+    </div>
+  </div>
+
+  <div class="form-group js-score-form-group {% if activity.finishCondition.type|default(null) == 'submit' %}hidden{% endif %}">
+    <div class="col-sm-offset-2 col-sm-8 color-gray">
+      <span>0</span>
+      <div class="js-slider-content inline-block vertical-middle mlm mrl" id="score-slider">
+      </div>
+      <span class="js-score-total"></span>{{'site.question.attr.score.unit'|trans}}
+    </div>
+  </div>
+{% endblock %}

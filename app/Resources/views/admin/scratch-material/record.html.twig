@@ -1,0 +1,63 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% set menu = 'admin_operation_scratch_material_record_manage' %}
+
+{% block main %}
+  <div class="well well-sm mtl">
+    <form id="material-search-record-form" class="form-inline" action="{{ path('admin_scratch_material_record') }}" method="GET" novalidate>
+      <div class="form-group">
+        <select style="max-width:150px;" class="form-control" name="categoryId">
+          {{ select_options(category_choices('scratch_material'), app.request.query.get('categoryId'), 'admin.operation.scratch_material_manage.category_placeholder'|trans) }}
+        </select>
+      </div>
+      <div class="form-group">
+        <select class="form-control" name="type">
+          {{ select_options(dict('scratchMaterialType'), app.request.query.get('type'), 'admin.operation.scratch_material_manage.type_placeholder'|trans) }}
+        </select>
+      </div>
+      <div class="form-group">
+        <select class="form-control" name="keywordType">
+          {{ select_options({'nickname':'用户名','titleLike':'素材名称'}, app.request.query.get('keywordType')) }}
+        </select>
+      </div>
+      <div class="form-group">
+        <input class="form-control" type="text"
+               placeholder="{{ 'admin.operation.scratch_material_manage.keyword_placeholder'|trans }}" name="keyword"
+               value="{{ app.request.get('keyword') }}">
+      </div>
+
+      <button class="btn btn-primary">{{ 'form.btn.search'|trans }}</button>
+    </form>
+  </div>
+
+  <table class="table table-striped table-hover" id="material-table" style="word-break:break-all;">
+    <thead>
+    <tr>
+      <th>{{ 'admin.operation.scratch_material_manage.thread_title_th'|trans }}</th>
+      <th width="20%">{{ 'admin.operation.scratch_material_manage.thread_type_th'|trans }}</th>
+      <th>{{ 'admin.operation.scratch_material_manage.category_placeholder'|trans }}</th>
+      <th>{{ 'admin.operation.scratch_material_manage.used_point_th'|trans }}</th>
+      <th>{{ 'admin.operation.scratch_material_manage.used_user_th'|trans }}</th>
+      <th>{{ 'admin.operation.scratch_material_manage.used_time_th'|trans }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% set categories = category_choices('scratch_material') %}
+
+    {% for order in orders %}
+      {% set creator = creators[order.userId] %}
+      {% set material = materials[order.productId] %}
+
+      {% include 'admin/scratch-material/record-tr.html.twig' %}
+    {% else %}
+      <tr>
+        <td colspan="20">
+          <div class="empty">{{ 'course.coding_ceeck.table.empty'|trans }}</div>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+  {{ admin_macro.paginator(paginator) }}
+{% endblock %}

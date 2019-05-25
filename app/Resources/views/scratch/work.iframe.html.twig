@@ -1,0 +1,247 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}{{ 'scratch.work_show_title'|trans }} - {{ parent() }}{% endblock %}
+
+{% block body %}
+
+  <link type="text/css" rel="stylesheet" href="{{ asset('assets/libs/scratch/scratch-h5/nviews/mobile/css/ele-ui.css') }}"/>
+  <link type="text/css" rel="stylesheet" href="{{ asset('assets/libs/scratch/scratch-h5/nviews/mobile/css/shaer_detail.css') }}"/>
+
+  <div id="big">
+    <div>
+      <img alt=""/>
+    </div>
+  </div>
+  <div id="container" class="container" style="padding: 0;" v-cloak>
+    <div class="header">
+      <img src="{{ asset('assets/libs/scratch/scratch-h5/nviews/mobile/images/share/logo.png') }}"/>
+      <!-- <a class="lookMoreText" href="share_world.html">
+            我也要学
+        </a> -->
+    </div>
+    <div id="content" class="content">
+      <div id="detail">
+        <label id="magnify" class="icon-zoom-in"></label>
+        <iframe class="iframe" frameborder="0" scrolling="no"></iframe>
+        <div id="rightBorder"></div>
+      </div>
+      <!-- <div class="invent">
+        <button   >我也要学</button>
+      </div> -->
+      <div class="control_introduce">
+        <div id="introduce" class="introduce">
+          <div class="introduce_wrap">
+            <div class="author flex">
+              <div class="author_info flex">
+                <img class="author_img" src="{{ asset('assets/libs/scratch/scratch-h5/assets/front/img/avatars/lv0_boy.png') }}"/>
+                <div class="author_name_grade">
+                  <p class="author_name"></p>
+                  <!-- <p class="author_grade_area">
+                    年级:
+                    <span class="grade"></span> 地区:
+                    <span class="area"></span>
+                  </p> -->
+                </div>
+              </div>
+            </div>
+            <div class="pro_introduce">
+              <div class="pro_up">
+                <span class="pro_name">你好你好</span>
+                <div class="pro_looks">
+                  <img src="{{ asset('assets/libs/scratch/scratch-h5/nviews/mobile/images/share/eyes.png') }}"/><span
+                    class="eyes"></span>
+                  <img src="{{ asset('assets/libs/scratch/scratch-h5/nviews/mobile/images/share/goods_default.png') }}"
+                       class="liked"/><span
+                    class="goods"></span>
+                </div>
+              </div>
+              <div class="pro_down">
+                <p>{{ 'scratch.works_introduction'|trans }}：</p>
+                <p class="pro_title"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="control">
+          <div class="control_up">
+            <div class="control_up_left">
+              <!-- 							<img src="{{ asset('assets/libs/scratch/scratch-h5/nviews/mobile/images/share/eyes.png') }}" /> <span>123</span> <img -->
+              <!-- 								src="{{ asset('assets/libs/scratch/scratch-h5/nviews/mobile/images/share/goods_default.png') }}" class="liked" /> <span class="goods">123</span> -->
+            </div>
+            <div class="control_up_right">
+              <img src="{{ asset('assets/libs/scratch/scratch-h5/nviews/mobile/images/share/down.png') }}"/>
+            </div>
+          </div>
+          <div class="control_down flex">
+            <div class="control_direct">
+              <div>
+                <p class="up"></p>
+              </div>
+              <div>
+                <p class="left"></p>
+                <p class="right"></p>
+              </div>
+              <div>
+                <p class="down"></p>
+              </div>
+            </div>
+            <div class="control_space">
+              <p class="space"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="{{ asset('assets/libs/scratch/scratch-h5/nviews/mobile/js/jquery.min.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('assets/libs/scratch/scratch-h5/nviews/mobile/js/layer_mobile/layer.js') }}"></script>
+  <script src="{{ asset('assets/libs/scratch/scratch-h5/nviews/mobile/js/alloy_finger.js') }}"></script>
+  <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+  <script
+    src="https://cdn.bootcss.com/es6-promise/4.1.1/es6-promise.min.js"></script>
+  <script type="text/javascript">
+    (function () {
+      document.addEventListener('DOMContentLoaded', function () {
+        var html = document.documentElement;
+        var windowWidth = html.clientWidth;
+        html.style.fontSize = windowWidth / 7.5 + 'px';
+        //等价于html.style.fontSize = windowWidth / 640 * 100 + 'px';
+      }, false);
+    })();
+    var stuId = '';
+
+    initPage = initPage();
+
+
+    //初始化界面
+    function initPage() {
+      var data = {
+        bigType: '1',
+        coverUrl: 'exercise/26b7430e70dd4745b7f801421253df08.jpg',
+        fileUrl: '{{ fileurl(project.fileUri,'../../libs/scratch/project.sb2','default') }}',
+        project: '{{ work.title }}',
+        inventory: {
+          'level': 0
+        },
+        name: '{{ user.nickname }}',
+        setting: null,
+        sex: '1',
+        liked: 0,//是不是点了赞,目前每次进入都默认是没有点赞的
+        shareContent: '<img src="{{ filepath(work.middlePicture, 'courseSet.png') }}" width="200" >',
+        shareTitle: '{{ work.title }}',
+        shareType: '1',
+        star: {{ work.upsNum }},//被点赞的次数
+        type: 'student',
+        userId: {{ work.userId }},
+        userType: 'student',
+        visit: {{ work.hits }},
+
+      };
+
+      document.title = data.shareTitle + ' ' + data.name + "在编程侠的编程作品分享";
+      window.tit = data.shareTitle + ' ' + data.name + "在编程侠的编程作品分享";
+      window.authorInfo = data.name;
+      window.userId = data.userId;
+      window.shareType = data.shareType;
+      window.title = data.shareTitle;
+      window.con = data.shareTitle + data.shareContent;
+      window.liked = data.liked;
+      window.star = data.star;
+
+      //TODO 微信登录
+      // ajcb();
+
+      $("#detail").show();
+      $('.eyes').text(data.visit);
+      $('.control_up_left span').eq(0).text(data.visit)
+      $('.goods').text(window.star);
+      $('.control_up_left span').eq(1).text(data.star)
+      if (window.liked) {
+        $('.liked').attr('src', '{{ asset('assets/libs/scratch/scratch-h5/nviews/mobile/images/share/goods_selected.png') }}');
+        //    $('.control_up_left img').eq(1).addClass('liked').attr('src', '{{ asset('assets/libs/scratch/scratch-h5/nviews/mobile/images/share/goods_selected.png') }}');
+      }
+
+      // if (data.shareType == 1) { //sb2
+      $('.invent').hide();
+      if ($(document).height() > 710 && $(document).width() < 410) {
+        $("#detail,iframe").css("height", "92vw");
+      } else {
+        $("#detail,iframe").css("height", "90vw");
+      }
+      //TODO 注册修改文件地址
+      $("iframe").attr("src", "{{ asset('assets/libs/scratch/scratch-h5/nviews/mobile/SB2/index.html') }}?file=" + data.fileUrl + "&width=" + $("#detail").width());
+      // }
+
+      // if (data.shareType == 2) { //Turtle.js
+      //   $("#detail").addClass("border").next().removeClass("hidden");
+      //   $("#rightBorder").show();
+      //   $("iframe").attr("src", "/alldream-turtle/sharejs-mobile.html?code=https://cdn.all-dream.com/" + data.fileUrl);
+      //   $('.invent').show();
+      //   $('.invent button').bind('touchend', function() {
+      //     $('#form_shade').show();
+      //   });
+      //
+      // }
+      if (data.name) {
+        $('.author_name').html(data.name)
+      } else {
+        $('.author_name').html('同学');
+      }
+      $('.pro_name').html(data.shareTitle);
+      $('.pro_title').html(data.shareContent);
+      stuId = data.userId;
+      // });
+
+
+      //点击切换键盘
+      $('.control_up_right').click(function () {
+        $('.control').animate({
+          top: '5rem'
+        }, 'fast');
+        $('.control').hide();
+      });
+
+      //点赞
+      $('.pro_looks').click(function () {
+        goods();
+      });
+
+// 	    $('.pro_looks img').eq(1).bind('touchend', function() {
+// 	      if ($(this).hasClass('liked')) {
+// 	        return false;
+// 	      } else {
+// 	        goods();
+// 	      }
+// 	    });
+    }
+
+    //点赞,TODO 有待将liked更改
+    function goods() {
+      window.liked = !window.liked;
+      if (window.liked) {
+        $('.liked').attr('src', '{{ asset('assets/libs/scratch/scratch-h5/nviews/mobile/images/share/goods_selected.png') }}');
+        window.star++;
+      } else {
+        $('.liked').attr('src', "{{ asset('assets/libs/scratch/scratch-h5/nviews/mobile/images/share/goods_default.png') }}");
+        window.star--;
+      }
+      $('.goods').text(window.star);
+      $.ajax({
+        url: "/scratch/work/{{ work.id }}/like",
+        type: "POST",
+        data: "liked=" + window.liked,
+        success: function (json, status) {//如果调用php成功
+          var success = json.success;
+          if (!success) {
+            console.log("点赞或者取消点赞操作失败！");
+          }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+          console.log("error,点赞或者取消点赞操作失败！");
+        }
+      });
+    }
+
+  </script>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% import 'admin/macro.html.twig' as admin_macro %}
+{% import "common/data-dict-macro.html.twig" as dict_macro %}
+
+<tr id="material-tr-{{ work.id }}">
+  <td>{{ work.id }}</td>
+  <td>
+    <a target="_blank" href="{{ path('scratch_show', {projectId:work.projectId}) }}" >{{ work.title }}</a>
+  </td>
+  <td>{{ admin_macro.user_link(creator) }}</td>
+  <td>{{ work.publishTime|date("Y-m-d H:i:s") }}</td>
+  <td>
+    <div class="btn-group">
+      {% if has_permission('admin_course_scratch_work_verify_manage') %}
+        <a class="btn btn-default btn-sm" target="_blank" href="{{ path('scratch_show', {projectId:work.projectId}) }}"
+        >{{ 'admin.course.scratch_work_publish_manage.view_btn'|trans }}</a>
+      {% endif %}
+      {% include 'admin/role/templates/group-button.html.twig' with {parentCode: 'admin_course_scratch_work_verify_manage', group:'groupButton', work: work} %}
+    </div>
+  </td>
+</tr>

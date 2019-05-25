@@ -1,0 +1,162 @@
+.python-editor-header{
+  background-color: #5500e9;
+  padding: 10px 0;
+  color: #ffffff;
+
+  .file-group{
+    cursor: pointer;
+    position: relative;
+    padding: 0 22px;
+    display: inline-block;
+    @media (max-width: @screen-xs-max) {
+      padding: 0 16px;
+    }
+    .file-icon{
+      width: 16px;
+      height: 16px;
+    }
+    .file-list{
+      position: absolute;
+      display: none;
+      top: 32px;
+      left: 0;
+      z-index: 99;
+      width: 120%;
+      color: black;
+      letter-spacing: 2px;
+      background-color: white;
+      a{
+        color: #000;
+        display: block;
+        padding: 8px 0 8px 24px;
+      }
+      a:hover{
+        background-color: #5500e9;
+        color: #ffffff;
+      }
+    }
+  }
+  .file-group:after{
+    position: absolute;
+    top: 44%;
+    right: 12px;
+    content: "";
+    width: 10px;
+    height: 10px;
+    clip-path: polygon(0% 0%, 100% 0%, 50% 64%);
+    background: white;
+  }
+
+  .save-work,.publish-work{
+    cursor: pointer;
+    padding: 0 22px;
+    display: inline-block;
+    color: #ffffff;
+    @media (max-width: @screen-xs-max) {
+      padding: 0 16px;
+    }
+    .save-icon{
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  span.break{
+    height: 20px;
+    opacity: 0.6;
+    border-left: 1px solid white;
+  }
+
+  .navbar-user{
+    padding: 5px 0;
+    right: 80px;
+    .visitor-li{
+      float: left;
+      margin-left: 24px;
+      margin-right: 24px;
+      list-style: none;
+      padding: 5px 0;
+      a{
+        color: #ffffff;
+      }
+    }
+  }
+}
+
+.python-editor-code{
+  padding: 0 !important;
+}
+.python-run-result{
+  padding: 0 !important;
+  .btn.cd-btn.cd-btn-primary{
+    border-color: #5e54e8;
+    background: #5e54e8;
+  }
+  .run-btn{
+    margin: 20px 20px 0 50px;
+  }
+  .clear-btn{
+    margin: 20px 0 0 0;
+  }
+  #output{
+    background-color: #fdeec5;
+    padding: 70px 10px 10px 10px;
+  }
+  #mycanvas{
+
+    canvas:nth-child(2){
+      background-color: #ffffff;
+    }
+  }
+}
+#previewcanvas{
+  background-color: #eeedee;
+}
+
+.selected-works{
+  .bcx-col-5,.bcx-col-4{
+    .course-item{
+      .mask{
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        text-align: center;
+        background-color: rgba(0,0,0,.8);
+        opacity: 0;
+        transition: all .3s ease;
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+        .btn{
+          margin-top: 80%;
+          transition: all .3s ease;
+        }
+      }
+      .status{
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        border: 1px solid rgba(201, 201, 201, 1);
+        border-radius: 10px;
+        padding: 0 8px;
+      }
+      .status-draft{
+        background-color: #ffffff;
+      }
+      .status-published{
+        background-color: rgba(224, 250, 239, 1);;
+        color: #20B573;
+      }
+    }
+    .course-item:hover{
+      .mask{
+        opacity: 1;
+        transition: all 0.3s ease;
+        .btn{
+          margin-top: 20%;
+        }
+      }
+    }
+  }
+}

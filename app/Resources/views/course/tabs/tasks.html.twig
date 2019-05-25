@@ -1,0 +1,15 @@
+<table class="table">
+    <tr>
+      <th>序号</th>
+      <th>考试名称</th>
+      <th>操作</th>
+    </tr>
+    
+    {% for courseItem in courseItems %}
+    <tr>
+    <td>{{ loop.index }}</td>
+    <td>{{ courseItem.title }}</td>
+    <td> <a href="{{ path('course_task_show', {courseId: courseItem.courseId, id: courseItem.id}) }}" target="_blank">进入</a></td>
+    </tr>
+    {% endfor %}
+</table>

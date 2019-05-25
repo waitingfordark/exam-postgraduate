@@ -1,0 +1,177 @@
+.progress-bar {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	width: 0;
+	background: #cde;
+	-webkit-transition: .3s;
+	-moz-transition: .3s;
+	-o-transition: .3s;
+	transition: .3s;
+}
+
+.light-content .progress-bar {
+	background: #468;
+}
+
+.progress-bar.error {
+	background: #ecc;
+}
+
+.light-content .progress-bar.error {
+	background: #844;
+}
+
+.control_wrap {
+	position: fixed;
+	bottom: 0px;
+	width: 100%;
+	height: auto;
+	background-color: deepskyblue;
+}
+
+.controls {
+	display: inline-block;
+	margin-top: 0.7rem;
+}
+
+.invent {
+	background-color: #f3224a;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	padding: 0.4rem 1rem;
+	float: right;
+	margin: 0.6rem 0.8rem;
+	font-size: 16px;
+}
+
+.controls span, .project-link {
+	width: 32px;
+	height: 32px;
+	float: right;
+	cursor: pointer;
+	text-align: center;
+	color: white;
+	background-image: url(icons.svg);
+	text-decoration: none;
+}
+
+.controls .flag {
+	background-position: 0 -128px;
+}
+
+.controls .stop {
+	background-position: -96px -128px;
+}
+
+.controls .pause {
+	background-position: -32px -128px;
+}
+
+.controls .play {
+	background-position: -64px -128px;
+}
+
+.controls .full-screen {
+	float: left;
+	background-position: -128px -128px;
+}
+
+.controls span:active, .project-link:active {
+	opacity: 1 !important;
+}
+
+.controls .turbo {
+	float: right;
+	display: none;
+	cursor: default;
+	color: rgba(0, 0, 0, .4);
+	font: 500 12px/32px Helvetica Neue, Helvetica, Arial, sans-serif;
+	padding: 0 8px;
+}
+
+.player {
+	box-shadow: 0 0 0 1px rgba(0, 0, 0, .4);
+	width: 480px;
+	height: 360px;
+	position: relative;
+	-webkit-transform-origin: 0 0;
+	-moz-transform-origin: 0 0;
+	-ms-transform-origin: 0 0;
+	-o-transform-origin: 0 0;
+	transform-origin: 0 0;
+}
+
+.light-content .player {
+	box-shadow: 0 0 0 1px rgba(255, 255, 255, .4);
+}
+
+.internal-error {
+	color: rgba(128, 0, 0, .6);
+	font: 500 12px Helvetica Neue, Helvetica, Arial, sans-serif;
+	padding: 8px;
+	display: none;
+}
+
+.internal-error a {
+	color: rgba(128, 0, 0, .8);
+}
+
+.fs {
+	background: #000;
+	width: 100%;
+	height: 100%;
+}
+
+.fs body {
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+
+.fs .title, .fs section {
+	display: none;
+}
+
+.fs .controls span, .light-content .controls span {
+	background-position-y: -32px;
+	opacity: .6;
+}
+
+.light-content .controls .full-screen {
+	background-position-y: -64px;
+}
+
+.fs .light-content .controls .full-screen {
+	background-position-y: -32px;
+}
+
+.fs .controls .turbo, .light-content .controls .turbo {
+	color: rgba(255, 255, 255, .6);
+}
+
+.fs .player {
+	box-shadow: none;
+}
+
+.mask {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 20rem;
+}
+
+.mask-play {
+	background: rgba(0, 0, 0, .4) url('../images/share/play.png') no-repeat
+		center;
+	background-position-y: 42%;
+}
+
+.mask-pause {
+	background: rgba(0, 0, 0, .4) url('../images/share/pause.png') no-repeat
+		center;
+	background-position-y: 42%;
+}

@@ -1,0 +1,61 @@
+{% extends 'bootstrap-modal-layout.html.twig' %}
+
+{% block title %}
+  作品信息
+{% endblock %}
+
+{% do script(['app/js/scratch/work-modal/index.js']) %}
+{% set hide_footer = 1 %}
+{% block body %}
+  <form id="work-form" method="post" action="{{ path('scratch_work_info',{projectId:project.id}) }}">
+
+    <div class="form-group">
+      <label class="col-md-2 col-xs-2 control-label" for="subtitle">作品名</label>
+      <div class="col-md-10 mb30 col-xs-10">
+        <input type="text" id="title" name="title" required="required" class="form-control js-courseset-title"
+               value="{{ work.title|default('') }}">
+        <div class="help-block" style="display:none;"></div>
+      </div>
+    </div>
+
+    <!-- 封面图片 -->
+    <div class="form-group">
+      <label class="col-md-2 control-label col-xs-2" for="cover"><b>作品图</b></label>
+      <div class="col-md-10 controls  mb30 col-xs-10">
+        {% if number > 0 %}
+          {% set upload_twig = 'scratch/upload-image.html.twig' %}
+        {% else %}
+          {% set upload_twig = 'common/upload-image.html.twig' %}
+        {% endif %}
+        {% include upload_twig with {
+          saveUrl: path('scratch_cover_crop'),
+          targetImg: 'scratch-cover',
+          cropWidth: '865',
+          cropHeight: '575',
+          uploadToken: 'tmp',
+          imageClass: 'course-manage-cover',
+          imageText: 'course.cover.change'|trans,
+          imageSrc: filepath(work.smallPicture, 'courseSet.png'),
+        } %}
+        <div class="courseset-manage-body__tip">
+          {{ 'course.cover_image.upload_tips'|trans|raw }}
+        </div>
+      </div>
+    </div>
+
+    <div id="modal" class="modal"></div>
+
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+
+    <div class="form-group">
+      <div class="col-md-2 col-xs-2"></div>
+      <div class="col-md-10 col-xs-10">
+        <button type="button" class="btn cd-btn cd-btn-primary cd-btn-lg" id="save-btn"
+                data-loading-text="上传中">
+          保存
+        </button>
+      </div>
+    </div>
+
+  </form>
+{% endblock %}
