@@ -1971,7 +1971,7 @@ course_manage_items_sort:
 my_courses_learning:
     path: /my/courses/learning
     defaults: { _controller: AppBundle:My/Course:learning }
-    h5: true
+    h5: false
 
 my_courses_learned:
     path: /my/courses/learned

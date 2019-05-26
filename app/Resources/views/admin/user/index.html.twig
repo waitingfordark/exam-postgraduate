@@ -8,8 +8,8 @@
 
   {{ web_macro.flash_messages() }}
 
-  {# <form id="user-search-form" class="form-inline well well-sm" action="" method="get" novalidate>
-    <div class="mbm">
+  <form id="user-search-form" class="form-inline well well-sm" action="" method="get" novalidate>
+    {# <div class="mbm">
 
       <select class="form-control" name="datePicker" id="datePicker">
         {{ select_options({longinDate:'admin.user.manage.form.time_option.login'|trans, registerDate: 'admin.user.manage.form.time_option.register'|trans}, app.request.get('datePicker') ,'admin.user.manage.form.time_option.default'|trans) }}
@@ -25,27 +25,8 @@
 
     <div class="form-group">
       {% include 'org/org-tree-select.html.twig' with {orgCode: app.request.get('orgCode'), modal: 'list'} %}
-    </div>
+    </div> #}
 
-    <div class="form-group">
-
-      <select class="form-control" name="roles">
-        {{ select_options(dict('userRole')|array_merge(allRoles), app.request.query.get('roles'), 'admin.user.manage.form.role_option.default'|trans) }}
-      </select>
-    </div>
-
-    <span class="divider"></span>
-    <div class="form-group">
-      <select id="keywordUserType" name="keywordUserType" class="form-control">
-        {{ select_options(dict('userType'), app.request.query.get('keywordUserType'), 'admin.user.manage.form.user_type_option.default'|trans) }}
-      </select>
-    </div>
-
-    <div class="form-group">
-      <select id="keywordType" name="keywordType" class="form-control">
-        {{ select_options(dict('userKeyWordType'), app.request.query.get('keywordType') ? app.request.query.get('keywordType') : 'nickname') }}
-      </select>
-    </div>
 
     <div class="form-group">
       <input type="text" id="keyword" name="keyword" class="form-control" value="{{ app.request.query.get('keyword') }}"
@@ -59,7 +40,7 @@
          data-url="{{ path('admin_user_export') }}">{{ 'plugin.admin.user.manage.form.user_export_btn'|trans }}</a>
     {% endif %}
 
-  </form> #}
+  </form>
 
   <table id="user-table" class="table table-striped table-hover" data-search-form="#user-search-form">
     <thead>

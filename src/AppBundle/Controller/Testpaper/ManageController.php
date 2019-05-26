@@ -179,14 +179,15 @@ class ManageController extends BaseController
         if ('POST' === $request->getMethod()) {
             $formData = $request->request->all();
             $isContinue = false;
-            $goto = $formData['goto'];
-
+            // $goto = $formData['goto'];
+            // var_dump($request->request->all());
+            // die;
            
             unset($formData['isContinue']);
-            unset($formData['goto']);
+            // unset($formData['goto']);
             $this->getTestpaperService()->checkFinish($result['id'], $formData);
 
-            $data = array('success' => true, 'goto' => $goto);
+            $data = array('success' => true, 'goto' => 'http://www.test.com/my/testpaper/check');
 
             return $this->createJsonResponse($data);
         }

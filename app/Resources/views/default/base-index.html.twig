@@ -1,21 +1,18 @@
 {% extends 'layout.html.twig' %}
 
-{% block keywords %}{{ setting('site.seo_keywords') }}{% endblock %}
-{% block description %}{{ setting('site.seo_description') }}{% endblock %}
+{% block keywords %}{% endblock %}
+{% block description %}{% endblock %}
 
-{% set appDownload = is_ES_copyright() and setting('mobile.enabled', null) and is_show_mobile_page() %}
-{% set bodyClass = appDownload ? 'homepage has-app' : 'homepage' %}
+{# {% set appDownload = is_ES_copyright() and setting('mobile.enabled', null) and is_show_mobile_page() %} #}
+{% set bodyClass = 'homepage' %}
 {% set siteNav = '/' %}
 
-{% set _target_path = path('homepage') %}
+{% set _target_path = path('my_courses_learning') %}
 
 {% set isIndex = true %}
 {% set consultDisplay = true %}
 
 {% block full_content %}
-  {% if appDownload  %}
-    {{ render(controller('AppBundle:Default:appDownload')) }}
-  {% endif %}
   {% block content %}{% endblock %}
-  {% include 'mobile/footer-tool-bar.html.twig' with { mobile_tool_bar: 'index' } %}
+  {# {% include 'mobile/footer-tool-bar.html.twig' with { mobile_tool_bar: 'index' } %} #}
 {% endblock %}

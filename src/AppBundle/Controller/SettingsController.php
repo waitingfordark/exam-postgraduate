@@ -51,6 +51,10 @@ class SettingsController extends BaseController
 
         $fromCourse = $request->query->get('fromCourse');
 
+        return $this->redirectToRoute('settings_security'
+            
+        );
+
         return $this->render('settings/profile.html.twig', array(
             'profile' => $profile,
             'fields' => $fields,
@@ -253,6 +257,9 @@ class SettingsController extends BaseController
     public function securityAction(Request $request)
     {
         $user = $this->getCurrentUser();
+
+        $profile = $this->getUserService()->getUserProfile($user['id']);
+
         $hasLoginPassword = strlen($user['password']) > 0;
         $hasPayPassword = $this->getAccountService()->isPayPasswordSetted($user['id']);
         $hasFindPayPasswordQuestion = $this->getAccountService()->isSecurityAnswersSetted($user['id']);
@@ -284,6 +291,8 @@ class SettingsController extends BaseController
             'hasEmail' => $hasEmail,
             'email' => $email,
             'hasVerifiedEmail' => $hasVerifiedEmail,
+            'user' => $user,
+            'profile' => $profile
         ));
     }
 

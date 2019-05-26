@@ -25,8 +25,8 @@
 
 {% else %}
   {% if status == 'reviewing' %}
-    <div class="empty">{{'my.teaching.testpaper.reviewing_empty'|trans}}</div>
+    <div class="empty">没有等待批阅的试卷</div>
   {% elseif status == 'finished' %}
-    <div class="empty">{{'my.teaching.testpaper.check_finished_empty'|trans}}</div>
+    <div class="empty">没有批阅过试卷</div>
   {% endif %}
 {% endif %}

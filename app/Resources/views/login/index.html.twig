@@ -34,7 +34,7 @@
           <label class="control-label" for="login_username">{{ 'user.login.account_label'|trans }}</label>
           <div class="controls">
             <input class="form-control input-lg" id="login_username" type="text" name="_username" value="{{ last_username }}" required
-              placeholder='{{ 'user.login.account_placeholder'|trans }}'/>
+              placeholder='用户名/邮箱'/>
             <div class="help-block"></div>
           </div>
         </div>
@@ -58,7 +58,7 @@
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
       </form>
 
-      <div class="mbl">
+      {# <div class="mbl">
         <a class="link-primary" href="{{ path('password_reset') }}">{{ 'user.login.find_password'|trans }}</a>
         <span class="color-gray mhs">|</span>
         <span class="color-gray">{{ 'user.login.ask_register'|trans }}</span>
@@ -72,7 +72,7 @@
         </span>
           <div class="line"></div>
         </div>
-      {% endif %}
+      {% endif %} #}
     </div>
   </div>
 

@@ -30,6 +30,7 @@ class DefaultController extends BaseController
 
         $custom = $this->isCustom();
         $friendlyLinks = $this->getNavigationService()->getOpenedNavigationsTreeByType('friendlyLink');
+        return $this->redirect($this->generateUrl('my_courses_learning'));
 
         return $this->render('default/index.html.twig', array('friendlyLinks' => $friendlyLinks, 'custom' => $custom));
     }

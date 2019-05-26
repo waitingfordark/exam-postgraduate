@@ -25,7 +25,7 @@ class UserController extends BaseController
 
         $conditions = array(
             'roles' => '',
-            'keywordType' => '',
+            'keywordType' => 'nickname',
             'keyword' => '',
             'keywordUserType' => '',
         );

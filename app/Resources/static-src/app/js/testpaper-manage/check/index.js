@@ -169,9 +169,10 @@ class CheckTest
     let gotoUrl = $target.data('goto');
 
     console.log(gotoUrl);
+    // ,goto: gotoUrl
 
     $target.button('loading');
-    $.post($target.data('postUrl'), {result:this.checkContent,teacherSay:teacherSay,passedStatus:passedStatus,isContinue:this.isContinue,goto: gotoUrl}, function(response) {
+    $.post($target.data('postUrl'), {result:this.checkContent,teacherSay:teacherSay,passedStatus:passedStatus,isContinue:this.isContinue}, function(response) {
       if (response.goto != '') {
         // window.location.reload();
         window.location.href = response.goto;
