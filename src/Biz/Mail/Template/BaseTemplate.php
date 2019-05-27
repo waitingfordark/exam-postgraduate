@@ -17,7 +17,7 @@ abstract class BaseTemplate extends BizAware
 
     protected function getSiteName()
     {
-        return $this->setting('site.name', 'EDUSOHO');
+        return $this->setting('site.name', '');
     }
 
     protected function setting($name, $default = '')
