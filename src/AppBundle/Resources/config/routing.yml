@@ -19,17 +19,11 @@ jstranslation_js:
         _format: js|json
         domain: "[\\w]+"
 
-switch_language:
-    path: /switch/language
-    defaults: { _controller: AppBundle:Default:translate }
 
 homepage_category:
     path: /course/search
     defaults: { _controller: AppBundle:Default:coursesCategory }
 
-live_jump:
-    path: /live/jump
-    defaults: { _controller: AppBundle:Default:jump }
 
 login:
     path:  /login
@@ -86,9 +80,6 @@ password_init:
     path: /password/init
     defaults: { _controller: AppBundle:PasswordInit:initPassword }
 
-common_qrcode:
-    path:  /common/qrcode
-    defaults: { _controller: AppBundle:Common:qrcode }
 
 user_terms:
     path:  /userterms
@@ -152,9 +143,7 @@ register_nickname_check:
     path:  /register/nickname/check
     defaults: { _controller: AppBundle:Register:nicknameCheck }
 
-invitecode_check:
-    path:  /register/invitecode/check
-    defaults: { _controller: AppBundle:Register:invitecodeCheck }
+
 
 register_captcha_check:
     path:  /register/captcha/check
@@ -250,33 +239,6 @@ uploadfile_browsers:
     path:  /uploadfile/browsers
     defaults: { _controller: AppBundle:UploadFile:browsers }
 
-hls_playlist:
-    path: /hls/{id}/playlist/{token}.m3u8
-    defaults: { _controller: AppBundle:HLSVideo:playlist}
-
-hls_audio_playlist:
-    path: /hls/{id}/audio/playlist/{token}.m3u8
-    defaults: { _controller: AppBundle:HLSAudio:playlist}
-
-player_local_media:
-    path: /player/{id}/file/{token}
-    defaults: { _controller: AppBundle:Player:localMedia}
-
-hls_stream:
-    path: /hls/{id}/stream/{level}/{token}.m3u8
-    defaults: { _controller: AppBundle:HLSVideo:stream}
-
-hls_audio_stream:
-    path: /hls/{id}/audio/stream/{level}/{token}.m3u8
-    defaults: { _controller: AppBundle:HLSAudio:stream}
-
-hls_clef:
-    path: /hls/{id}/clef/{token}
-    defaults: { _controller: AppBundle:HLSVideo:clef}
-
-hls_audio_clef:
-    path: /hls/{id}/audio/clef/{token}
-    defaults: { _controller: AppBundle:HLSAudio:clef}
 
 editor_upload:
     path:  /editor/upload
@@ -288,81 +250,8 @@ editor_download:
     defaults: { _controller: AppBundle:Editor:download }
     methods: [POST]
 
-liveroom_ticket:
-    path:  /liveroom/{roomId}/ticket
-    defaults: { _controller: AppBundle:Liveroom:ticket }
 
-live_auth:
-   path:  /live/auth
-   defaults: { _controller: AppBundle:LiveAuth:index }
 
-order_detail:
-   path:  /order/{id}/detail
-   defaults: { _controller: AppBundle:Order/Order:detail }
-
-order_cancel_refund:
-    path:  /order/{orderId}/cancel_refund
-    defaults: { _controller: AppBundle:Order/OrderRefund:cancelRefund }
-    methods: [POST]
-
-media_play:
-    path:  /media/{mediaId}/play
-    defaults: { _controller: AppBundle:Media/Index:play }
-
-media_subtitle_preview:
-    path:  /media/{mediaId}/subtitles/preview
-    defaults: { _controller: AppBundle:Subtitle:preview }
-
-media_subtitle_manage:
-    path:  /media/{mediaId}/subtitles/manage
-    defaults: { _controller: AppBundle:Subtitle:manage }
-
-media_subtitle_list:
-    path:  /media/{mediaId}/subtitles
-    defaults: { _controller: AppBundle:Subtitle:list }
-
-media_subtitle_create:
-    path:  /media/{mediaId}/subtitle/create
-    defaults: { _controller: AppBundle:Subtitle:create }
-    methods: [POST]
-
-media_subtitle_delete:
-    path:  /media/{mediaId}/subtitle/{id}/delete
-    defaults: { _controller: AppBundle:Subtitle:delete }
-    methods: [POST]
-
-media_subtitle_manage_dialog:
-    path:  /media/subtitles/manage/dialog
-    defaults: { _controller: AppBundle:Subtitle:manageDialog }
-
-announcement_list:
-    path: /announcement/{targetType}/{targetId}/list
-    defaults: { _controller: AppBundle:Announcement:list }
-
-announcement_show_all:
-    path:  /announcement/{targetType}/{targetId}/all
-    defaults: { _controller: AppBundle:Announcement:showAll }
-
-announcement_add:
-    path:  /announcement/manage/{targetType}/{targetId}/create
-    defaults: { _controller: AppBundle:Announcement:create }
-
-announcement_show:
-    path:  /announcement/{id}/{targetId}/show
-    defaults: { _controller: AppBundle:Announcement:show }
-
-announcement_manage:
-    path:  /announcement/{targetType}/{targetId}/manage
-    defaults: { _controller: AppBundle:Announcement:manage }
-
-announcement_update:
-    path:  /announcement/{id}/{targetType}/{targetId}/update
-    defaults: { _controller: AppBundle:Announcement:update }
-
-announcement_delete:
-    path:  /announcement/{id}/{targetType}/{targetId}/delete
-    defaults: { _controller: AppBundle:Announcement:delete }
-    methods: [POST]
 
 search:
     path:  /search
@@ -484,9 +373,6 @@ password_reset_check_mobile:
     path:  /password/reset/check/mobile
     defaults: { _controller: AppBundle:PasswordReset:checkMobileExists }
 
-browser_upgrade:
-    path:  /browser/upgrade
-    defaults: { _controller: AppBundle:Browser:upgrade }
 
 category_all:
     path: /category/all
@@ -512,18 +398,6 @@ following_match_bynickname:
     path: /following/bynickname/match_jsonp
     defaults: { _controller: AppBundle:Message:match }
 
-comment_widget_init:
-    path:  /comment-widget/init
-    defaults: { _controller: AppBundle:CommentWidget:init }
-
-comment_widget_create:
-    path:  /comment-widget/create
-    defaults: { _controller: AppBundle:CommentWidget:create }
-
-comment_widget_delete:
-    path:  /comment-widget/delete
-    defaults: { _controller: AppBundle:CommentWidget:delete }
-    methods: [POST]
 
 notification:
     path: /notification
@@ -636,11 +510,7 @@ user_info_fill:
     defaults: { _controller: AppBundle:User:fillInfoWhenBuy }
     methods: [POST]
 
-# ForCustomOnly start
-my_page_show:
-    path:  /my/page/show/{filter}
-    defaults: { _controller: AppBundle:User:pageShow,filter: 'show' }
-# ForCustomOnly end
+
 
 user_about:
     path:  /user/{id}/about
@@ -734,33 +604,6 @@ message_delete:
     defaults: { _controller: AppBundle:Message:deleteConversationMessage }
     methods: [POST]
 
-content_article_show:
-    path: /carticle/{alias}
-    defaults: {_controller: AppBundle:Content:articleShow }
-
-content_article_list:
-    path: /carticle
-    defaults: {_controller: AppBundle:Content:articleList }
-
-content_activity_show:
-    path: /activity/{alias}
-    defaults: {_controller: AppBundle:Content:activityShow }
-
-content_activity_list:
-    path: /activity
-    defaults: {_controller: AppBundle:Content:activityList }
-
-content_page_show:
-    path: /page/{alias}
-    defaults: {_controller: AppBundle:Content:pageShow }
-
-content_page_list:
-    path: /page
-    defaults: {_controller: AppBundle:Content:pageList }
-
-content_course_rule:
-    path: /courserule
-    defaults: {_controller: AppBundle:Course/CourseManage:courseRule }
 
 course_set_live_capacity:
     path: /course_set/{courseSetId}/manage/course/{courseId}/live_capacity
@@ -790,25 +633,6 @@ partner_phpwind_notify:
     path: /partner/phpwind/api/notify
     defaults: {_controller: AppBundle:PartnerPhpwind:notify }
 
-cloud_set_server:
-    path: /cloud/set-server
-    defaults: {_controller: AppBundle:Cloud:setServer }
-
-cloud_video_fingerprint:
-    path: /cloud/video_fingerprint
-    defaults: {_controller: AppBundle:Cloud:videoFingerprint }
-
-cloud_ppt_watermark:
-    path: /cloud/ppt_watermark
-    defaults: {_controller: AppBundle:Cloud:pptWatermark }
-
-cloud_doc_watermark:
-    path: /cloud/doc_watermark
-    defaults: {_controller: AppBundle:Cloud:docWatermark }
-
-cloud_testpaper_watermark:
-    path: /cloud/testpaper_watermark
-    defaults: {_controller: AppBundle:Cloud:testpaperWatermark }
 
 systeminfo:
     path: /systeminfo
@@ -859,17 +683,7 @@ article_tag_show:
     defaults: { _controller: AppBundle:Article:tag }
 
 
-mobile:
-    path: /mobile/
-    defaults: { _controller: AppBundle:Mobile:index }
 
-mobile_download_qrcode:
-    path: /mobile/downloadQrcode
-    defaults: { _controller: AppBundle:Mobile:downloadQrcode }
-
-mobile_download:
-    path: /mobile/download
-    defaults: { _controller: AppBundle:Mobile:download }
 
 group:
     path:  /group
@@ -978,285 +792,23 @@ group_upload:
     path:  /group/thread/upload
     defaults: { _controller: AppBundle:GroupThread:upload }
 
-my_bill:
-    path: /my/bill
-    defaults: { _controller: AppBundle:My/Coin:cashBill }
 
-my_coin:
-    path:     /my/coin
-    defaults: { _controller: AppBundle:My/Coin:index }
-my_invite_code:
-    path:     /my/invitecode
-    defaults: { _controller: AppBundle:My/Coin:inviteCode }
-
-note_like:
-    path: /note/{id}/like
-    defaults: { _controller: AppBundle:Note:like }
-    methods: [POST]
-
-note_cancel_like:
-    path: /note/{id}/cancel_like
-    defaults: { _controller: AppBundle:Note:cancelLike }
-    methods: [POST]
-
-receive_coupon:
-    path:     /my/invitecode/receivecoupon
-    defaults: { _controller: AppBundle:My/Coin:receiveCoupon }
-
-coin_show:
-    path:     /my/coin/show
-    defaults: { _controller: AppBundle:My/Coin:show }
 
 user_password_check:
     path:   /user/password/check
     defaults: { _controller: AppBundle:User:checkPassword }
 
-cashier_show:
-    path:   /cashier/standard
-    defaults: { _controller: AppBundle:Cashier/Cashier:show }
 
-cashier_redirect:
-    path:   /cashier/redirect
-    defaults: { _controller: AppBundle:Cashier/Cashier:redirect }
 
-cashier_wechat_js_pay:
-    path:   /pay/center/wxpay
-    defaults: { _controller: AppBundle:Cashier/Wechat:wechatJsPay }
 
-cashier_wechat_js_pay_h5:
-    path:   /pay/center/wxpay_h5
-    defaults: { _controller: AppBundle:Cashier/Wechat:wechatJsPayH5 }
 
-cashier_wechat_mweb_app_trade:
-    path:   /pay/center/wxpay_mweb_app_trade
-    defaults: { _controller: AppBundle:Cashier/Wechat:wechatAppMwebTrade }
-
-cashier_password_check:
-    path:  /cashier/password/check
-    defaults: { _controller: AppBundle:Cashier/Cashier:checkPayPassword }
-
-cashier_pay_price:
-    path:   /cashier/{sn}/price
-    defaults: { _controller: AppBundle:Cashier/Cashier:price }
-    methods: [POST]
-
-cashier_pay_success:
-    path:   /cashier/pay/success
-    defaults: { _controller: AppBundle:Cashier/Cashier:success }
-
-cashier_pay_notify:
-    path: /callback/{payment}/notify
-    defaults: { _controller: AppBundle:Cashier/Callback:notify}
-    methods: [POST]
-
-cashier_pay_return_for_app:
-    path: /callback/{payment}/return_for_app
-    defaults: { _controller: AppBundle:Cashier/Callback:returnForApp}
-
-cashier_redirect_for_h5:
-    path:   /h5cashier/redirect
-    defaults: { _controller: AppBundle:Cashier/CashierH5:redirect }
-
-cashier_pay_success_for_h5:
-    path:   /h5cashier/pay/success
-    defaults: { _controller: AppBundle:Cashier/CashierH5:success }
-
-cashier_pay_return_for_h5:
-    path: /callback/{payment}/return_for_h5
-    defaults: { _controller: AppBundle:Cashier/Callback:returnForH5}
-
-cashier_pay_return:
-    path: /callback/{payment}/return
-    defaults: { _controller: AppBundle:Cashier/Callback:return}
-
-pay_center_auth_unbind:
-    path:   /pay/center/auth_unbind
-    defaults: { _controller: AppBundle:PayCenter:unbindAuth}
-    methods: [POST]
-
-auth_unbind_mobile_show:
-    path:   /pay/center/mobile_show
-    defaults: { _controller: AppBundle:PayCenter:showMobile }
-
-pay_return:
-    path:  /pay/center/pay/{name}/return
-    defaults: { _controller: AppBundle:PayCenter:payReturn }
-
-pay_return_for_app:
-    path:  /pay/center/pay/{name}/return_for_app
-    defaults: { _controller: AppBundle:PayCenter:payReturnForApp }
-
-pay_notify:
-    path:  /pay/center/pay/{name}/notify
-    defaults: { _controller: AppBundle:PayCenter:payNotify }
-
-pay_success_show:
-    path:  /pay/center/success/show
-    defaults: { _controller: AppBundle:PayCenter:showTarget }
-
-pay_password_check:
-    path:  /pay/password/check
-    defaults: { _controller: AppBundle:PayCenter:payPasswordCheck }
-
-pay_error:
-    path:  /pay/error
-    defaults: { _controller: AppBundle:PayCenter:payError }
-
-pay_result_notice:
-    path: /pay/result/notice
-    defaults: { _controller: AppBundle:PayCenter:resultNotice }
-
-wxpay_roll:
-    path: /pay/wxpay/roll
-    defaults: {_controller: AppBundle:PayCenter:wxpayRoll }
-
-order_show:
-    path:  /order/show
-    defaults: { _controller: AppBundle:Order/Order:show }
-
-order_create:
-    path:  /order/create
-    defaults: { _controller: AppBundle:Order/Order:create }
-    methods: [POST]
-
-thread_jump:
-    path:  /thread/{threadId}/jump
-    defaults: { _controller: AppBundle:Thread:jump }
-
-thread_post_jump:
-    path:  /thread/{threadId}/post/{postId}/jump
-    defaults: { _controller: AppBundle:Thread:postJump }
-
-thread_post:
-    path:  /thread/{threadId}/post
-    defaults: { _controller: AppBundle:Thread:post }
-
-thread_post_reply:
-    path:  /thread/{threadId}/post/{postId}/
-    defaults: { _controller: AppBundle:Thread:postReply }
-    methods: [POST]
-
-thread_post_subposts:
-    path:  /thread/{threadId}/post/{postId}/subposts
-    defaults: { _controller: AppBundle:Thread:subposts, threadId: 0 }
-
-article_post_subposts:
-    path:  /article/{targetId}/post/{postId}/subposts
-    defaults: { _controller: AppBundle:Article:subposts }
-
-thread_post_delete:
-    path:  /thread/{threadId}/post/{postId}/delete
-    defaults: { _controller: AppBundle:Thread:postDelete }
-    methods: [POST]
-
-thread_post_up:
-    path:  /thread/{threadId}/post/{postId}/up
-    defaults: { _controller: AppBundle:Thread:postUp }
-    methods: [POST]
-
-thread_delete:
-    path: /thread/{threadId}/delete
-    defaults: { _controller: AppBundle:Thread:delete }
-    methods: [POST]
-
-thread_set_sticky:
-    path: /thread/{threadId}/set_sticky
-    defaults: { _controller: AppBundle:Thread:setSticky }
-    methods: [POST]
-
-thread_cancel_sticky:
-    path: /thread/{threadId}/cancel_sticky
-    defaults: { _controller: AppBundle:Thread:cancelSticky }
-    methods: [POST]
-
-thread_set_nice:
-    path: /thread/{threadId}/set_nice
-    defaults: { _controller: AppBundle:Thread:setNice }
-    methods: [POST]
-
-thread_cancel_nice:
-    path: /thread/{threadId}/cancel_nice
-    defaults: { _controller: AppBundle:Thread:cancelNice }
-    methods: [POST]
-
-thread_export_members:
-    path: /thread/{threadId}/export/members
-    defaults: { _controller: AppBundle:Thread\Member:export }
-
-ajax_thread_member_show:
-    path: /ajax/thread/{threadId}/members
-    defaults: { _controller: AppBundle:Thread\Member:ajaxFindMembers }
-    methods: [GET]
-
-#占位
-vip:
-    path: /vip/
-
-vip_buy:
-    path: /vip/buy
-
-vip_renew:
-    path: /vip/renew
-
-vip_upgrade:
-    path: /vip/upgrade
-
-edu_cloud_sms_send:
-    path:  /edu_cloud/sms_send
-    defaults: { _controller: AppBundle:EduCloud:smsSend }
-    methods: [POST]
-
-edu_cloud_sms_send_registration:
-    path:  /edu_cloud/sms_send_registration
-    defaults: { _controller: AppBundle:EduCloud:smsSendRegistration }
-    methods: [POST]
-
-edu_cloud_sms_check:
-    path:  /edu_cloud/sms_check/{type}
-    defaults: { _controller: AppBundle:EduCloud:smsCheck }
-
-edu_cloud_sms_send_callback:
-    path:  /edu_cloud/sms/callback/{targetType}/{targetId}
-    defaults: { _controller: AppBundle:EduCloud:smsCallBack }
-
-edu_cloud_search_callback:
-    path:  /edu_cloud/search/callback
-    defaults: { _controller: AppBundle:EduCloud:searchCallBack }
-
-settings_bind_mobile:
-    path:  /settings/bind_mobile
-    defaults: { _controller: AppBundle:Settings:bindMobile }
 
 settings_check_login_password:
     path:  /settings/check_login_password
     defaults: { _controller: AppBundle:Settings:passwordCheck }
     methods: [POST]
 
-password_reset_by_sms:
-    path:  /password/reset/by_sms
-    defaults: { _controller: AppBundle:PasswordReset:resetBySms }
-    methods: [POST]
 
-settings_find_pay_password_by_sms:
-    path:  /settings/find_pay_password_by_sms
-    defaults: { _controller: AppBundle:Settings:findPayPasswordBySms }
-
-password_reset_by_email_success:
-    path:  /password/reset/email/success
-    defaults: { _controller:  AppBundle:PasswordReset:emailResetSuccess }
-
-settings_find_pay_password_by_question:
-    path:  /settings/find_pay_password_by_question
-    defaults: { _controller: AppBundle:Settings:findPayPasswordByQuestion }
-
-edu_cloud_sms_callback:
-    path:  /edu_cloud/sms_callback
-    defaults: { _controller: AppBundle:EduCloud:cloudCallBack }
-    methods: [POST]
-
-common_parse_qrcode:
-    path: /qrcode/parse/{token}
-    defaults: {_controller: AppBundle:Common:parseQrcode}
 
 esbar_my_classroom:
     path:  /esbar/my/classroom
@@ -1290,259 +842,6 @@ card_info:
     path:  /card/info
     defaults: { _controller: AppBundle:My/Card:cardInfo }
 
-open_course_explore:
-    path:  /open/course/explore
-    defaults: { _controller: AppBundle:OpenCourse:explore }
-
-open_course_manage:
-    path:  /open/course/{id}/manage
-    defaults: { _controller: AppBundle:OpenCourseManage:index }
-
-open_course_manage_publish:
-    path:  /open/course/{id}/manage/publish
-    defaults: { _controller: AppBundle:OpenCourseManage:publish }
-
-open_course_manage_base:
-    path:  /open/course/{id}/manage/base
-    defaults: { _controller: AppBundle:OpenCourseManage:base }
-
-open_course_manage_lesson:
-    path:  /open/course/{id}/manage/lesson
-    defaults: { _controller: AppBundle:OpenCourseLessonManage:lesson }
-
-open_course_manage_lesson_create:
-    path:  /open/course/{id}/manage/lesson/create
-    defaults: { _controller: AppBundle:OpenCourseLessonManage:create }
-
-open_course_manage_lesson_edit:
-    path:  /open/course/{courseId}/manage/lesson/{lessonId}/edit
-    defaults: { _controller: AppBundle:OpenCourseLessonManage:edit }
-
-open_course_manage_lesson_publish:
-    path:  /open/course/{courseId}/manage/lesson/{lessonId}/publish
-    defaults: { _controller: AppBundle:OpenCourseLessonManage:publish }
-
-open_course_manage_lesson_delete:
-    path: /open/course/{courseId}/manage/lesson/{lessonId}/delete
-    defaults: { _controller: AppBundle:OpenCourseLessonManage:delete}
-
-open_course_manage_lesson_unpublish:
-    path:  /open/course/{courseId}/manage/lesson/{lessonId}/unpublish
-    defaults: { _controller: AppBundle:OpenCourseLessonManage:unpublish }
-
-open_course_manage_lesson_sort:
-    path:  /open/course/{id}/manage/lesson/sort
-    defaults: { _controller: AppBundle:OpenCourseLessonManage:sort }
-    methods: [POST]
-
-open_course_draft_create:
-   path:  /open/course/draft/create
-   defaults: { _controller: AppBundle:OpenCourseLessonManage:draftCreate }
-
-open_course_manage_picture_crop:
-    path:  /open/course/{id}/manage/picture/crop
-    defaults: { _controller: AppBundle:OpenCourseManage:pictureCrop }
-
-open_course_manage_teachers:
-    path:  /open/course/{id}/manage/teachers
-    defaults: { _controller: AppBundle:OpenCourseManage:teachers }
-
-open_course_manage_teachers_match:
-  path: /open/course/{id}/manage/teachers/match
-  defaults: {_controller: AppBundle:OpenCourseManage:teachersMatch}
-
-open_course_manage_live_time_set:
-    path:  /open/course/{id}/manage/live/time
-    defaults: { _controller: AppBundle:OpenCourseManage:liveOpenTimeSet }
-
-open_course_manage_marketing:
-    path:  /open/course/{id}/manage/marketing
-    defaults: { _controller: AppBundle:OpenCourseManage:marketing }
-
-open_course_manage_students:
-    path:  /open/course/{id}/manage/students
-    defaults: { _controller: AppBundle:OpenCourseManage:students }
-
-open_course_manage_students_show:
-   path:  /open/course/{id}/manage/students/{userId}/show
-   defaults: { _controller: AppBundle:OpenCourseManage:studentDetail }
-
-open_course_manage_files:
-    path:  /open/course/{id}/manage/files
-    defaults: { _controller: AppBundle:OpenCourseFileManage:index }
-
-open_course_manage_file_show:
-    path:  /open/course/{id}/manage/file/{fileId}
-    defaults: { _controller: AppBundle:OpenCourseFileManage:show }
-
-open_course_manage_file_convert:
-    path:  /open/course/{id}/manage/file/{fileId}/convert
-    defaults: { _controller: AppBundle:OpenCourseFileManage:convert }
-    methods: [POST]
-
-open_course_manage_file_status:
-   path:  /open/course/manage/file/status
-   defaults: { _controller: AppBundle:OpenCourseFileManage:fileStatus }
-
-open_course_manage_delete_materials_show:
-    path:  /open/course/{id}/manage/show/delete/materials
-    defaults: { _controller: AppBundle:OpenCourseFileManage:deleteMaterialShow }
-    methods: [POST]
-
-open_course_manage_files_delete:
-    path:  /open/course/{id}/manage/materials/delete
-    defaults: { _controller: AppBundle:OpenCourseFileManage:deleteCourseFiles }
-    methods: [POST]
-
-open_course_manage_course_pick:
-    path: /open/course/{id}/manage/recommend/pick/{filter}
-    defaults: { _controller: AppBundle:OpenCourseManage:pick,filter:'openCourse'}
-
-open_course_manage_recommend_course_delete:
-    path: /open/course/{id}/manage/recommend/{recommendId}/delete
-    defaults: { _controller: AppBundle:OpenCourseManage:deleteRecommendCourse}
-    methods: [POST]
-
-open_course_manage_lesson_replays_edit:
-    path:  /open/course/{courseId}/manage/lesson/{lessonId}/replays/edit
-    defaults: { _controller: AppBundle:LiveOpenCourse:editLessonReplay }
-
-open_course_manage_replay_title_update:
-    path:  /open/course/{courseId}/manage/lesson/{lessonId}/replay/{replayId}/update
-    defaults: { _controller: AppBundle:LiveOpenCourse:updateReplayTitle }
-    methods: [POST]
-
-open_course_manage_student_export_csv:
-    path:  /open/course/{id}/manage/student/export
-    defaults: { _controller: AppBundle:OpenCourseManage:studentsExport }
-
-open_course_manage_student_export_datas:
-    path:  /open/course/{id}/manage/student/export/datas
-    defaults: { _controller: AppBundle:OpenCourseManage:studentsExportDatas }
-
-open_course_manage_material:
-    path:  /open/course/{courseId}/manage/lesson/{lessonId}/material
-    defaults: { _controller: AppBundle:OpenCourseLessonManage:materialModal }
-
-open_course_manage_material_upload:
-    path:  /open/course/{courseId}/manage/lesson/{lessonId}/material/upload
-    defaults: { _controller: AppBundle:OpenCourseLessonManage:materialUpload }
-    methods: [POST]
-
-open_course_manage_material_delete:
-    path:  /open/course/{courseId}/manage/material/{materialId}/delete
-    defaults: { _controller: AppBundle:OpenCourseLessonManage:materialDelete }
-    methods: [POST]
-
-open_course_material_download:
-    path:  /open/course/{courseId}/material/{materialId}/download
-    defaults: { _controller: AppBundle:OpenCourse:materialDownload }
-
-open_course_manage_material_browser:
-    path:  /open/course/{courseId}/manage/material/browser
-    defaults: { _controller: AppBundle:OpenCourseLessonManage:materialBrowser }
-
-open_course_course_search:
-    path: /open/course/{id}/recommended/search/{filter}
-    defaults: { _controller: AppBundle:OpenCourseManage:search}
-
-open_course_recommended_course_select:
-    path: /open/course/{id}/recommended/select
-    defaults: { _controller: AppBundle:OpenCourseManage:recommendedCoursesSelect}
-
-open_course_show:
-    path:  /open/course/{courseId}
-    defaults: { _controller: AppBundle:OpenCourse:show, lessonId:null }
-
-open_course_lesson_learn:
-    path:  /open/course/{courseId}/lesson/{lessonId}/learn
-    defaults: { _controller: AppBundle:OpenCourse:show, lessonId:null }
-
-open_course_lesson_show:
-    path:  /open/course/{courseId}/lesson/{lessonId}/show
-    defaults: { _controller: AppBundle:OpenCourse:lessonShow }
-
-open_course_favorite:
-    path: /open/course/{id}/favorite
-    defaults: { _controller: AppBundle:OpenCourse:favorite }
-    methods: [POST]
-
-open_course_unfavorite:
-    path: /open/course/{id}/unfavorite
-    defaults: { _controller: AppBundle:OpenCourse:unfavorite }
-    methods: [POST]
-
-open_course_like:
-    path: /open/course/{id}/like
-    defaults: { _controller: AppBundle:OpenCourse:like }
-    methods: [POST]
-
-open_course_unlike:
-    path: /open/course/{id}/unlike
-    defaults: { _controller: AppBundle:OpenCourse:unlike }
-    methods: [POST]
-
-open_course_post:
-    path:  /open/course/{id}/post
-    defaults: { _controller: AppBundle:OpenCourse:post }
-
-open_course_post_reply:
-    path:  /open/course/{id}/post/{postId}
-    defaults: { _controller: AppBundle:OpenCourse:postReply }
-    methods: [POST]
-
-live_open_course_play:
-    path:  /open/course/{courseId}/lesson/{lessonId}/live_entry
-    defaults: { _controller: AppBundle:LiveOpenCourse:entry }
-
-live_open_course_manage_replay:
-    path:  /open/course/{id}/manage/replay
-    defaults: { _controller: AppBundle:LiveOpenCourse:replayManage }
-
-live_open_course_lesson_replay_create:
-    path:  /open/course/{courseId}/lesson/{lessonId}/live/replay/create
-    defaults: { _controller: AppBundle:LiveOpenCourse:createLessonReplay }
-
-live_open_course_lesson_replay_upload:
-    path:  /open/course/{courseId}/lesson/{lessonId}/replay/upload
-    defaults: { _controller: AppBundle:LiveOpenCourse:uploadModal }
-
-live_open_course_live_replay_entry:
-    path: /open/course/{courseId}/lesson/{lessonId}/live/replay/{replayId}/entry
-    defaults: { _controller: AppBundle:LiveOpenCourse:entryReplay }
-
-live_open_course_live_replay_url:
-    path: /open/course/{courseId}/lesson/{lessonId}/live/replay/{replayId}/url
-    defaults: { _controller: AppBundle:LiveOpenCourse:getReplayUrl }
-
-live_open_lesson_time_check:
-    path:  /open/course/{courseId}/manage/live/time/check
-    defaults: { _controller: AppBundle:OpenCourseManage:lessonTimeCheck }
-
-es_live_room_replay_show:
-    path:  /es_live/{targetType}/{targetId}/lesson/{lessonId}/replay/{replayId}/show
-    defaults: { _controller: AppBundle:Liveroom:playESLiveReplay }
-
-open_course_member_sms:
-    path:  /open/course/{id}/member/sms
-    defaults: { _controller: AppBundle:OpenCourse:memberSms }
-
-open_course_member_create:
-    path:  /open/course/{id}/member/create
-    defaults: { _controller: AppBundle:OpenCourse:createMember }
-
-open_course_lesson_player:
-    path:  /open/course/{courseId}/lesson/{lessonId}/player
-    defaults: { _controller: AppBundle:OpenCourse:player }
-
-open_course_mobile_check:
-    path:  /open/course/{courseId}/mobile/check
-    defaults: { _controller: AppBundle:OpenCourse:mobileCheck }
-
-open_course_ad_modal_recommend_course:
-    path: /open/course/{id}/ad-modal/recommend/course
-    defaults: { _controller: AppBundle:OpenCourse:adModalRecommendCourse}
-    methods: [GET]
 
 importer_check:
     path: /importer/{type}/check
@@ -1693,14 +992,6 @@ task_live_replay_player:
   defaults: {_controller: AppBundle:Activity/Live:liveReplay }
 
 
-
-# task_liveroom_ticket:
-#     path: /course/{courseId}/activity/{activityId}/liveroom/{roomId}/ticket
-#     defaults: {_controller:  AppBundle:Liveroom:ticket}
-
-task_live_trigger:
-    path: /course/{courseId}/activity/{activityId}/live_trigger
-    defaults: {_controller:  AppBundle:Activity/Live:trigger}
 
 #task_plugin
 course_task_note_save:
@@ -1990,48 +1281,10 @@ my_classrooms:
     path: /my/classrooms
     defaults: { _controller: AppBundle:My/Classroom:classroom }
 
-my_classroom_discussions:
-    path: /my/classroom/discussions
-    defaults: { _controller: AppBundle:My/Classroom:classroomDiscussions }
-
 my_questions:
     path: /my/questions
     defaults: { _controller: AppBundle:My/Thread:questions }
 
-my_discussions:
-    path: /my/discussions
-    defaults: { _controller: AppBundle:My/Thread:discussions }
-
-my_notebooks:
-    path: /my/notebooks
-    defaults: { _controller: AppBundle:My/Notebook:index }
-
-my_notebook_show:
-    path: /my/notebook/{courseId}
-    defaults: { _controller: AppBundle:My/Notebook:show }
-
-my_note_delete:
-    path: /my/note/{id}/delete
-    defaults: { _controller: AppBundle:My/Notebook:delete }
-    methods: [POST]
-
-my_group_member_center:
-    path:  /my/group
-    defaults: { _controller: AppBundle:My/Group:memberCenter }
-
-my_group_member_join:
-    path:  /my/group/join
-    defaults: { _controller: AppBundle:My/Group:memberJoin}
-
-my_group_member_threads:
-    path:  /my/group/threads
-    defaults: { _controller: AppBundle:My/Group:memberThreads}
-my_group_member_posts:
-    path:  /my/group/posts
-    defaults: { _controller: AppBundle:My/Group:memberPosts}
-my_group_thread_collecting:
-    path:  /my/group/collecting
-    defaults: { _controller: AppBundle:My/Group:collecting }
 
 #course_set
 course_set_manage_create:
@@ -2382,97 +1635,9 @@ testpaper_do_suspend:
   defaults: { _controller: AppBundle:Testpaper/Testpaper:testSuspend }
   methods: [POST]
 
-#homework
-course_manage_homework:
-  path: /course/{courseId}/manage/homework
-  defaults: { _controller: AppBundle:HomeworkManage:index }
 
-course_set_manage_homework_question_picker:
-  path: /course_set/{id}/manage/homework/question/picker
-  defaults: { _controller: AppBundle:HomeworkManage:questionPicker }
 
-course_set_manage_homework_question_picked:
-  path:  /course_set/{courseSetId}/manage/homework/question/picked
-  defaults: { _controller: AppBundle:HomeworkManage:pickedQuestion }
 
-course_manage_homework_check_list:
-  path: /course/{id}/manage/homework/check
-  defaults: { _controller: AppBundle:Course/HomeworkManage:checkList }
-
-course_manage_homework_check:
-  path: /course/{id}/manage/homework/{resultId}/check
-  defaults: { _controller: AppBundle:Course/HomeworkManage:check }
-
-homework_start_do:
-  path: /lesson/{lessonId}/homework/{homeworkId}/startDo
-  defaults: { _controller: AppBundle:Homework:startDo }
-
-homework_show:
-  path: /homework/{resultId}/show
-  defaults: { _controller: AppBundle:Homework:doTest }
-
-homework_result_show:
-  path: /homework/result/{resultId}/show
-  defaults: { _controller: AppBundle:Homework:showResult }
-
-homework_finish:
-  path: /homework/result/{resultId}/finish
-  defaults: { _controller: AppBundle:Homework:submit }
-  methods: [POST]
-
-#exercise
-#todo 与homework_check合并
-course_manage_exercise_check:
-  path:  /course/{courseId}/manage/exercise/check
-  defaults: { _controller: AppBundle:ExerciseManage:buildCheck }
-
-exercise_start_do:
-  path: /lesson/{lessonId}/exercise/{exerciseId}/startDo
-  defaults: { _controller: AppBundle:Exercise:startDo }
-
-exercise_show:
-  path: /exercise/{resultId}/show
-  defaults: { _controller: AppBundle:Exercise:doTest }
-
-exercise_result_show:
-  path: /exercise/result/{resultId}/show
-  defaults: { _controller: AppBundle:Exercise:showResult }
-
-exercise_finish:
-  path: /exercise/result/{resultId}/finish
-  defaults: { _controller: AppBundle:Exercise:submit }
-  methods: [POST]
-
-#attachment
-attachment_upload:
-  path: /attachment/upload
-  defaults: { _controller: AppBundle:File/Attachment:upload }
-  methods: [GET]
-
-attachment_item_show:
-  path: /attachment/file/{fileId}/show
-  defaults: { _controller: AppBundle:File/Attachment:fileShow }
-  methods: [GET]
-
-attachment_delete:
-  path: /attachment/{id}/delete
-  defaults: { _controller: AppBundle:File/Attachment:delete }
-  methods: [POST]
-
-attachment_preview:
-  path: /attachment/{id}/preview
-  defaults: { _controller: AppBundle:File/Attachment:preview }
-  methods: [GET]
-
-attachment_player:
-  path: /attachment/{id}/player
-  defaults: { _controller: AppBundle:File/Attachment:player }
-  methods: [GET]
-
-attachment_download:
-  path: /attachment/{id}/download
-  defaults: { _controller: AppBundle:File/Attachment:download }
-  methods: [GET]
 
 #classroom
 
@@ -2668,14 +1833,7 @@ classroom_introductions:
     path:  /classroom/{id}/introduction
     defaults: { _controller: AppBundle:Classroom/Classroom:introduction }
 
-# classroom_review_create:
-#     path:  /classroom/{id}/review/create
-#     defaults: { _controller: AppBundle:Classroom/Classroom:create }
 
-classroom_buy:
-    path: /classroom/{id}/buy
-    defaults: { _controller: AppBundle:Classroom/ClassroomBuy:buy }
-    methods: [POST]
 
 classroom_sign:
     path:  classroom/sign/{classroomId}
@@ -2700,36 +1858,7 @@ classroom_canview:
 classroom_courses:
     path: /classroom/{classroomId}/courses
     defaults: { _controller: AppBundle:Classroom/Course:list }
-#
-# 讨论区
-#
-classroom_threads:
-    path: /classroom/{classroomId}/threads
-    defaults: { _controller: AppBundle:Classroom/ClassroomThread:list }
 
-classroom_thread_create:
-    path: /classroom/{classroomId}/thread/{type}/create
-    defaults: { _controller: AppBundle:Classroom/ClassroomThread:create, type:'discussion' }
-
-classroom_thread_show:
-    path: /classroom/{classroomId}/thread/{threadId}
-    defaults: { _controller: AppBundle:Classroom/ClassroomThread:show }
-
-classroom_thread_update:
-    path: /classroom/{classroomId}/thread/{threadId}/update
-    defaults: { _controller: AppBundle:Classroom/ClassroomThread:update }
-
-classroom_vip_buy:
-    path: /classroom/{id}/vip_buy
-    defaults: { _controller: AppBundle:Classroom/Classroom:becomeStudent }
-
-classroom_thread_members_become:
-    path: /classroom/{classroomId}/thread/{threadId}/members/become
-    defaults: { _controller: AppBundle:Classroom/ThreadMember:become }
-
-classroom_thread_members_quit:
-    path: /classroom/{classroomId}/thread/{threadId}/member/{memberId}/quit
-    defaults: { _controller: AppBundle:Classroom/ThreadMember:quit }
 
 classroom_headteacher_match:
     path: /classroom/{classroomId}/headteacher/match
@@ -2771,140 +1900,6 @@ classrom_course_tasks_list:
     path: /classroom/{classroomId}/course/{courseId}/tasks/list
     defaults: { _controller: AppBundle:Classroom/CourseTask:list }
 
-#material_lib
-material_lib_browsing:
-  path: /material/lib/browse
-  defaults: { _controller: AppBundle:MaterialLib/MaterialLib:index}
-
-material_lib_show_browsing:
-  path: /material/lib/show/browse
-  defaults: { _controller: AppBundle:MaterialLib/MaterialLib:showMyMaterialLibForm}
-
-material_lib_my_sharing:
-  path: /material/lib/my/sharing/show
-  defaults: { _controller: AppBundle:MaterialLib/MaterialLib:showShareForm }
-
-material_lib_my_sharing_detail:
-  path: /material/lib/my/sharing_detail/show
-  defaults: { _controller: AppBundle:MaterialLib/MaterialLib:historyDetailShow }
-
-material_lib_my_sharing_users:
-  path: /material/lib/my/sharing_users/show
-  defaults: { _controller: AppBundle:MaterialLib/MaterialLib:historyUserShow }
-
-material_lib_my_sharing_contacts:
-  path: /material/lib/recent/contacts
-  defaults: { _controller: AppBundle:MaterialLib/MaterialLib:findMySharingContacts }
-
-material_lib_save_sharing:
-  path: /material/lib/my/sharing/save
-  defaults: { _controller: AppBundle:MaterialLib/MaterialLib:saveShare }
-
-material_tag_show_match:
-  path: /material/lib/tag/match
-  defaults: { _controller: AppBundle:MaterialLib/MaterialLib:match }
-
-material_lib_show_sharing_history:
-  path: /material/lib/my/sharing/history
-  defaults: { _controller: AppBundle:MaterialLib/MaterialLib:showShareHistory }
-
-material_lib_cancel_sharing:
-  path: /material/lib/my/sharing/cancel
-  defaults: { _controller: AppBundle:MaterialLib/MaterialLib:cancelShare }
-
-material_lib_save_collection:
-  path: /material/lib/my/collection/save
-  defaults: { _controller: AppBundle:MaterialLib/MaterialLib:collect }
-
-material_lib_file_preview:
-  path:  /material/lib/file/{fileId}/preview
-  defaults: { _controller: AppBundle:MaterialLib/MaterialLib:preview }
-
-material_edit:
-  path:  /materiallib/{fileId}/edit
-  defaults: { _controller: AppBundle:MaterialLib/MaterialLib:edit }
-  methods: [POST]
-
-material_lib_file_player:
-  path:  /material/lib/{fileId}/player
-  defaults: { _controller: AppBundle:MaterialLib/MaterialLib:player }
-
-material_reconvert:
-  path:  /material/lib/{globalId}/reconvert
-  defaults: { _controller: AppBundle:MaterialLib/MaterialLib:reconvert }
-
-app_download:
-    path: /app/download
-    defaults: { _controller: AppBundle:Default:appDownload }
-
-announcement_global_show:
-    path:  /announcement/{id}/opreate/global/show
-    defaults: { _controller: AppBundle:Announcement:globalShow }
-
-material_thumbnail_generate:
-  path:  /material/lib/{globalId}/thumbnail/generate
-  defaults: { _controller: AppBundle:MaterialLib/MaterialLib:generateThumbnail }
-
-material_lib_file_detail:
-  path:  /material/lib/{fileId}/detail
-  defaults: { _controller: AppBundle:MaterialLib/MaterialLib:detail }
-
-material_download:
-  path:  /materiallib/{fileId}/download
-  defaults: { _controller: AppBundle:MaterialLib/MaterialLib:download }
-
-material_delete:
-  path:  /materiallib/{fileId}/delete
-  defaults: { _controller: AppBundle:MaterialLib/MaterialLib:delete }
-  methods: [POST]
-
-material_batch_delete:
-  path: /materials/batch/delete
-  defaults: { _controller: AppBundle:MaterialLib/MaterialLib:batchDelete }
-  methods: [POST]
-
-material_delete_modal_show:
-  path: /materials/delete/show
-  defaults: { _controller: AppBundle:MaterialLib/MaterialLib:deleteModalShow }
-  methods: [POST]
-
-material_batch_share:
-  path: /materials/batch/share
-  defaults: { _controller: AppBundle:MaterialLib/MaterialLib:batchShare }
-  methods: [POST]
-
-material_unshare:
-  path: /materiallib/{fileId}/unshare
-  defaults: { _controller: AppBundle:MaterialLib/MaterialLib:unshare }
-
-material_batch_tag_show:
-  path: /materials/batch/tag/show
-  defaults: { _controller: AppBundle:MaterialLib/MaterialLib:batchTagShow }
-
-global_file_document_player:
-  path: /global_file/{globalId}/player
-  defaults: { _controller: AppBundle:MaterialLib/GlobalFilePlayer:globalDocumentPlayer }
-
-global_file_hls_playlist:
-  path:  /global_file/{globalId}/playlist/{token}.m3u8
-  defaults: { _controller: AppBundle:MaterialLib/GlobalFilePlayer:playlist }
-
-global_file_hls_stream:
-  path:  /global_file/{globalId}/stream/{level}/{token}.m3u8
-  defaults: { _controller: AppBundle:MaterialLib/GlobalFilePlayer:stream }
-
-global_file_hls_clef:
-  path:  /global_file/{globalId}/clef/{token}
-  defaults: { _controller: AppBundle:MaterialLib/GlobalFilePlayer:clef }
-
-
-global_file_document:
-  path:  /global_file/{globalId}/document
-  defaults: { _controller: AppBundle:MaterialLib/GlobalFilePlayer:document }
-
-material_lib_choose:
-  path: /material/lib/choose
-  defaults: { _controller: AppBundle:MaterialLib/MaterialLib:materialChoose }
 
 #org
 switch_org:
@@ -2918,9 +1913,7 @@ org_tree:
 
 #todo:只为展示页面
 
-coupon_check:
-    path: /coupon/check
-    defaults: { _controller: AppBundle:Order/Order:couponCheck }
+
 
 my_course_show:
     path:  /my/course/{id}/{tab}
@@ -2931,18 +1924,7 @@ course_member_expired:
     path:  /course/{id}/member/expired
     defaults: { _controller: AppBundle:Course/Course:memberExpired }
 
-course_member_deadline_reach:
-    path:  /course/{id}/member/deadline/reach
-    defaults: { _controller: AppBundle:Course/Course:deadlineReach }
 
-course_buy:
-    path: /course/{id}/buy
-    defaults: { _controller: AppBundle:Course/CourseBuy:buy }
-    methods: [POST]
-
-course_order_repay:
-    path:  /course/order/repay
-    defaults: { _controller: AppBundle:Course/CourseOrder:repay }
 
 # last route
 course_show:
@@ -2966,289 +1948,19 @@ course_set_archive_task:
   path: /archive/course/{courseSetId}/lesson/{taskId} # 学习引擎2.0版本前该页面有SEO
   defaults: { _controller: AppBundle:Course/CourseSet:archiveTask }
 
-#更新日志列表
-changelog_list:
-    path: /changelog/list
-    defaults: { _controller: AppBundle:Changelog:list }
-
-
-#弹题
-course_task_marker_manage:
-    path:  /course/{courseId}/task/{taskId}/marker/manage
-    defaults: { _controller: AppBundle:Marker:manage }
-
-course_task_marker_manage_preview:
-    path:  /course/{courseId}/task/{taskId}/marker/preview
-    defaults: { _controller: AppBundle:Marker:preview }
-
-course_task_marker_show:
-    path:  /course/task/{taskId}/marker/show
-    defaults: { _controller: AppBundle:Marker:showMarkers }
-
-course_task_marker_metas:
-    path:  /course/task/{mediaId}/marker/metas
-    defaults: { _controller: AppBundle:Marker:markerMetas }
-
-course_task_marker_merge:
-    path:  /course/{courseId}/task/{taskId}/marker/merge
-    defaults: { _controller: AppBundle:Marker:merge }
-    methods: [POST]
-
-course_task_marker_update:
-    path:  /course/{courseId}/task/{taskId}/marker/update
-    defaults: { _controller: AppBundle:Marker:updateMarker }
-    methods: [POST]
-
-course_question_marker_preview:
-    path: /course/{courseId}/question/{id}/marker/preview
-    defaults: { _controller: AppBundle:QuestionMarker:questionMakerPreview }
-
-course_task_question_markers_show:
-    path:  /course/task/media/{mediaId}/question_markers/show
-    defaults: { _controller: AppBundle:QuestionMarker:showQuestionMakers }
-
-course_task_question_marker_finish:
-    path:  /course/task/media/question_marker/finish
-    defaults: { _controller: AppBundle:QuestionMarker:finishQuestionMarker }
-    methods: [POST]
-
-course_task_question_marker_add:
-    path:  /course/{courseId}/task/{taskId}/question_marker/add
-    defaults: { _controller: AppBundle:QuestionMarker:addQuestionMarker }
-    methods: [POST]
-
-course_task_question_marker_delete:
-    path:  /course/{courseId}/task/{taskId}/question_marker/delete
-    defaults: { _controller: AppBundle:QuestionMarker:deleteQuestionMarker }
-    methods: [POST]
-
-course_task_question_marker_sort:
-    path:  /course/{courseId}/task/{taskId}/question_marker/sort
-    defaults: { _controller: AppBundle:QuestionMarker:sortQuestionMarker }
-    methods: [POST]
-
-course_task_question_marker_list:
-    path:  /course/{courseId}/task/{taskId}/question_marker/list
-    defaults: { _controller: AppBundle:QuestionMarker:question }
-
-course_task_question_marker_search:
-    path:  /course/{courseId}/task/{taskId}/question_marker/search
-    defaults: { _controller: AppBundle:QuestionMarker:search }
-
-callback:
-    path:  /callback/{type}
-    defaults: { _controller: AppBundle:Callback/Endpoint:publish }
-
-mobile_qrcode:
-    path:  /mobil/qrcode
-    defaults: { _controller: AppBundle:Common:mobileQrcode }
-
-event_dispatch:
-    path: /event/dispatch
-    defaults: { _controller: AppBundle:Event:dispatch }
-    methods: [POST]
-
-_oauth2_token:
-    path: /login/oauth/access_token
-    defaults: { _controller: AppBundle:OAuth2/Token:token }
-    methods: [POST]
-marketing_user_login:
-    path: /marketing/user/login
-    defaults: { _controller: AppBundle:MarketingUser:login }
-
-user_login_marketing:
-    path: /marketing/user/login
-    defaults: { _controller: AppBundle:MarketingUser:login }
-
-export:
-    path: /export/{name}/{type}
-    defaults: { _controller: AppBundle:Export/Export:export, type: 'csv' }
-
 online_sample:
-    path: /online/sample
-    defaults: { _controller: AppBundle:Online:sample}
-
-pre_export:
-    path: /pre/export/{name}
-    defaults: { _controller: AppBundle:Export/Export:preExport }
-
-try_export:
-    path: /try/export/{name}/{limit}
-    defaults: { _controller: AppBundle:Export/Export:tryExport, limit: '' }
-
-member_operation_record:
-    path: /member/{operatType}/record/{targetType}/{targetId}
-    defaults: { _controller: AppBundle:MemberOperationRecord:showRecord }
-
-order_calculate_price:
-    path: /order/price/calculate
-    defaults: { _controller: AppBundle:Order/Order:price, limit: '' }
-
-course_sort:
-    path: /courseset/{courseSetId}/sort
-    defaults: { _controller: AppBundle:Course/CourseSetManage:courseSort, limit: '' }
-    methods: [POST]
-
-client_time_check:
-    path: /client_time_check
-    defaults: { _controller: AppBundle:Default:clientTimeCheck }
-    methods: [POST]
-
-drag_captcha:
-    path:     /drag_captcha/{token}
-    defaults: { _controller: AppBundle:Common:dragCaptcha }
-
-# ForCustomOnly start
-scratch_show:
-    path: /scratch/project/{projectId}
-    defaults: { _controller: AppBundle:Scratch:show }
-
-scratch_locale:
-    path: /scratch/project/locale/{filename}
-    defaults: { _controller: AppBundle:Scratch:locale }
-
-scratch_upload:
-    path: /scratch/upload
-    defaults: { _controller: AppBundle:Scratch:save }
-    methods: [POST]
-
-scratch_share:
-    path: /scratch/share/{projectId}
-    defaults: { _controller: AppBundle:Scratch:share }
-    methods: [POST]
-
-scratch_share_confirm:
-    path: /scratch/share_confirm/{projectId}
-    defaults: { _controller: AppBundle:Scratch:shareMsgConfirm }
-    methods: [POST]
-
-scratch_work_show:
-    path: /scratch_share/project/{projectId}
-    defaults: { _controller: AppBundle:Scratch:workShare }
-
-scratch_work_share_info:
-    path: /scratch_share/share_info/{shareId}
-    defaults: { _controller: AppBundle:Scratch:workShareInfo }
-
-scratch_work_like:
-    path: /scratch_share/like/{shareId}
-    defaults: { _controller: AppBundle:Scratch:like }
-    methods: [POST]
-
-scratch_share_log:
-    path: /scratch_share/shareLog/{projectId}
-    defaults: { _controller: AppBundle:Scratch:shareLog }
-    methods: [POST]
-
-scratch_material_explore:
-  path: /scratch/material/explore
-  defaults: { _controller: AppBundle:Scratch:explore }
-
-scratch_material_ajax:
-  path: /my/scratch/material/ajax
-  defaults: { _controller: AppBundle:Scratch:myMaterialAjax }
-
-scratch_material_exchange:
-  path: /scratch/material/{materialId}/exchange
-  defaults: { _controller: AppBundle:Scratch:exchange }
-  methods: [POST]
-
-leave_message_commit:
-  path: /leave_message/commit
-  defaults: { _controller: AppBundle:LeaveMessage:commit }
-  methods: [POST]
-
-user_scratch_material:
-  path: /user/{id}/scratch_material
-  defaults: { _controller: AppBundle:Scratch:myMaterial }
-
-course_coding_activity_auto_save:
-  path: /course/{courseId}/activity/{activityId}/coding/auto_save
-  defaults: { _controller: AppBundle:Activity/Coding:autoSave }
-  methods: [POST]
-
-course_coding_activity_do:
-  path: /course/{courseId}/activity/{activityId}/coding/do
-  defaults: { _controller: AppBundle:Activity/Coding:doCoding }
-
-course_manage_coding_check_list:
-  path: /course/{id}/manage/coding/check
-  defaults: { _controller: AppBundle:Scratch:checkList }
-
-course_manage_coding_check_detail:
-  path: /course/{courseId}/manage/coding/check/{activityId}
-  defaults: { _controller: AppBundle:Scratch:checkDetail }
-
-scratch_work_info:
-  path: /scratch/work/{projectId}/Record
-  defaults: { _controller: AppBundle:Scratch:workRecord }
-
-scratch_cover_crop:
-  path: /scratch/work/coverCrop
-  defaults: { _controller: AppBundle:Scratch:coverCrop }
-
-scratch_create_work:
-  path: /scratch/work/create
-  defaults: { _controller: AppBundle:Scratch:createWork }
-
-user_scratch_work:
-  path: /user/{id}/scratch_work
-  defaults: { _controller: AppBundle:Scratch:myWork }
-
-scratch_my_work:
-  path: /scratch/work/{id}
-  defaults: { _controller: AppBundle:Scratch:workShow }
-
-scratch_my_work_detail:
-  path: /scratch/work/{id}/detail
-  defaults: { _controller: AppBundle:Scratch:workDetail }
-
-scratch_my_work_like:
-  path: /scratch/work/{id}/like
-  defaults: { _controller: AppBundle:Scratch:workLike }
-
-scratch_work_explore:
-  path: /scratch/work_explore
-  defaults: { _controller: AppBundle:Scratch:workExplore }
-
-classroom_create:
-    path:  /create/classroom
-    defaults: { _controller: AppBundle:Classroom/Classroom:addClassroom }
-
-python_work_show:
-  path: /python/work/show
-  defaults: { _controller: AppBundle:PythonEditor:index }
-
-python_work_save_modal:
-  path: /python/work/save_modal
-  defaults: { _controller: AppBundle:PythonEditor:saveModal }
-
-python_work_save:
-  path: /python/work/save
-  defaults: { _controller: AppBundle:PythonEditor:save }
-  methods: [POST]
-
-user_python_work:
-  path: /user/{id}/python_work
-  defaults: { _controller: AppBundle:PythonEditor:myWork }
-
-python_work_like:
-  path: /python/work/{id}/like
-  defaults: { _controller: AppBundle:PythonEditor:workLike }
-
-python_work_publish:
-  path: /python/work/{id}/publish
-  defaults: { _controller: AppBundle:PythonEditor:workPublish }
-
-python_work_delete:
-  path: /python/work/{id}/delete
-  defaults: { _controller: AppBundle:PythonEditor:workDelete }
-
-custom_page_show:
-    path: /education/{alias}
-    defaults: {_controller: AppBundle:Content:educationalPageShow }
-# ForCustomOnly end
+  path: /online/sample
+  defaults: { _controller: AppBundle:Online:sample}
 
 lesson_testpaper_result:
   path: /{activityId}/testpaper/result
   defaults: { _controller: AppBundle:Testpaper/Manage:activityResultList }
+
+cloud_testpaper_watermark:
+  path: /cloud/testpaper_watermark
+  defaults: {_controller: AppBundle:Cloud:testpaperWatermark }
+
+event_dispatch:
+  path: /event/dispatch
+  defaults: { _controller: AppBundle:Event:dispatch }
+  methods: [POST]

@@ -17,6 +17,6 @@
         {{ question.stem|bbCode2Html|raw|nl2br }}
       {% endif %}
     	
-      {% include 'attachment/widget/list.html.twig' with {targetType:'question.stem', targetId:question.id|default(null)  } %}
+      {# {% include 'attachment/widget/list.html.twig' with {targetType:'question.stem', targetId:question.id|default(null)  } %} #}
     </div>
 </div>

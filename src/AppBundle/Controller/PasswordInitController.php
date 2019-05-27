@@ -23,6 +23,6 @@ class PasswordInitController extends BaseController
             return $this->redirect($formData['goto']);
         }
 
-        return $this->render('init-password/init-password.html.twig');
+        return $this->redirect($this->generateUrl('homepage'));
     }
 }

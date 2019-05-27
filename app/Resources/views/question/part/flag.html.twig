@@ -1,7 +1,7 @@
 {% set favorites = favorites|default([]) %}
 {% set resultStatus = resultStatus|default(null) %}
 
-{% if 'mark' in flags and resultStatus == 'doing'   %}
+{# {% if 'mark' in flags and resultStatus == 'doing'   %}
   <a class="link-gray js-marking">
     <i class="glyphicon glyphicon-bookmark mr5"></i>{{'course.question_manage.question.mark_btn'|trans}}
   </a>
@@ -19,7 +19,7 @@
     <span class="glyphicon glyphicon-star"></span>
     {{'course.question_manage.question.cancel_favorite_btn'|trans}}
   </a>
-{% endif %}
+{% endif %} #}
 
 {% if 'analysis' in flags %}
   {% if not question.analysis == '' %}
