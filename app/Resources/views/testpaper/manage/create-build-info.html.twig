@@ -1,4 +1,4 @@
-<div class="form-group">
+<div class="form-group hidden">
   <div class="col-md-2 control-label">
     <label for="testpaper-percentage-field">{{'course.testpaper_manage.create.build_mode'|trans}}</label>
   </div>
@@ -22,7 +22,7 @@
   </div>
 </div>
 
-<div class="form-group">
+<div class="form-group hidden">
   <div class="col-md-2 control-label"><label for="testpaper-range-field">{{'course.testpaper_manage.create.range'|trans}}</label></div>
   <div class="col-md-8 controls">
     {#{{ radios('range', {'course':'整个课程'|trans, 'lesson':'按任务范围'|trans}, 'course') }}
@@ -42,17 +42,17 @@
       </select>
     </div>#}
     <select class="form-control width-150" name="ranges[courseId]" data-url="{{ path('course_set_manage_show_tasks',{courseSetId:courseSet.id})}}" data-check-num-url="{{ path('course_set_manage_question_check_num',{courseSetId:courseSet.id}) }}">
-      <option value="0" {% if not range.courseId|default(0) %}selected{% endif %}>{{'course.testpaper_manage.create.range.course'|trans}}</option>
+      <option value="0">{{'course.testpaper_manage.create.range.course'|trans}}</option>
       {% for course in courses if course %}
-        <option value="{{ course.id }}" {% if range.courseId|default(0) == course.id %}selected{% endif %}>{{ get_course_title(course) }}</option>
+        <option value="{{ course.id }}" selected>{{ get_course_title(course) }}</option>
       {% endfor %}
     </select>
-    <select class="form-control width-150" {% if not showTasks|default(null) %}style="display:none;"{% endif %} name="ranges[lessonId]" data-check-num-url="{{ path('course_set_manage_question_check_num',{courseSetId:courseSet.id}) }}">
-      <option value="0" {% if not range.lessonId|default(0) %}selected{% endif %}>{{'course.testpaper_manage.create.range.choose'|trans}}</option>
+    {# <select class="form-control width-150" {% if not showTasks|default(null) %}style="display:none;"{% endif %} name="ranges[lessonId]" data-check-num-url="{{ path('course_set_manage_question_check_num',{courseSetId:courseSet.id}) }}">
+      <option value="0">{{'course.testpaper_manage.create.range.choose'|trans}}</option>
       {% for task in showTasks|default([]) if task %}
-        <option value="{{ task.id }}" {% if range.lessonId|default(0) == task.id %}selected{% endif %}>{{ task.title }}</option>
+        <option value="{{ task.id }}" selected>{{ task.title }}</option>
       {% endfor %}
-    </select>
+    </select> #}
   </div>
 </div>
 
@@ -62,7 +62,7 @@
   <ul class="col-md-10 controls" id="testpaper-question-options">
     {% for type,config in types %}
       <li class="testpaper-question-option-item">
-        <button type="button" class="btn btn-link question-type-sort-handler"><span class="glyphicon glyphicon-move"></span></button>
+        {# <button type="button" class="btn btn-link question-type-sort-handler"><span class="glyphicon glyphicon-move"></span></button> #}
         <span style="min-width:85px;display:inline-block;_display:inline;">{{ config.name|trans }}</span>
         <span class="mlm">{{'course.testpaper_manage.create.questions_setup.number'|trans}}:</span>
         <input type="text" class="form-control width-input width-input-mini item-number" name="counts[{{ type }}]" data-role="count"  value="0" {% if questionNums[type].questionNum|default(0) == 0  %} disabled {% endif %} />/

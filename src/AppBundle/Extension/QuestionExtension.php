@@ -57,19 +57,6 @@ class QuestionExtension extends Extension implements ServiceProviderInterface
                 ),
                 'hasMissScore' => 0,
             ),
-            'uncertain_choice' => array(
-                'name' => 'question.type.uncertain_choice',
-                'actions' => array(
-                    'create' => 'AppBundle:Question/UncertainChoiceQuesiton:create',
-                    'edit' => 'AppBundle:Question/UncertainChoiceQuesiton:edit',
-                    'show' => 'AppBundle:Question/UncertainChoiceQuesiton:show',
-                ),
-                'templates' => array(
-                    'do' => 'question/uncertain-choice-do.html.twig',
-                    'analysis' => 'question/analysis/uncertain_choice.html.twig',
-                ),
-                'hasMissScore' => 1,
-            ),
             'determine' => array(
                 'name' => 'question.type.determine',
                 'actions' => array(
@@ -93,19 +80,6 @@ class QuestionExtension extends Extension implements ServiceProviderInterface
                 'templates' => array(
                     'do' => 'question/fill-do.html.twig',
                     'analysis' => 'question/analysis/fill.html.twig',
-                ),
-                'hasMissScore' => 0,
-            ),
-            'material' => array(
-                'name' => 'question.type.material',
-                'actions' => array(
-                    'create' => 'AppBundle:Question/MaterialQuestion:create',
-                    'edit' => 'AppBundle:Question/MaterialQuestion:edit',
-                    'show' => 'AppBundle:Question/MaterialQuestion:show',
-                ),
-                'templates' => array(
-                    'do' => 'question/material-do.html.twig',
-                    'analysis' => 'question/analysis/material.html.twig',
                 ),
                 'hasMissScore' => 0,
             ),

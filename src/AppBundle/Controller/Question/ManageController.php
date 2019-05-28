@@ -134,7 +134,8 @@ class ManageController extends BaseController
 
         $questionConfig = $this->getQuestionConfig();
         $createController = $questionConfig[$type]['actions']['create'];
-
+        // var_dump($createController);
+        // die;
 
         return $this->forward($createController, array(
             'request' => $request,

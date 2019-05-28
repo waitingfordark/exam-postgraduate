@@ -715,13 +715,22 @@ class ManageController extends BaseController
         $typesConfig = $this->get('extension.manager')->getQuestionTypes();
 
         $types = array();
+        $excludeTypes = array(
+            'uncertain_choice',
+            'material'
+        );
         foreach ($typesConfig as $type => $typeConfig) {
+            // var_dump($type);
+            if(in_array($type, $excludeTypes)) {
+                continue;
+            }
             $types[$type] = array(
                 'name' => $typeConfig['name'],
                 'hasMissScore' => $typeConfig['hasMissScore'],
             );
         }
 
+        // die;
         return $types;
     }
 

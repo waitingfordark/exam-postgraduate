@@ -89,7 +89,7 @@ export default class Options extends Component {
           <p className={showDanger ? 'color-danger' : 'hidden'}>{ Translator.trans('course.question.right_answer_content_hint') }</p>
         </div>
         <div className="col-sm-2">
-          <a className="btn btn-default btn-sm" data-option-id={ this.props.datas.optionId }  onClick={(event)=>this.deleteOption(event)} href="javascript:;"><i className="glyphicon glyphicon-trash"></i></a>
+          <a className="btn btn-default btn-sm" data-option-id={ this.props.datas.optionId }  onClick={(event)=>this.deleteOption(event)} href="javascript:;">删除</a>
         </div>
       </div>
     );

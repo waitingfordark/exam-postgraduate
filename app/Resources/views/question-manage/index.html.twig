@@ -15,22 +15,12 @@
   <div role="courseset-manage-question">
     <div class="courseset-manage-body__title">
       <div class="courseset-manage-body__btn">
-        {{ slot('course_set.questions_import_btn.extension', {'courseSet': courseSet}) }}
+        {# {{ slot('course_set.questions_import_btn.extension', {'courseSet': courseSet}) }} #}
+        <span>添加问题：</span>
         {% for type,name in questionTypes %}
-          {% if loop.index <= 3 %}
-            <a href="{{ path('course_set_manage_question_create',{id:courseSet.id,type:type,parentId:parentId, goto:app.request.server.get('REQUEST_URI')}) }}" class="cd-btn cd-btn-info cd-btn-sm"><i class="cd-icon cd-icon-add cd-text-sm"></i>{{ name|trans }}</a>
-          {% endif %}
+            <a href="{{ path('course_set_manage_question_create',{id:courseSet.id,type:type,parentId:parentId, goto:app.request.server.get('REQUEST_URI')}) }}" class="cd-btn cd-btn-info cd-btn-sm">{{ name|trans }}</a>
         {% endfor %}
-        <div class="btn-group">
-        <a href="#" type="button" class="cd-btn cd-btn-default cd-btn-sm dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-        <ul class="dropdown-menu pull-right">
-          {% for type,name in questionTypes %}
-            {% if loop.index > 3 and ((type == 'material' and not parentQuestion) or type != 'material') %}
-              <li><a href="{{ path('course_set_manage_question_create',{id:courseSet.id,type:type,parentId:parentId, goto:app.request.server.get('REQUEST_URI')}) }}"><span class="es-icon es-icon-anonymous-iconfont"></span> {{ name|trans }}</a></li>
-            {% endif %}
-          {% endfor %}
-        </ul>
-      </div>
+        
 
       </div>
       {{'course.question_manage.content_title'|trans}}
