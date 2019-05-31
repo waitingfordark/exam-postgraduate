@@ -1,4 +1,117 @@
-// 待删
-.nav-mini > li > a {
-  padding: 1px 10px;
+.bcx-header {
+  background-color: rgba(18, 235, 217, 0.863);
+
+  .es-header {
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    background-color: rgba(18, 235, 217, 0.863);
+
+    .navbar-header {
+      .navbar-brand {
+        color: @brand-primary;
+      }
+
+      .navbar-more {
+        color: @gray-base;
+      }
+    }
+  }
+
+  .nav.navbar-nav {
+    > li {
+      > a {
+        padding: 20px 20px 20px;
+        font-size: 16px;
+        color: #fff;
+        &:hover {
+          color: @brand-primary;
+        }
+      }
+    }
+    > li.active {
+      > a {
+        color: #fff;
+        &:hover {
+          color: @brand-primary;
+        }
+      }
+    }
+  }
+
+  .nav.user-nav {
+    > li {
+      @media screen and (min-width: @screen-sm-min) {
+        .dropdown-menu {
+          width: 150px;
+          right: -50px;
+          font-size: 14px;
+        }
+      }
+    }
+  }
+
+  .navbar-user {
+    .user-nav {
+      .user-manage-li{
+        padding: 4px 0;
+        .btn-start-create {
+          border: 0;
+          font-size: 16px;
+          padding: 16px 23px !important;
+          background-color: #2B598F;
+          &:hover {
+            background-color: darken(#2B598F, 8%) !important;
+          }
+
+          &:focus {
+            background-color: @brand-danger !important;
+          }
+
+          img {
+            position: absolute;
+            top: 10%;
+            left: 8px;
+            width: 25px;
+            height: 26px;
+          }
+        }
+      }
+
+      .user-avatar-li{
+        .user-avatar-toggle{
+          padding: 8px 0;
+
+          img {
+            width: 40px;
+            height: 40px;
+          }
+        }
+      }
+
+
+      .visitor-li a{
+        color: #616161;
+
+        &:hover {
+          color: @brand-primary;
+        }
+      }
+    }
+  }
+
+  .nav-mobile {
+    background-color: #aaa;
+  }
+}
+
+.login {
+  background: url('../../img/bg-login.jpeg');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.register {
+  background: url('../../img/bg-login.jpeg');
+  background-size: cover;
+  background-repeat: no-repeat;
 }

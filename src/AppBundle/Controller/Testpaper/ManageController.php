@@ -720,7 +720,6 @@ class ManageController extends BaseController
             'material'
         );
         foreach ($typesConfig as $type => $typeConfig) {
-            // var_dump($type);
             if(in_array($type, $excludeTypes)) {
                 continue;
             }
@@ -730,7 +729,6 @@ class ManageController extends BaseController
             );
         }
 
-        // die;
         return $types;
     }
 
