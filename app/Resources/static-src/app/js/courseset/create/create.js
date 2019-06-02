@@ -1,7 +1,6 @@
 export default class Create {
   constructor($element) {
     this.$element = $element;
-    this.$courseSetType = this.$element.find('.js-courseSetType');
     this.init();
   }
 

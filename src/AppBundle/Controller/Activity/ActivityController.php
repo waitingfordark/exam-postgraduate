@@ -14,7 +14,7 @@ class ActivityController extends BaseController
         $activity = $this->getActivityService()->getActivity($task['activityId']);
 
         if (empty($activity)) {
-            throw $this->createNotFoundException('activity not found');
+            throw $this->createNotFoundException('考试不存在');
         }
         $actionConfig = $this->getActivityConfig($activity['mediaType']);
 

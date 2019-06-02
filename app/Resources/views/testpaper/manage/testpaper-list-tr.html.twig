@@ -15,13 +15,10 @@
       <div class="color-gray"><small>{{'course.testpaper_manage.passed_condition'|trans({'%passedCondition%': testpaper.passedCondition[0]|default(0) })}}</small></div>
     {% endif %} #}
   </td>
-  <td>
-    {% if testpaper.limitedTime > 0 %}{{'course.testpaper_manage.limited_time'|trans({'%limitedTime%': testpaper.limitedTime})}}{% else %}{{'course.testpaper_manage.unlimited'|trans}}{% endif %}
+  <td><span class="color-gray text-sm">{{testpaper.updatedTime | date('Y-n-d H:i:s')}}</span>
   </td>
   <td>
     {{ user.nickname }}
-    <br />
-    <span class="color-gray text-sm">{{testpaper.updatedTime | date('Y-n-d H:i:s')}}</span>
   </td>
   <td>
     <div class="btn-group">

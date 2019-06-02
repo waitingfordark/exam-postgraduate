@@ -61,7 +61,7 @@ class CourseController extends CourseBaseController
         $courseSets = ArrayToolkit::index($courseSets, 'id');
         $courseSets = $this->sortCourseSets($courseSets, $members);
 
-        $courseSets = $this->calculateCourseSetprogress($courseSets, $courses);
+        // $courseSets = $this->calculateCourseSetprogress($courseSets, $courses);
         $courseSets = $this->getClassrooms($courseSets);
 
         $learningCourses = $this->getCourseService()->findUserLearningCourses($currentUser['id'], 0, PHP_INT_MAX);
@@ -227,9 +227,6 @@ class CourseController extends CourseBaseController
 
         list($courseItems, $nextOffsetSeq) = $this->getCourseService()->findCourseItemsByPaging($course['id'], array('limit' => 10000));
 
-        // var_dump($courseItems);
-        // die;
-
         return $this->render(
             'course/tabs/tasks.html.twig',
             array(
@@ -248,31 +245,6 @@ class CourseController extends CourseBaseController
         );
     }
 
-    /**
-     * 当用户是班级学员却不在课程学员中时，将学员添加到课程学员中.
-     *
-     * @param $courseId
-     * @param $classroomId
-     */
-    protected function joinCourseMemberByClassroomId($courseId, $classroomId)
-    {
-        $classroom = $this->getClassroomService()->getClassroom($classroomId);
-        $user = $this->getCurrentUser();
-
-        $classroomMember = $this->getClassroomService()->getClassroomMember($classroom['id'], $user['id']);
-
-        if (empty($classroomMember) || !in_array('student', $classroomMember['role'])) {
-            return;
-        }
-
-        $info = array(
-            'levelId' => empty($classroomMember['levelId']) ? 0 : $classroomMember['levelId'],
-            'deadline' => $classroomMember['deadline'],
-        );
-
-        $this->getMemberService()->createMemberByClassroomJoined($courseId, $user['id'], $classroom['id'], $info);
-    }
-
     protected function sortCourseSets($courseSets, $members)
     {
         $sort = array();
@@ -289,26 +261,6 @@ class CourseController extends CourseBaseController
         }
 
         return $sort;
-    }
-
-    protected function calculateCourseSetprogress($courseSets, $courses)
-    {
-        if (empty($courseSets)) {
-            return array();
-        }
-
-        $user = $this->getCurrentUser();
-
-        foreach ($courseSets as $courseSetId => $courseSet) {
-            $currentCourses = $courses[$courseSet['id']];
-            $courseIds = ArrayToolkit::column($currentCourses, 'id');
-
-            $learnProgress = $this->getLearningDataAnalysisService()->getUserLearningProgressByCourseIds($courseIds, $user['id']);
-
-            $courseSets[$courseSetId]['percent'] = $learnProgress['percent'];
-        }
-
-        return $courseSets;
     }
 
     protected function getClassrooms($courseSets)

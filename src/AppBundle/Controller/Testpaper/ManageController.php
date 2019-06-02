@@ -156,9 +156,6 @@ class ManageController extends BaseController
     {
         $result = $this->getTestpaperService()->getTestpaperResult($resultId);
 
-        // var_dump($request->request->all());
-        // die;
-
         if (!$result) {
             throw $this->createResourceNotFoundException('testpaperResult', $resultId);
         }
@@ -179,12 +176,9 @@ class ManageController extends BaseController
         if ('POST' === $request->getMethod()) {
             $formData = $request->request->all();
             $isContinue = false;
-            // $goto = $formData['goto'];
-            // var_dump($request->request->all());
-            // die;
            
             unset($formData['isContinue']);
-            // unset($formData['goto']);
+
             $this->getTestpaperService()->checkFinish($result['id'], $formData);
 
             $data = array('success' => true, 'goto' => 'http://www.test.com/my/testpaper/check');

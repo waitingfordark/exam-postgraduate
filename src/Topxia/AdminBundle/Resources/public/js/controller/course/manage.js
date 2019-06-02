@@ -60,7 +60,7 @@ define(function (require, exports, module) {
       var part_name = $(this).data('part');
       var user_name = $(this).data('user');
       var $this = $(this);
-      if (!confirm(Translator.trans('删除课程，将删除课程的章节、课时、学员等信息。真的要删除该课程吗？')))
+      if (!confirm(Translator.trans('真的要删除该课程吗？')))
         return;
       var $tr = $this.parents('tr');
       $.post($this.data('url'), function(data) {

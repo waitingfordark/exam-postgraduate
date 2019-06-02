@@ -1,7 +1,5 @@
 {% extends 'layout.html.twig' %}
 
-{% block title %}{{ 'my.teaching.course_set.create_btn'|trans }} - {{ parent() }}{% endblock %}
-
 {% do script(['libs/jquery-validation.js','app/js/courseset/create/index.js']) %}
 
 {% block content %}
@@ -29,16 +27,16 @@
             {# {% include 'org/course-create-org-tree-select.html.twig' %} #}
             <div class="course-title form-group">
               <div class="mlm pull-left controls-label text-lg">
-                <div class="course-piece title">{{ 'my.teaching.course_set.select_type.course_title'|trans }}</div>
+                <div class="title">{{ 'my.teaching.course_set.select_type.course_title'|trans }}</div>
               </div>
               <div class="col-md-10 controls course-title-input">
-                <input type="text" id="course_title" name="title" required="required" class="form-control"
+                <input type="text" id="course_title" name="title" class="form-control"
                        data-widget-cid="widget-1" data-explain="">
               </div>
             </div>
             <div class="text-center">
               <button id="courseset-create-btn"
-                     class="cd-btn cd-btn-primary" type="submit">{{ 'form.btn.create'|trans }}</button>
+                     class="btn btn-primary" type="submit">创建</button>
               <a class="btn btn-fat btn-link link-gray course-cancel-btn" href="{{ app.request.headers.get('Referer') }}">{{ 'form.btn.cancel'|trans }}</a>
             </div>
             <input type="hidden" name="type" value="normal"/>

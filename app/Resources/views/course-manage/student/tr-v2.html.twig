@@ -8,14 +8,7 @@
     {# <a class="pull-left js-user-card" href="/user/{{student.userId}}" data-card-url="/user/{{student.userId}}/card/show" data-user-id="{{student.userId}}">
       {{ web_macro.user_avatar(user, 'pull-left', 'avatar-sm') }}
     </a> #}
-    <a target="_blank" href="/user/{{student.userId}}">{{ user.nickname }}</a>
-
-    {% if student.remark %}
-      <span class="color-gray text-sm js-remark" title="{{ student.remark|trans }}">({{ student.remark|trans|plain_text(16) }})</span>
-    {% endif %}
-  </td>
-  <td style="vertical-align: middle;">
-    <a class="" href="javascript:;"  data-toggle="modal" data-target="#modal" data-url="{{path('course_set_manage_course_students_process', {'courseSetId': courseSet.id, 'courseId': course.id, 'userId': student.userId})}}">{{'查看详情'}}</a>
+    {{ user.nickname }}
   </td>
   <td style="vertical-align: middle;">{{student.createdTime|date('Y-n-d H:i')}}</td>
   {# <td style="vertical-align: middle;">{% if student.deadline|default(0) %}{{student.deadline|date('Y-n-d H:i')}}{% else %}{{'course.expiry_date.forever_mode'|trans}}{% endif %}</td> #}

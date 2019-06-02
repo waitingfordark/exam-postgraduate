@@ -1,7 +1,4 @@
 {% extends 'courseset-manage/layout.html.twig' %}
-{% block title %}
-  {{ 'course.plan_task.manage'|trans }} - {{ parent() }}
-{% endblock %}
 
 {% set hasMulCourses = has_mul_courses(courseSet.id) %}
 {% set side_nav =  hasMulCourses ? 'plan' : 'default-course-info' %}

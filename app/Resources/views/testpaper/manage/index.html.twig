@@ -25,12 +25,11 @@
         {{ web_macro.flash_messages() }}
         <thead>
         <tr>
-          {# <th><input type="checkbox" autocomplete="off" data-role="batch-select"></th> #}
           <th width="20%">{{ 'course.testpaper_manage.name'|trans }}</th>
           <th>{{ 'course.testpaper_manage.status'|trans }}</th>
           <th>{{ 'course.testpaper_manage.statistics'|trans }}</th>
-          <th>{{ 'course.testpaper_manage.time_limit'|trans }}</th>
-          <th >{{ 'course.testpaper_manage.update'|trans }}</th>
+          <th>更新时间</th>
+          <th >更新人</th>
           <th width="15%">{{ 'course.testpaper_manage.operation'|trans }}</th>
         </tr>
         </thead>
@@ -38,25 +37,14 @@
         {% for testpaper in testpapers %}
           {% set user = users[testpaper.updatedUserId] %}
           {% include 'testpaper/manage/testpaper-list-tr.html.twig' %}
-        {% else %}
-          <tr>
-            <td colspan="20">
-              {{ 'course.testpaper_manage.empty'|trans({'%createUrl%':path('course_set_manage_testpaper_create',{id:courseSet.id})})|raw }}
-            </td>
-          </tr>
         {% endfor %}
         </tbody>
       </table>
-      {# <div>
-        <label class="checkbox-inline"><input type="checkbox" autocomplete="off" data-role="batch-select"> {{'course.question_manage.select_all'|trans}}</label>
-        <button class="cd-btn cd-btn-default cd-btn-sm mlm" data-role="batch-delete" data-name="{{ 'course.testpaper_manage.testpaper'|trans }}" data-url="{{ path('course_set_manage_testpaper_deletes',{courseSetId:courseSet.id}) }}">{{ 'course.testpaper_manage.delete_btn'|trans }}</button>
-      </div> #}
+      {% if testpapers|length == 0 %}
+        <div class="empty">没有试卷，戳右上角创建</div>
+      {% endif %}
 
       {{ web_macro.paginator(paginator) }}
-
-      {# <div class="color-gray mtl">
-        {{ 'course.testpaper_manage.tips'|trans({'%taskName%':setting('course.task_name')|default('admin.setting_course.task'|trans)})|raw }}
-      </div> #}
     </div>
   </div>
 

@@ -1708,7 +1708,7 @@ course.plan_task.delete_btn: 删除
 course.plan_task.preparation_tips: 学员可通过看视频、阅读资料等预习%taskName%，导入学习。
 course.plan_task.batch_create_tips: >
   批量创建考试需要开通云视频服务，点击<a target="__blank" href="http://open.edusoho.com/show/cloud/video">这里</a>了解详情
-course.plan_task.empty: 什么都没有，快去添加一个考试
+course.plan_task.empty: 现在没有考试
 course.plan_task.task_unpublished: 未发布
 course.plan_task.is_optional_task: 选修
 course.plan_task.edit_tips: 编辑以创建直播教室
@@ -2058,7 +2058,7 @@ testpaper.answer.question_score_total_tips: 共%number%题，共%score%分
 testpaper.answer.missing_score_tips: 共%number%题，共%score%分，漏选得%missScore%分
 testpaper.answer.question_delete_tips: 该题目已删除
 testpaper.answer.confirm_hand_in_btn: 确认交卷
-testpaper.answer.confirm_hand_in_tips: 您真的要交卷吗？
+testpaper.answer.confirm_hand_in_tips: 确定要交卷吗？
 testpaper.answer.view_result_tips: 考试已结束，您的试卷已提交，请点击下面的按钮查看结果！
 testpaper.answer.view_result_btn: 查看结果
 testpaper.answer.finish: 考试结束
@@ -2674,23 +2674,20 @@ form.checkbox.batch_select: 全选
 form.btn.continue: 完成并继续
 
 # 用户登录
-user.login.account_type_label: 邮箱/手机/用户名
+user.login.account_type_label: 用户名
 user.login.content_title: 登录
 user.login.login_link: 登录
 user.login.page_title: 登录帐号
 user.login.account_label: 帐号
-user.login.account_placeholder: 邮箱/手机/用户名
+user.login.account_placeholder: 用户名
 user.login.password_label: 密码
 user.login.password_placeholder: 密码
 user.login.remember_me: 记住密码
 user.login.submit_button: 登录
 user.login.submiting_tips: 正在登录
-user.login.find_password: 找回密码
-user.login.ask_register: 还没有注册帐号？
+
 user.login.go_register: 立即注册
 user.login.login_account: 登录帐号
-user.fields.fan_empty: 无粉丝
-user.fields.following_empty: 无关注的人
 
 #用户绑定
 user.bind.bind_choose_btn: 绑定新帐号
@@ -2772,7 +2769,7 @@ user.register.page_title: 注册帐号
 user.register.register_account: 注册帐号
 user.register.account_with_email_label: 邮箱
 user.register.account_with_sms_code_label: 验证码
-user.register.account_with_email_placeholder: 填写你常用的邮箱作为登录帐号
+user.register.account_with_email_placeholder: 输入邮箱
 user.register.account_with_mobile_label: 手机
 user.register.account_with_mobile_placeholder: 填写你常用的手机号码作为登录帐号
 user.register.account_with_mobile_or_email_label: 手机/邮箱
@@ -4651,13 +4648,13 @@ admin.course_manage.manage.course_tips: >
     2. 课程地址规则：域名/course/课程编号；
   </div>
 admin.course_manage.manage.count: >
-  课程：<strong class="inflow-num">%courseNum%</strong>个
+  课程：<strong >%courseNum%</strong>个
 admin.course_manage.manage.published_count: >
-  已发布：<strong class="inflow-num">%publishedNum%</strong>个
+  已发布：<strong class="">%publishedNum%</strong>个
 admin.course_manage.manage.closed_count: >
-  已关闭：<strong class="inflow-num">%closedNum%</strong>个
+  已关闭：<strong class="">%closedNum%</strong>个
 admin.course_manage.manage.unpublish_count: >
-  未发布：<strong class="inflow-num">%unPublishedNum%</strong>个
+  未发布：<strong class="">%unPublishedNum%</strong>个
 admin.course_manage.manage.number: 编号
 admin.course_manage.manage.name: 名称
 admin.course_manage.manage.price: 价格

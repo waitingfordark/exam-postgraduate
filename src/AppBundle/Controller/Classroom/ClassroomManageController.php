@@ -1116,15 +1116,13 @@ class ClassroomManageController extends BaseController
         $classroom = $this->getClassroomService()->getClassroom($id);
 
         $activity = $this->getActivityService()->getActivity($activityId);
+        // var_dump($activity);
+        // die;
         if (empty($activity) || !in_array($activity['mediaType'], array('homework', 'testpaper'))) {
             return $this->createMessageResponse('error', 'Argument invalid');
         }
 
-        if ('homework' == $activity['mediaType']) {
-            $controller = 'AppBundle:HomeworkManage:resultAnalysis';
-        } else {
-            $controller = 'AppBundle:Testpaper/Manage:resultAnalysis';
-        }
+        $controller = 'AppBundle:Testpaper/Manage:resultAnalysis';
 
         return $this->forward($controller, array(
             'activityId' => $activityId,

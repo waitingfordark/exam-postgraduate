@@ -58,7 +58,7 @@
 
 <div class="form-group">
   <style>.testpaper-question-option-item{margin-left:-12px;margin-bottom:5px;list-style: none;}</style>
-  <div class="col-md-2 control-label"><label class="control-label-required">{{'course.testpaper_manage.create.questions_setup'|trans}}</label></div>
+  <div class="col-md-2 control-label"><label>{{'course.testpaper_manage.create.questions_setup'|trans}}</label></div>
   <ul class="col-md-10 controls" id="testpaper-question-options">
     {% for type,config in types %}
       <li class="testpaper-question-option-item">
@@ -77,6 +77,7 @@
         {% endif %}
       </li>
     {% endfor %}
+    <div class="mt10">选择题目数量后在下一步会随机组卷，可修改</div>
     <input type="hidden" name="questioncount">
     <span class="help-block color-danger js-build-check"></span>
   </ul>

@@ -1,15 +1,10 @@
 {% extends 'layout.html.twig' %}
-{% block title %}{% if paperResult|default(null) %}{{ paperResult.paperName }}{% else %}{{ paper.name }}{% endif %} - {{ parent() }}{% endblock %}
 
-{% if isIframeBody|default(1) %}
-  {% set bodyClass = 'task-testpaper-body-iframe js-task-testpaper-body js-task-testpaper-body-iframe' %}
-  {% set testpaperCardClass = 'js-testpaper-card affix mt20' %}
-  {% set testpaperBodyClass = "mt20" %}
-{% else %}
+
   {% set bodyClass = 'js-task-testpaper-body' %}
   {% set containerClass = 'mt20' %}
   {% set testpaperCardClass = 'js-testpaper-card' %}
-{% endif %}
+
 
 {% set isDone = isDone|default(false) %}
 {% set paperName = paperResult|default(null) ? paperResult.paperName : paper.name %}
@@ -21,7 +16,7 @@
   {% endblock %}
 
 
-  <div class="{% if isIframeBody|default(1) %} iframe-parent-content {% endif %}">
+  <div class="{% if isIframeBody|default(0) %} iframe-parent-content {% endif %}">
 
     <div class="js-testpaper-container container mt20">
       {% block paper_content %}

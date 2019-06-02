@@ -1,5 +1,5 @@
 <div class="form-group">
-  <div class="col-md-2 control-label"><label for="name-field" class="control-label-required">{{'course.testpaper_manage.create.name'|trans}}</label></div>
+  <div class="col-md-2 control-label"><label for="name-field">{{'course.testpaper_manage.create.name'|trans}}</label></div>
   <div class="col-md-8 controls">
     <input class="form-control" value="{% if testpaper.name | default(null)%}{{testpaper.name }}{% endif %}" name="name" id="name-field"/>
   </div>

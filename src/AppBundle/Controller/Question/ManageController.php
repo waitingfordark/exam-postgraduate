@@ -14,7 +14,7 @@ use Biz\Question\Service\QuestionService;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Common\Exception\ResourceNotFoundException;
 
-class ManageController extends BaseController
+class ManageController extends BaseQuestionController
 {
     public function indexAction(Request $request, $id)
     {

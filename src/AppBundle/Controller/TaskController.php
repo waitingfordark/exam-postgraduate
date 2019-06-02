@@ -246,39 +246,6 @@ class TaskController extends BaseController
         return !empty($file) && 'cloud' == $file['storage'];
     }
 
-    public function qrcodeAction(Request $request, $courseId, $id)
-    {
-        $user = $this->getCurrentUser();
-        $host = $request->getSchemeAndHttpHost();
-
-        //TODO 移动端学习 api 重构
-        if ($user->isLogin()) {
-            $appUrl = "{$host}/mapi_v2/mobile/main#/lesson/{$courseId}/{$id}";
-        } else {
-            $appUrl = "{$host}/mapi_v2/mobile/main#/course/{$courseId}";
-        }
-
-        $token = $this->getTokenService()->makeToken(
-            'qrcode',
-            array(
-                'userId' => $user['id'],
-                'data' => array(
-                    'url' => $this->generateUrl('course_task_show', array('courseId' => $courseId, 'id' => $id), true),
-                    'appUrl' => $appUrl,
-                ),
-                'times' => 1,
-                'duration' => 3600,
-            )
-        );
-        $url = $this->generateUrl('common_parse_qrcode', array('token' => $token['token']), true);
-
-        $response = array(
-            'img' => $this->generateUrl('common_qrcode', array('text' => $url), true),
-        );
-
-        return $this->createJsonResponse($response);
-    }
-
     public function taskActivityAction(Request $request, $courseId, $id)
     {
         $preview = $request->query->get('preview', 0);

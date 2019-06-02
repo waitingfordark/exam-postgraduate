@@ -6,7 +6,6 @@
 
 {% do script(['app/js/question-manage/picker/index.js']) %}
 
-{% block title %}{% if replaceFor %}{{'course.testpaper_manage.question.replace_modal.replace'|trans}}{% else %}{{'course.testpaper_manage.question.replace_modal.select'|trans}}{% endif %}{% endblock %}
 
 {% block body %}
 <div id="question-picker-body">
@@ -16,9 +15,9 @@
   <table class="table table-condensed" id="item-picker-table">
     <thead>
     <tr>
-      {% if not replace|default(null) %}
+      {# {% if not replace|default(null) %}
         <th><input type="checkbox" data-role="batch-select"></th>
-      {% endif %}
+      {% endif %} #}
       <th width="45%">{{'course.testpaper_manage.question.stem'|trans}}</th>
       <th>{{'course.testpaper_manage.question.type'|trans}}</th>
       {% if targetType|default('testpaper') == 'testpaper' %}
@@ -32,19 +31,19 @@
         {% include 'question-manage/question-pick-tr.html.twig' %}
       {% else %}
         <tr>
-          <td colspan="20"><div class="empty">{{'course.testpaper_manage.question.replace_modal.empty'|trans}}<a class="link-primary" href="{{ path('course_set_manage_question',{id:courseSet.id}) }}">{{'course.testpaper_manage.question.replace_modal.create_btn'|trans}}</a></div>
+          <td colspan="20"><div class="empty">无结果</div>
           </td>
         </tr>
       {% endfor %}
     </tbody>
   </table>
-  {% if not replace %}
+  {# {% if not replace %}
     <div id="item-operate">
       <label class="checkbox-inline">
         <input type="checkbox" data-role="batch-select">{{'course.testpaper_manage.question.replace_modal.select_all_btn'|trans}}
       </label>
     </div>
-  {% endif %}
+  {% endif %} #}
   {{ web_macro.paginator(paginator) }}
 </div>
 

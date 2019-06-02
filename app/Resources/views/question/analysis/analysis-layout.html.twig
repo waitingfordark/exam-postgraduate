@@ -4,10 +4,6 @@
     {% include 'question/part/question-stem.html.twig' %}
 
     {% block analysis_body %}
-      <div class="testpaper-question-body__label hidden-xs">
-        <span>{{ 'course.testpaper_check.first_answer'|trans }}</span>
-      </div>
-
       {% block analysis_content %}{% endblock %}
     {% endblock %}
     

@@ -14,12 +14,11 @@
     <div class="courseset-manage-body__title">
       <div class="courseset-manage-body__btn">
         {# {{ slot('course_set.questions_import_btn.extension', {'courseSet': courseSet}) }} #}
-        <span>添加问题111：</span>
+        <span>添加题目：</span>
         {% for type,name in questionTypes %}
             <a href="{{ path('course_set_manage_question_create',{id:courseSet.id,type:type,parentId:parentId, goto:app.request.server.get('REQUEST_URI')}) }}" class="cd-btn cd-btn-info cd-btn-sm">{{ name|trans }}</a>
         {% endfor %}
         
-
       </div>
       {{'course.question_manage.content_title'|trans}}
     </div>
@@ -27,8 +26,6 @@
     <div id="quiz-table-container">
 
       {{ web_macro.flash_messages() }}
-
-     {{ parentQuestion }}
 
       {% if not parentQuestion %}
         {% include 'question-manage/search-form.html.twig' %}

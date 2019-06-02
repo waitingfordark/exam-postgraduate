@@ -1,23 +1,14 @@
-{# {% extends 'courseset-manage/header.html.twig' %}
-
-{% block coursesetImg %}
-{% endblock %}
-
-{% block coursesetTitle %}
-  <a class="cd-link-major" target="_blank" href="{{ courseSet.redirect_path }}">{{ courseSet.title }}</a>
-{% endblock %}
-
-{% block courseTitle %}
-  {{ courseSet.courseNum|default(0) }}
-{% endblock %}
-
-{% block btn %}
-  <a class="cd-btn cd-btn-ghost-primary cd-mr16" target="_blank" href="{{ courseSet.redirect_path }}">{{ 'course.manage_btn'|trans }}</a>
-{% endblock %} #}
-
-
   <tr>
     <td>{{ courseSet.title }}</td>
+    {% if courseSet.status == 'draft' %}
+        <td>未发布</td>
+    {% elseif  courseSet.status == 'published' %}
+        <td>已发布</td>
+    {% elseif courseSet.status == 'closed' %}
+        <td>已关闭</td>
+    {% endif %}
+    
+    <td>{{ courseSet.studentNum }}</td>
     <td>{{ courseSet.updatedTime|date('Y-m-d H:i:s') }}
     <td>
         <a target="_blank" href="{{ courseSet.redirect_path }}">{{ 'course.manage_btn'|trans }}</a>

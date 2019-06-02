@@ -30,11 +30,11 @@ class TestpaperController extends BaseController
         }
 
         if ('draft' === $testpaper['status']) {
-            return $this->createMessageResponse('info', $this->getServiceKernel()->trans('该试卷未发布，如有疑问请联系老师！'));
+            return $this->createMessageResponse('info', $this->getServiceKernel()->trans('该试卷未发布'));
         }
 
         if ('closed' === $testpaper['status']) {
-            return $this->createMessageResponse('info', $this->getServiceKernel()->trans('该试卷已关闭，如有疑问请联系老师！'));
+            return $this->createMessageResponse('info', $this->getServiceKernel()->trans('该试卷已关闭'));
         }
 
         $result = $this->testpaperActivityCheck($lessonId, $testpaper);

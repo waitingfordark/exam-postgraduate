@@ -123,7 +123,7 @@
                       {% endfor %}
                     {% else %}
                       {% for m in sub_permissions(currentMenu.code,'topBtn') %}
-                        {{ self_macro.menu_link_html(_context, m, 'btn btn-success btn-sm') }}
+                        {{ self_macro.menu_link_html(_context, m, 'btn btn-primary btn-sm') }}
                       {% endfor %}
                     {% endif %}
                   {% endblock %}

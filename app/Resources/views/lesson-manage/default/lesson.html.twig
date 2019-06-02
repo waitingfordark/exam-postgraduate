@@ -5,17 +5,11 @@
   <div class="item-default-header clearfix">
     <div class="item-line"></div>
     <div class="item-content text-overflow js-item-content">
-      <span class="lesson-unpublish-status js-lesson-unpublish-status
-        {% if lesson.status == 'published' %}
-          hidden
-        {% endif %}">
-         {{'course.plan_task.task_unpublished'|trans}}
-      </span>
+        {% if lesson.status != 'published' %}
+           <span class="js-lesson-unpublish-status">(未发布)
+           </span>
+        {% endif %}
 
-      <span class="cd-tag cd-tag-blue mrm js-lesson-option-tag {% if not task.isOptional %}hidden{% endif %}">{{'course.plan_task.is_optional_task'|trans}}</span>
-      {% if not task.isOptional %}
-        {{'course.lesson'|trans}}<span class="number mls">{{ lesson.number }}</span>：
-      {% endif %}
       {{ lesson.title|sub_text(30) }}
 
       {% if task.activity.mediaType is same as('live') %}
@@ -34,8 +28,11 @@
     </div>
 
     <div class="item-actions">
-      <a class="cd-mr24 btn btn-primary" data-role='update-task' href="javascript:;" style="color: white;"
+      {# <a class="cd-mr24 btn btn-primary" data-role='update-task' href="javascript:;" style="color: white;"
         data-toggle="modal" data-target="#modal" data-url="{{ path('course_manage_task_update', {id:task.id, courseId:task.courseId}) }}">
+        编辑
+      </a> #}
+      <a class="cd-mr24 btn btn-primary" href="{{ path('course_manage_task_fields', {courseId: course.id, mode: 'edit', id: task.id}) }}" style="color: white;">
         编辑
       </a>
 
@@ -57,10 +54,10 @@
       </a>
 
       {# 成绩管理 #}
-      <a class='cd-mr24 btn btn-primary {% if not isPublish %}hidden{% endif %}' href="{{ path('classroom_manage_exam_result_anlysis', {id: 1, activityId: lesson.id}) }}" style="color: white;">
+      <a class='cd-mr24 btn btn-primary {% if not isPublish %}hidden{% endif %}' href="{{ path('classroom_manage_exam_result_anlysis', {id: 1, activityId: lesson.tasks[0]['activity']['id']}) }}" style="color: white;">
         结果分析
       </a>
-      <a class='cd-mr24 btn btn-primary {% if not isPublish %}hidden{% endif %}' href="{{ path('lesson_testpaper_result', {activityId: lesson.id}) }}" style="color: white;">
+      <a class='cd-mr24 btn btn-primary {% if not isPublish %}hidden{% endif %}' href="{{ path('lesson_testpaper_result', {activityId: lesson.tasks[0]['activity']['id']}) }}" style="color: white;">
         查看成绩
       </a>
 

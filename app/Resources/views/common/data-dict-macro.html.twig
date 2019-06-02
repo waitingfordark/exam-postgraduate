@@ -1,10 +1,10 @@
 {% macro courseStatus(status) %}
     {% if status == 'draft' %}
-        <span class="color-gray">{{ 'common.courseStatus.draft'|trans }}</span>
+        <span >{{ 'common.courseStatus.draft'|trans }}</span>
     {% elseif  status == 'published' %}
-        <span class="color-success">{{ 'common.courseStatus.published'|trans }}</span>
+        <span >{{ 'common.courseStatus.published'|trans }}</span>
     {% elseif status == 'closed' %}
-        <span class="color-danger">{{ 'common.courseStatus.closed'|trans }}</span>
+        <span >{{ 'common.courseStatus.closed'|trans }}</span>
     {% endif %}
 {% endmacro %}
 

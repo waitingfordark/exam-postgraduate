@@ -11,31 +11,13 @@
   {% include 'testpaper/part/paper-result-objective.html.twig' %}
 {% endblock %}
 
-{# {% block paper_warning %}
-  <div class="alert alert-warning">{{'course.homework_check.review.teacher_check_tips'|trans}}</div>
-{% endblock %} #}
-
 {% block paper_sidebar %}
 
   <div class="testpaper-card {{testpaperCardClass|default('')}}" data-spy="affix" data-offset-top="200">
     <div class="panel panel-default">
-      <div class="panel-body">
-        {% for type in questionTypes|default([]) if questions[type] is defined %}
-
-          {% for question in questions[type] %}
-            {% if question.type == 'material' %}
-              {% for questionSub in question.subs|default([]) %}
-                <a href="javascript:;" data-anchor="#question{{ questionSub.id }}" class="js-btn-index color-lump lump-card">{{ questionSub.seq }}</a>
-              {% endfor %}
-            {% else %}
-              <a href="javascript:;" data-anchor="#question{{ question.id }}" class="js-btn-index color-lump lump-card">{{ question.seq }}</a>
-            {% endif %}
-          {% endfor %}
-        {% endfor %}
-
-      </div>
+      
       <div class="panel-footer">
-        <button class="btn btn-success btn-block" data-role="check-submit">{{'testpaper.result.finish_reviewing'|trans}}</button>
+        <button class="btn btn-primary btn-block" data-role="check-submit">{{'testpaper.result.finish_reviewing'|trans}}</button>
       </div>
     </div>
   </div>
@@ -52,27 +34,18 @@
         </div>
         <div class="modal-body">
 
-          <div class="form-group">
+          <div class="form-group hidden">
             <div class="controls">
               <textarea class="form-control" rows='4' id="testpaper-teacherSay-input" placeholder="{{'course.homework_check.review.input_comment'|trans}}"></textarea>
             </div>
           </div>
-          <div class="form-group">
-            <div class="controls">
-              <select class="form-control" id="teacher-say-select" data-role="teacher-say">
-                {{'course.homework_check.review.common_comments'|trans|raw}}
-              </select>
-            </div>
-          </div>
+          
           <div class="form-group">
             <div class="col-md-4 controls">
               {% if paperResult|default(null) %}
                 <input type="hidden" value="{{ paperResult.objectiveScore }}" name="objectiveScore" />
                 {{'course.homework_check.review.score'|trans}}:<span id="totalScore">{{ paperResult.objectiveScore }}</span>
               {% endif %}
-            </div>
-            <div class="col-md-8 controls radios">
-              {{ radios('passedStatus', dict('passedStatus'), 'passed' ) }}
             </div>
           </div>
         </div>
@@ -84,7 +57,6 @@
           {% endif %}
           <a href="javascript:;" class="btn btn-default" data-dismiss="modal">{{'form.btn.cancel'|trans}}</a>
           <button type="button" class="btn btn-info" id="testpaper-teacher-say-btn" data-post-url="{{ postUrl }}" data-goto="{{ app.request.server.get('HTTP_REFERER') }}" data-role="finish-check" data-loading-text="{{'form.btn.submit.submiting'|trans}}">{{'testpaper.result.finish_reviewing'|trans}}</button>
-          <button type="button" class="btn btn-success js-next-check" data-post-url="{{ postUrl }}" data-loading-text="{{'form.btn.submit.submiting'|trans}}">{{'form.btn.continue'|trans}}</button>
         </div>
       </div>
     </div>

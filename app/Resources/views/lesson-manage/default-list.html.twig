@@ -1,14 +1,16 @@
 {% extends 'course-manage/tasks/layout.html.twig' %}
-{% do script(['libs/jquery-sortable.js','app/js/course-manage/lesson-manage/default/index.js']) %}
+{% do script(['app/js/course-manage/lesson-manage/default/index.js']) %}
 
-{% block page_title %}{{ 'course.plan_task.content_title'|trans }}{% endblock %}
+{% block page_title %}{{ 'course.plan_task.content_title'|trans }}
+<a class="cd-btn cd-btn-primary pull-right" id="step-3" href="{{ path('course_manage_task_fields',{courseId:course.id, mode: 'create', type: 'testpaper'}) }}">
+      {{ '添加考试' }}
+    </a>
+{% endblock %}
 {% block main_body %}
-  {% include 'lesson-manage/header.html.twig' with {taskMode:'lesson'}  %}
   <ul id="sortable-list" class="task-manage-list sortable-list" data-sort-url='{{ path("course_manage_items_sort",{courseId: course.id}) }}' style="margin-left: 0;">
     {% for key, item in items %}
       {% if item.type == 'lesson' %}
         {% include 'lesson-manage/default/lesson.html.twig' with {lesson: item} %}
-      
       {% endif %}
     {% endfor %}
   </ul>

@@ -31,13 +31,13 @@ class TestpaperController extends BaseActivityController implements ActivityActi
         $testpaperResult = $this->getTestpaperService()->getUserLatelyResultByTestId($user['id'], $testpaperActivity['mediaId'], $activity['fromCourseId'], $activity['id'], $activity['mediaType']);
 
         if (!$testpaperResult || ($testpaperResult['status'] == 'doing' && !$testpaperResult['updateTime']) || $testpaper['status'] != 'open') {
-            return $this->render('activity/testpaper/show.html.twig', array(
-                'activity' => $activity,
-                'testpaperActivity' => $testpaperActivity,
-                'testpaperResult' => $testpaperResult,
-                'testpaper' => $testpaper,
-                'courseId' => $activity['fromCourseId'],
-            ));
+            // return $this->render('activity/testpaper/show.html.twig', array(
+            //     'activity' => $activity,
+            //     'testpaperActivity' => $testpaperActivity,
+            //     'testpaperResult' => $testpaperResult,
+            //     'testpaper' => $testpaper,
+            //     'courseId' => $activity['fromCourseId'],
+            // ));
         } elseif ($testpaperResult['status'] === 'finished') {
             return $this->forward('AppBundle:Testpaper/Testpaper:showResult', array(
                 'resultId' => $testpaperResult['id'],
@@ -99,12 +99,12 @@ class TestpaperController extends BaseActivityController implements ActivityActi
 
         $testpapers = $this->findCourseTestpapers($course);
 
-        $features = $this->container->hasParameter('enabled_features') ? $this->container->getParameter('enabled_features') : array();
+        // $features = $this->container->hasParameter('enabled_features') ? $this->container->getParameter('enabled_features') : array();
 
-        return $this->render('activity/testpaper/modal.html.twig', array(
+        return $this->render('activity/testpaper/modal1.html.twig', array(
             'activity' => $activity,
             'testpapers' => $testpapers,
-            'features' => $features,
+            'mode' => 'edit',
             'courseId' => $activity['fromCourseId'],
             'course' => $course,
         ));

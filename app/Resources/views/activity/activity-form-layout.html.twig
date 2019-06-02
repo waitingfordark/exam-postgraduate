@@ -4,10 +4,10 @@
 {% block content %}
   <div class="tab-content pt10 pb10" id="iframe-content" style="background-color:white;">
     <div class="tab-pane js-course-tasks-pane active js-step2-view">
-      <form class="form-horizontal" id="step2-form" action="{{ path('course_manage_lesson_create', {courseId: course.id})}}" method="post">
+      <form class="form-horizontal" id="step2-form" action="{% if mode|default('create') == 'edit' %}{{ path('course_manage_lesson_update', {courseId: course.id, lessonId: activity.id })}}{% else %}{{ path('course_manage_lesson_create', {courseId: course.id})}}{% endif %}" method="post">
         <div class="form-group">
           <div class="col-sm-2 control-label">
-          <label for="title" class="control-label-required">{{ 'course.plan_task.activity_manage.title_name'|trans }}</label>
+          <label for="title">{{ 'course.plan_task.activity_manage.title_name'|trans }}</label>
           </div>
           <div class="col-sm-10">
             <input id="title" class="form-control" type="text" name="title" value="{{ activity.title|default('') }}" >
