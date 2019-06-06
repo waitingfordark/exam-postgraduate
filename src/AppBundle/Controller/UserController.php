@@ -68,19 +68,6 @@ class UserController extends BaseController
         return $this->_learnAction($user);
     }
 
-    //ForCustomOnly start
-    public function pageShowAction(Request $request, $filter)
-    {
-        $user = $this->getCurrentUser();
-
-        if (!$user->isLogin()) {
-            return $this->createMessageResponse('error', '用户未登录，请先登录！');
-        } else {
-            return $this->redirect($this->generateUrl('user_'.$filter, array('id' => $user['id'])));
-        }
-    }
-
-    //ForCustomOnly end
 
     public function learnAction(Request $request, $id)
     {
@@ -93,12 +80,6 @@ class UserController extends BaseController
         return $this->_learnAction($user);
     }
 
-    public function aboutAction(Request $request, $id)
-    {
-        $user = $this->tryGetUser($id);
-
-        return $this->_aboutAction($user);
-    }
 
     public function teachAction(Request $request, $id)
     {
@@ -232,175 +213,7 @@ class UserController extends BaseController
         ));
     }
 
-    public function favoritedAction(Request $request, $id)
-    {
-        $user = $this->tryGetUser($id);
-        $userProfile = $this->getUserService()->getUserProfile($user['id']);
-        $userProfile['about'] = strip_tags($userProfile['about'], '');
-        $userProfile['about'] = preg_replace('/ /', '', $userProfile['about']);
-        $user = array_merge($user, $userProfile);
-
-        $paginator = new Paginator(
-            $this->get('request'),
-            $this->getCourseSetService()->countUserFavorites($user['id']),
-            20
-        );
-
-        $favorites = $this->getCourseSetService()->searchUserFavorites(
-            $user['id'], $paginator->getOffsetCount(), $paginator->getPerPageCount()
-        );
-
-        return $this->render('user/courses_favorited.html.twig', array(
-            'user' => $user,
-            'courseFavorites' => $favorites,
-            'paginator' => $paginator,
-            'type' => 'favorited',
-        ));
-    }
-
-    public function groupAction(Request $request, $id)
-    {
-        $user = $this->tryGetUser($id);
-        $userProfile = $this->getUserService()->getUserProfile($user['id']);
-        $userProfile['about'] = strip_tags($userProfile['about'], '');
-        $userProfile['about'] = preg_replace('/ /', '', $userProfile['about']);
-        $user = array_merge($user, $userProfile);
-        $admins = $this->getGroupService()->searchMembers(array('userId' => $user['id'], 'role' => 'admin'),
-            array('createdTime' => 'DESC'), 0, 1000
-        );
-        $owners = $this->getGroupService()->searchMembers(array('userId' => $user['id'], 'role' => 'owner'),
-            array('createdTime' => 'DESC'), 0, 1000
-        );
-        $members = array_merge($admins, $owners);
-        $groupIds = ArrayToolkit::column($members, 'groupId');
-        $adminGroups = $this->getGroupService()->getGroupsByIds($groupIds);
-
-        $paginator = new Paginator(
-            $this->get('request'),
-            $this->getGroupService()->countMembers(array('userId' => $user['id'], 'role' => 'member')),
-            20
-        );
-
-        $members = $this->getGroupService()->searchMembers(array('userId' => $user['id'], 'role' => 'member'), array('createdTime' => 'DESC'), $paginator->getOffsetCount(),
-            $paginator->getPerPageCount());
-
-        $groupIds = ArrayToolkit::column($members, 'groupId');
-        $groups = $this->getGroupService()->getGroupsByids($groupIds);
-
-        return $this->render('user/group.html.twig', array(
-            'user' => $user,
-            'type' => 'group',
-            'adminGroups' => $adminGroups,
-            'paginator' => $paginator,
-            'groups' => $groups,
-        ));
-    }
-
-    public function followingAction(Request $request, $id)
-    {
-        $user = $this->tryGetUser($id);
-        $userProfile = $this->getUserService()->getUserProfile($user['id']);
-        $userProfile['about'] = strip_tags($userProfile['about'], '');
-        $userProfile['about'] = preg_replace('/ /', '', $userProfile['about']);
-        $user = array_merge($user, $userProfile);
-
-        $paginator = new Paginator(
-            $this->get('request'),
-            $this->getUserService()->findUserFollowingCount($user['id']),
-            20
-        );
-
-        $followings = $this->getUserService()->findUserFollowing($user['id'], $paginator->getOffsetCount(), $paginator->getPerPageCount());
-
-        if ($followings) {
-            $followingIds = ArrayToolkit::column($followings, 'id');
-            $followingUserProfiles = ArrayToolkit::index($this->getUserService()->searchUserProfiles(array('ids' => $followingIds), array('id' => 'ASC'), 0, count($followingIds)), 'id');
-        }
-
-        $myfollowings = $this->_getUserFollowing();
-
-        return $this->render('user/friend.html.twig', array(
-            'user' => $user,
-            'paginator' => $paginator,
-            'friends' => $followings,
-            'userProfile' => $userProfile,
-            'myfollowings' => $myfollowings,
-            'allUserProfile' => isset($followingUserProfiles) ? $followingUserProfiles : array(),
-            'friendNav' => 'following',
-        ));
-    }
-
-    public function followerAction(Request $request, $id)
-    {
-        $user = $this->tryGetUser($id);
-        $userProfile = $this->getUserService()->getUserProfile($user['id']);
-        $userProfile['about'] = strip_tags($userProfile['about'], '');
-        $userProfile['about'] = preg_replace('/ /', '', $userProfile['about']);
-        $user = array_merge($user, $userProfile);
-        $myfollowings = $this->_getUserFollowing();
-
-        $paginator = new Paginator(
-            $this->get('request'),
-            $this->getUserService()->findUserFollowerCount($user['id']),
-            20
-        );
-
-        $followers = $this->getUserService()->findUserFollowers($user['id'], $paginator->getOffsetCount(), $paginator->getPerPageCount());
-
-        if ($followers) {
-            $followerIds = ArrayToolkit::column($followers, 'id');
-            $followerUserProfiles = ArrayToolkit::index($this->getUserService()->searchUserProfiles(array('ids' => $followerIds), array('id' => 'ASC'), 0, count($followerIds)), 'id');
-        }
-
-        return $this->render('user/friend.html.twig', array(
-            'user' => $user,
-            'paginator' => $paginator,
-            'friends' => $followers,
-            'userProfile' => $userProfile,
-            'myfollowings' => $myfollowings,
-            'allUserProfile' => isset($followerUserProfiles) ? $followerUserProfiles : array(),
-            'friendNav' => 'follower',
-        ));
-    }
-
-    public function remindCounterAction(Request $request)
-    {
-        $user = $this->getCurrentUser();
-        $counter = array('newMessageNum' => 0, 'newNotificationNum' => 0);
-
-        if ($user->isLogin()) {
-            $counter['newMessageNum'] = $user['newMessageNum'];
-            $counter['newNotificationNum'] = $user['newNotificationNum'];
-        }
-
-        return $this->createJsonResponse($counter);
-    }
-
-    public function unfollowAction(Request $request, $id)
-    {
-        $user = $this->getCurrentUser();
-
-        if (!$user->isLogin()) {
-            throw $this->createAccessDeniedException();
-        }
-
-        $this->getUserService()->unFollow($user['id'], $id);
-
-        return $this->createJsonResponse(true);
-    }
-
-    public function followAction(Request $request, $id)
-    {
-        $user = $this->getCurrentUser();
-
-        if (!$user->isLogin()) {
-            throw $this->createAccessDeniedException();
-        }
-
-        $this->getUserService()->follow($user['id'], $id);
-
-        return $this->createJsonResponse(true);
-    }
+   
 
     public function checkPasswordAction(Request $request)
     {
@@ -420,111 +233,6 @@ class UserController extends BaseController
         return $this->createJsonResponse($response);
     }
 
-    public function cardShowAction(Request $request, $userId)
-    {
-        $user = $this->tryGetUser($userId);
-        $currentUser = $this->getCurrentUser();
-        $profile = $this->getUserService()->getUserProfile($userId);
-        $isFollowed = false;
-
-        if ($currentUser->isLogin()) {
-            $isFollowed = $this->getUserService()->isFollowed($currentUser['id'], $userId);
-        }
-
-        $user['learningNum'] = $this->getCourseService()->countUserLearningCourses($userId);
-        $user['followingNum'] = $this->getUserService()->findUserFollowingCount($userId);
-        $user['followerNum'] = $this->getUserService()->findUserFollowerCount($userId);
-        $levels = array();
-
-        if ($this->isPluginInstalled('Vip')) {
-            $levels = ArrayToolkit::index($this->getLevelService()->searchLevels(array('enabled' => 1), null, 0, 100), 'id');
-        }
-
-        return $this->render('user/card-show.html.twig', array(
-            'user' => $user,
-            'profile' => $profile,
-            'isFollowed' => $isFollowed,
-            'levels' => $levels,
-            'nowTime' => time(),
-        ));
-    }
-
-    public function fillUserInfoAction(Request $request)
-    {
-        $auth = $this->getSettingService()->get('auth');
-        $user = $this->getCurrentUser();
-
-        if ($auth['fill_userinfo_after_login'] && !isset($auth['registerSort'])) {
-            return $this->redirect($this->generateUrl('homepage'));
-        }
-
-        if (!$user->isLogin()) {
-            return $this->createMessageResponse('error', '请先登录！');
-        }
-
-        $goto = $this->getTargetPath($request);
-
-        if ('POST' == $request->getMethod()) {
-            $formData = $request->request->all();
-            $authSetting = $this->setting('auth', array());
-
-            if (!empty($formData['mobile']) && !empty($authSetting['mobileSmsValidate'])) {
-                list($result, $sessionField, $requestField) = SmsToolkit::smsCheck($request, 'sms_bind');
-
-                if (!$result) {
-                    return $this->createMessageResponse('info', 'register.userinfo_fill_tips', '', 3, $this->generateUrl('login_after_fill_userinfo'));
-                }
-            }
-
-            $userInfo = $this->saveUserInfo($request, $user);
-
-            return $this->redirect($goto);
-        }
-
-        $userFields = $this->getUserFieldService()->getEnabledFieldsOrderBySeq();
-        $userFields = ArrayToolkit::index($userFields, 'fieldName');
-        $userInfo = $this->getUserService()->getUserProfile($user['id']);
-
-        return $this->render('user/fill-userinfo-fields.html.twig', array(
-            'userFields' => $userFields,
-            'user' => $userInfo,
-            'goto' => $goto,
-        ));
-    }
-
-    public function fillInfoWhenBuyAction(Request $request)
-    {
-        $user = $this->getCurrentUser();
-        if (!$user->isLogin()) {
-            return $this->createMessageResponse('error', '请先登录！');
-        }
-
-        $this->saveUserInfo($request, $user);
-
-        /**
-         * 这里要重构,这段代码是多余了，为了兼容点击任务预览跳转支付页面
-         * TODO
-         */
-        $courseId = $request->request->get('courseId', 0);
-        if ($courseId) {
-            $this->getCourseService()->tryFreeJoin($courseId);
-            $member = $this->getCourseMemberService()->getCourseMember($courseId, $user['id']);
-            if ($member) {
-                return $this->createJsonResponse(array(
-                    'url' => $this->generateUrl('my_course_show', array('id' => $courseId)),
-                ));
-            } else {
-                return $this->createJsonResponse(array(
-                    'url' => $this->generateUrl('order_show', array('targetId' => $courseId, 'targetType' => 'course')),
-                ));
-            }
-        }
-        /* end todo */
-
-        return $this->createJsonResponse(array(
-            'msg' => 'success',
-        ));
-    }
 
     protected function saveUserInfo($request, $user)
     {
@@ -577,16 +285,6 @@ class UserController extends BaseController
         return $user;
     }
 
-    protected function _aboutAction($user)
-    {
-        $userProfile = $this->getUserService()->getUserProfile($user['id']);
-
-        return $this->render('user/about.html.twig', array(
-            'user' => $user,
-            'userProfile' => $userProfile,
-            'type' => 'about',
-        ));
-    }
 
     protected function _learnAction($user)
     {
@@ -637,15 +335,6 @@ class UserController extends BaseController
         ));
     }
 
-    protected function _getUserFollowing()
-    {
-        $user = $this->getCurrentUser();
-        $followings = $this->getUserService()->findAllUserFollowing($user['id']);
-        $followingIds = ArrayToolkit::column($followings, 'id');
-        $myfollowings = $this->getUserService()->filterFollowingIds($user['id'], $followingIds);
-
-        return $myfollowings;
-    }
 
     /**
      * @return UserService
