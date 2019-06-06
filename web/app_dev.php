@@ -20,11 +20,11 @@ if (isset($_SERVER['HTTP_CLIENT_IP'])
     }
 }
 
-if (isOldApiCall()) {
-    define('API_ENV', 'dev');
-    include __DIR__.'/../api/index.php';
-    exit();
-}
+// if (isOldApiCall()) {
+//     define('API_ENV', 'dev');
+//     include __DIR__.'/../api/index.php';
+//     exit();
+// }
 
 
 fix_gpc_magic();
@@ -71,8 +71,8 @@ function _fix_gpc_magic_files(&$item, $key)
     }
 }
 
-function isOldApiCall()
-{
-    return (!(isset($_SERVER['HTTP_ACCEPT']) && $_SERVER['HTTP_ACCEPT'] == 'application/vnd.edusoho.v2+json'))
-    && ((strpos($_SERVER['REQUEST_URI'], '/api') === 0) || (strpos($_SERVER['REQUEST_URI'], '/app_dev.php/api') === 0));
-}
+// function isOldApiCall()
+// {
+//     return (!(isset($_SERVER['HTTP_ACCEPT']) && $_SERVER['HTTP_ACCEPT'] == 'application/vnd.edusoho.v2+json'))
+//     && ((strpos($_SERVER['REQUEST_URI'], '/api') === 0) || (strpos($_SERVER['REQUEST_URI'], '/app_dev.php/api') === 0));
+// }

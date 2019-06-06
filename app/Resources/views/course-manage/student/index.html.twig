@@ -24,9 +24,9 @@
       <table class="table table-striped" id="course-student-list">
         <thead>
           <tr>
-            <th width="23%">{{'site.default.student'|trans}}</th>
-            <th width="17%">{{'join.time'|trans}}</th>
-            <th width="25%">{{'course.members_manage.official_student.operation'|trans}}</th>
+            <th width="23%">学员</th>
+            <th width="17%">添加时间</th>
+            <th width="25%">操作</th>
           </tr>
         </thead>
         <tbody>
@@ -34,7 +34,7 @@
             {% set user = users[student.userId]|default(null) %}
             {% include 'course-manage/student/tr-v2.html.twig' %}
           {% else %}
-            <tr class="empty"><td colspan="20">{{'course.members_manage.official_student.empty'|trans}}</td></tr>
+            <tr class="empty"><td colspan="20">暂时没有学员</td></tr>
           {% endfor %}
 
         </tbody>

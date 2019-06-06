@@ -764,99 +764,6 @@ question.marker_question.add_practice_tips: >
   <p class="text-md">将题目拖拽到<span class='color-warning'>「视频编辑区域」</p>
 question.marker_question.video_edit_block: 视频编辑区域
 
-# 教学资料库
-material_lib: 教学资料库
-material_lib.content_title: 教学资料库
-material_lib.my: 我的资料
-material_lib.public: 公共资料
-material_lib.favorite: 收藏夹
-material_lib.sharing: 来自分享
-material_lib.search.search_btn: 搜索
-material_lib.search.input_placeholder: 输入标题关键字
-material_lib.search.tags: 标签：
-material_lib.search.conditions: 筛选：
-material_lib.search.conditions.start_time: 起始时间
-material_lib.search.conditions.finish_time: 结束时间
-material_lib.search.conditions.convert_status: 转码状态
-material_lib.search.conditions.convert_status.success: 转码成功
-material_lib.search.conditions.convert_status.doing: 转码中
-material_lib.search.conditions.convert_status.error: 转码失败
-material_lib.search.conditions.use_status: 使用状态
-material_lib.search.conditions.use_status.using: 未使用
-material_lib.search.conditions.use_status.used: 已使用
-material_lib.tag_manage: 标签设置
-material_lib.tag_manage.tag: 标签
-material_lib.tag_manage.input_placeholder: 标签
-material_lib.tag_manage.tag_tips: 标签来自网校课程标签，由网校管理员统一管理。
-material_lib.tag_manage.tag_explain: 用于按标签搜索课程、相关课程的提取等，由网校管理员后台统一管理
-material_lib.preview.content_title: 资料预览
-material_lib.preview.not_support_tips: 该文件暂不支持预览
-material_lib.preview.local_file_not_support_tips: 本地文件暂不支持预览
-material_lib.detail.content_title: 资源详情
-material_lib.detail.base_info: 基本信息
-material_lib.detail.cover_image: 封面
-material_lib.detail.converting_tips: 视频还没有转码完成，请等待转码完成......
-material_lib.detail.title: 标题
-material_lib.detail.tag: 标签
-material_lib.detail.tag_tips: 标签来自网校课程标签，由网校管理员统一管理。
-material_lib.detail.description: 简介
-material_lib.detail.share: 分享
-material_lib.detail.share.share_to_public: 共享到公共资料
-material_lib.detail.share.share_to_public_tips: （其他老师可以查看、预览、引用该资料）
-material_lib.detail.share.only_myself: 仅自己可见
-
-material_lib.delete.content_title: 文件删除
-material_lib.delete.confirm_delete_tips: 是否确认删除资源？
-material_lib.delete.delete_tips: 文件若被引用，删除会引起引用考试无法正常使用
-
-material_lib.upload_file.creator: 作者：
-material_lib.upload_file.empty: 无文件记录
-material_lib.upload_file.time: 时间：
-material_lib.upload_file.not_used: 未使用
-material_lib.upload_file.convert_status.error: 转码失败
-material_lib.upload_file.convert_status.doing: 转码中
-material_lib.sharing_history: 我的分享历史
-material_lib.sharing_history.share_to: 分享资料给
-material_lib.sharing_history.share_to.input_placeholder: 输入用户名
-material_lib.sharing_history.time: 时间
-material_lib.sharing_history.nickname: 昵称
-material_lib.sharing_history.operation: 操作
-material_lib.sharing_history.description: 描述
-material_lib.sharing_history.share_with_friend: 分享给%nickname%
-material_lib.sharing_history.cancel_share_with_friend: 取消与%nickname%的分享
-material_lib.sharing_history.share_with_teacher: 将资料分享给%nickname%老师。
-material_lib.sharing_history.cancel_share_with_teacher: 取消分享
-material_lib.sharing_history.empty: 无资料分享记录
-material_lib.sharing_history.history_btn: 我的分享
-material_lib.sharing_history.share_user_btn: 分享用户
-material_lib.sharing_history.history_detail_btn: 历史记录
-material_lib.my_sharing: 分享资料
-material_lib.my_sharing.share_to: 分享资料给
-material_lib.my_sharing.share_to.input_placeholder: 输入用户名
-material_lib.my_sharing.my_btn: 分享资料
-material_lib.type: 类型：
-material_lib.type.all: 全部
-material_lib.type.video: 视频
-material_lib.type.audio: 音频
-material_lib.type.image: 图片
-material_lib.type.doc: 文档
-material_lib.type.other: 其它
-material_lib.btn.collect: 收藏
-material_lib.btn.edit: 编辑
-material_lib.btn.view: 查看
-material_lib.btn.subtitle_manage: 字幕管理
-material_lib.btn.download: 下载
-material_lib.btn.cancel_share: 取消共享
-material_lib.btn.share: 共享
-material_lib.btn.delete: 删除
-material_lib.btn.preview: 资料预览
-material_lib.btn.convert_again: 重新转码
-material_lib.btn.upload_files: 上传资料
-material_lib.btn.batch_manage: 批量管理
-material_lib.btn.add_tag: 添加标签
-material_lib.btn.share: 共享
-material_lib.btn.delete: 删除
-material_lib.btn.back: 返回列表
 
 # 课程
 course: 课程
@@ -966,70 +873,18 @@ course.teaching_plan.manage_btn: 管理
 course.teaching_plan.no_permission: 无权限管理
 
 course.plan_setup: 计划设置
-course.plan_base_info: 基础设置
-course.plan_setup.name: 计划名称
-course.plan_setup.placeholder: 请输入计划名称
-course.plan_setup.mode: 学习模式
-course.plan_setup.mode.free: 自由式学习
-course.plan_setup.mode.locked: 解锁式学习
-course.plan_setup.mode.locked_tips: 根据既定顺序逐个解锁学习
-course.plan_setup.mode.free_tips: 学习过程自由安排
-course.plan_setup.finish_rule: %taskName%完成规则
-course.plan_setup.finish_rule.depend_on_finish_condition: 由%taskName%完成条件决定
-course.plan_setup.finish_rule.depend_on_finish_condition_tips: 必须达到完成条件，%taskName%才算完成
+
 course.plan_setup.finish_rule.nothing: 无限制
 course.plan_setup.member_numbers: 课程人数
-course.plan_setup.member_numbers.view_rule_btn: 【查看直播课程细则】
-course.plan_setup.summary: 计划简介
-course.plan_setup.subtitle: 计划副标题
-course.plan_setup.target: 课程目标
-course.plan_setup.audiences: 适应人群
-course.base_setup: 基础设置
-courseset.setup: 课程设置
-course.base_setup.rules: 基础规则
-course.base_info: 基础信息
-course.base_plan_intro: 计划使用指南
+
 course.marketing_setup: 营销信息
 course.student_manage: '学员管理'
 course.marketing_setup.setup: 加入设置
 course.marketing_setup.setup.can_join: 可加入
 course.marketing_setup.setup.can_not_join: 不可加入
 course.marketing_setup.setup.can_join.tips: 关闭后，前台显示为“限制课程”，学员自己无法加入，需要由老师手动添加学员。常用于封闭型教学。
-course.marketing_setup.price.free: 免费
-course.marketing_setup.price.not_free: 收费
-course.marketing_setup.for_show_tips: 仅作展示用
-course.marketing_setup.expiry_date: 加入截止日期
-course.marketing_setup.expiry_date.custom: 自定义
-course.marketing_setup.expiry_date.anytime: 不限时间
-course.marketing_setup.approval: 实名认证
-course.marketing_setup.approval_tips: 设置该值后，学员购买课程前，必须先去申请实名认证。
-course.marketing_setup.rule: 学习规则
-course.marketing_setup.rule.expiry_date: 学习有效期
-course.marketing_setup.rule.expiry_date_tips: 在此日期前，学员可进行学习。
-course.marketing_setup.rule.expiry_date.publish_tips: 从加入当天起，在几天内可进行学习。
-course.marketing_setup.rule.expiry_date.first_publish_tips: 教学计划一旦发布，有效期类型不能修改；课程或教学计划关闭后，可以修改日期，新的学习有效期仅对修改后加入的学员生效。
-course.marketing_setup.rule.watch_time_limit: 视频观看时长限制
-course.marketing_setup.rule.watch_time_limit.watch_limit: 倍总时长
-course.marketing_setup.rule.watch_time_limit.watch_limit_tips: >
-  例：课程视频总时长为100分钟，设置为5倍，则学员总共可观看500分钟，超出时长将提示不能学习。0表示无限制。<br/>
-  对于手动上传的回放视频，可限制其观看时长。但对于直接录制、跳转到第三方直播平台回放的视频，无法限制。
-course.marketing_setup.preview: 预览试看
-course.marketing_setup.preview.set_task: 设置免费学习%taskName%
-course.marketing_setup.preview.set_task.task_name: %name%%taskName%
-course.marketing_setup.preview.set_task.free: 免费
-course.marketing_setup.preview.set_task.free_tips: 免费%taskName%仅支持
-course.marketing_setup.preview.try_watch: 视频试看
-course.marketing_setup.preview.not.support.try_watch: 不支持试看
-course.marketing_setup.preview.minutes.try_watch: 分钟试看
-course.marketing_setup.preview.try_watch_tips: 常用于收费视频内容的前几分钟免费试看
-course.marketing_setup.services: 增值服务
-course.marketing_setup.services.show_services: 展示承诺服务
-course.marketing_setup.services.provide_services: 承诺提供服务
-course.marketing_setup.no_permission_tips: 抱歉，您无权管理课程基础设置，如有需要请联系网站管理员！
-course.marketing_setup.reward_point_setting: %name%设置
-course.marketing_setup.study_award:　学习奖励
-course.marketing_setup.task_award: 完成单个活动
-course.marketing_setup.course_award: 完成教学计划
+
+
 
 course.teacher_setup: 教师管理
 course.teacher_setup.exist_teacher: 已添加教师
@@ -1038,53 +893,14 @@ course.teacher_setup.exist_teacher.add_tips: 只能添加有教师权限的用�
 course.members_manage: 学员管理
 course.members_manage.official_student: 正式学员
 course.members_manage.official_student.search: 搜索
-course.members_manage.official_student.batch_upload_deadline: 批量修改有效期
-course.members_manage.official_student.input_placeholder: 请输入用户名/邮箱/手机号
+
+course.members_manage.official_student.input_placeholder: 请输入用户名/邮箱
 course.members_manage.official_student.progress: 学习进度
-course.members_manage.official_student.operation: 操作
-course.members_manage.official_student.detail: （查看详情）
-course.members_manage.official_student.show: 查看资料
-course.members_manage.official_student.more: 更多
-course.members_manage.official_student.send_message_btn: 发私信
-course.members_manage.official_student.remark: 备注
-course.members_manage.official_student.follow_btn: 关注
-course.members_manage.official_student.cancel_follow_btn: 取消关注
-course.members_manage.official_student.add_expiry_day_btn: 增加有效期
-course.members_manage.official_student.update_expiry_day_btn: 修改有效期
-course.members_manage.official_student.remove_btn: 移除
-course.members_manage.official_student.join_time: 加入时间：%createdTime%
-course.members_manage.official_student.expiry_date: 有效期至：%deadline%
-course.members_manage.official_student.empty: 暂无学员记录
+
 course.members_manage.official_student.add: 添加
 course.members_manage.official_student.add_tips: 只能添加系统中已注册的用户
-course.members_manage.official_student.add.input_placeholder: 邮箱/手机/用户名
-course.members_manage.official_student.add.price: 购买价格
-course.members_manage.official_student.add.price_tips: 本课程的价格为
-course.members_manage.official_student.add.remark: 备注
-course.members_manage.official_student.add.remark_tips: 选填
-course.members_manage.official_student.add.failed_tips: 课程不能添加
-course.members_manage.official_student.add.publish_tips: 请课程发布后再添加。
-course.members_manage.official_student.detail.study_process: 的学习情况
-course.members_manage.official_student.detail.process: 学习进度
-course.members_manage.official_student.detail.datas: 学习数据
-course.members_manage.official_student.detail.total_hours: %learnedTime%小时
-course.members_manage.official_student.detail.per_day_hours: %learnedTimePerDay%小时
-course.members_manage.official_student.detail.days: %daysCount%天
-course.members_manage.official_student.detail.total_days: 累计学习天数
-course.members_manage.official_student.detail.total_time: 学习时长
-course.members_manage.official_student.detail.per_day_time: 日均学习时长
-course.members_manage.official_student.detail.create_question: 发起提问
-course.members_manage.official_student.detail.join_activity: 参加%taskName%
-course.members_manage.official_student.detail.create_article: 发起话题
-course.members_manage.official_student.detail.reply_article: 回复话题
-course.members_manage.official_student.detail.status.unfinished: 未完成
-course.members_manage.official_student.detail.status.finished: 准时完成
-course.members_manage.official_student.detail.status.overdue: 逾期
-course.members_manage.official_student.detail.status.serious_overdue: 严重逾期
-course.members_manage.official_student.detail.task_sleep: %taskName% :都睡觉
-course.members_manage.official_student.send_message.receiver: 收件人
-course.members_manage.official_student.send_message.content: 内容
-course.members_manage.official_student.show.content_title: 个人详细信息
+course.members_manage.official_student.add.input_placeholder: 邮箱/用户名
+
 course.members_manage.official_student.remark.tips: >
   请填写学员的备注信息
 course.members_manage.official_student.modify_expiry_day: 修改学员有效期
@@ -1092,26 +908,9 @@ course.members_manage.official_student.add_expiry_day.add: 增加
 course.members_manage.official_student.add_expiry_day.course_expiry_date: 课程有效期
 course.members_manage.official_student.add_expiry_day.title: 课程标题
 course.members_manage.official_student.add_expiry_day.username: 用户名
-course.members_manage.official_student.add_expiry_day.update: 修改有效期
-course.members_manage.official_student.add_expiry_day.update.days: 修改天数
-course.members_manage.official_student.add_expiry_day.update.date: 修改日期
-course.members_manage.official_student.add_expiry_day.failed_tips: 课程不能增加
-course.members_manage.official_student.add_expiry_day.publish_tips: 有效期，请课程发布后再增加。
-course.members_manage.quit_records: 退出记录
-course.members_manage.quit_type: 退出类型
-course.members_manage.is_refunded: 是否退款
+
 course.members_manage.records.name: 学员名称
-course.members_manage.quit_records.reason: 退出原因
-course.members_manage.quit_records.status: 退款状态
-course.members_manage.quit_records.date: 退出日期
-course.members_manage.quit_records.empty: 无学员记录
-course.members_manage.quit_records.join_time: 加入课程时间：
-course.members_manage.quit_records.success: 退款成功
-course.members_manage.is_paid: 是否付费
-course.members_manage.join_records: 加入记录
-course.members_manage.records.join_reason: 加入原因
-course.members_manage.records.join_reason_type: 加入类型
-course.members_manage.join_records.date: 加入日期
+
 
 course.testpaper_check: 试卷批阅
 course.testpaper_check.no_permission_tips: 当前用户不是本课程教师，没有批阅试卷的权限。
@@ -1149,69 +948,19 @@ course.homework_check.review.system_review: 系统批阅
 course.homework_check.review.view_result_btn: 查看结果
 course.homework_check.review.teacher_check_tips: 请完成以下题目的批阅。
 course.homework_check.review.input_comment: 请输入评语
-course.homework_check.review.common_comments: >
-  <option value="">---常用评语---</option>
-  <option value="1">继续努力，继续进步！</option>
-  <option value="2">不错，有进步，再努力些就会更棒！</option>
-  <option value="3">你真棒！我为你骄傲！</option>
-  <option value="4">有点松懈了吧？继续加油吧！</option>
-  <option value="5">用心、专注、坚持，你能做的更好的！</option>
+
 course.homework_check.review.score: 试卷得分
 
-course.homework_check.teacher_say.default: 常用评语
-course.homework_check.teacher_say.option_one: 继续努力，继续进步！
-course.homework_check.teacher_say.option_two: 不错，有进步，再努力些就会更棒！
-course.homework_check.teacher_say.option_three: 你真棒！我为你骄傲！
-course.homework_check.teacher_say.option_four: 有点松懈了吧？继续加油吧！
-course.homework_check.teacher_say.option_five: 用心、专注、坚持，你能做的更好的！
+
 course.homework_check.finish_check: 完成批阅
 course.homework_check.finish_check_submiting: 正在提交, 请稍等
 course.homework_check.teacher_say.input_placeholder: 请输入评语
-course.homework_check.need_check_item: >
-  待批阅题目 <small class="color-gray">共%itemCount%题</small>
 
-course.question_marker_statistics: 弹题统计
 
-course.dashboard: 学习数据
-course.dashboard.content_title: 课程学习数据
-course.dashboard.course_dashboard: 数据概览
-course.dashboard.success_rate: %taskName%完成率
-course.dashboard.study_detail.name: %taskName%名
-course.dashboard.study_detail.per_study_time: 平均学习时长(分)
-course.dashboard.study_detail.audio_time: 音视频时长(分)
-course.dashboard.study_detail.audio_time_tips: 音视频的实际时长，仅支持云视频和本地音视频
-course.dashboard.study_detail.per_audio_time: 音视频平均观看时长(分)
-course.dashboard.study_detail.per_audio_time_tips: 每个学员的实际观看时长的平均数
-course.dashboard.study_detail.per_score: 测试平均得分
-course.dashboard.study_detail.per_score_tips: 每个学员测试得分的平均数
-course.dashboard.study_detail.detail: 学员学习详情
-course.dashboard.study_detail.detail_btn: 查看
-course.dashboard.study_detail.tips: 注：网络视频的观看时长无法获取
-course.dashboard.study_detail.text: （图文）
-course.dashboard.study_detail.video: （视频）
-course.dashboard.study_detail.audio: （音频）
-course.dashboard.study_detail.testpaper: （试卷）
-course.dashboard.study_detail.ppt: （ppt）
-course.dashboard.study_detail.detail.username: 用户名
-course.dashboard.study_detail.detail.audio_learn_time: 音视频学习时长（分）
-course.dashboard.study_detail.detail.score: 最近考试得分
-course.dashboard.stunents_numbers: 计划学员数
+
 course.dashboard.finished_numbers: 完成人数
 course.dashboard.finished_course_rate: 完课率
-course.dashboard.finished_course_rate_tips: 学完整个教学计划的人数 ÷ 该教学计划学员总数
-course.dashboard.notes_numbers: 笔记数
-course.dashboard.questions_numbers: 提问数
-course.dashboard.discussions_numbers: 话题数
-course.dashboard.free_view_numbers: 免费试看数
-course.dashboard.free_view_numbers_tips: 观看免费%taskName%和试看视频的总次数
-course.dashboard.student_trend: 学员趋势
-course.dashboard.student_trend_seven_days: 7天
-course.dashboard.student_trend_thirty_days: 30天
-course.dashboard.student_detail: 学员详情
-course.dashboard.task_detail: %taskName%详情
-course.dashboard.student_chart.time_select_all: 全部
-course.dashboard.student_chart.time_select_unFinished: 未完成
-course.dashboard.student_chart.time_select_seven_days: 7天未学
+
 
 course.members_manage.add_btn: 添加学员
 course.members_manage.batch_import_btn: 批量导入
@@ -1225,62 +974,13 @@ course.order.status: 订单状态
 course.order.start_time: 起始时间
 course.order.end_time: 结束时间
 
-course.replay_manage: 录播管理
-course.replay_manage.content_title: 录播管理
-course.replay_manage.empty: 暂无直播内容！
-course.replay_manage.tips: 提示：上传录像文件后无法再生成在线录像!
-course.replay_manage.unpublished: 未发布
-course.replay_manage.live_not_stop: 直播未结束
-course.replay_manage.ungenerated: 未录制回放
-course.replay_manage.generated: 已录制回放
-course.replay_manage.video_generated.file_exsist: 已上传录像
-course.replay_manage.video_generated.file_not_exsist: 回放视频文件已删除
-course.replay_manage.record: 录制
-course.replay_manage.record_again: 重新录制
-course.replay_manage.replay: 上传回放
-course.replay_manage.preview_btn: 预览
-course.replay_manage.edit_btn: 编辑
 course.replay_manage.live_show.edit: 录播显示编辑
 course.replay_manage.upload_modal.edit_replay: 编辑回放视频
 course.replay_manage.upload_modal.add_replay: 添加回放视频
 
 course.teach_plan_manage: 教学计划
-course.teach_plan_price: 计划价格
 
-course.cover: 课程封面
-course.cover.change: 修改封面图片
-course.cover_image: 封面图片
-course.cover_image.content_title: 封面图片
-course.cover_image.upload_tips: >
-  请上传jpg, gif, png格式的图片, 建议图片尺寸为 480×270px。建议图片大小不超过2MB。
-course.cover_image.upload_btn: 选择要上传的图片
 
-course.expiry_date: 学习有效期
-course.expiry_date.days_mode: >
-  %expiryDays% 天（随到随学）
-course.expiry_date.days_mode.total_days: 共%expiryDays%天
-course.expiry_date.end_date_mode: >
-  截止：%expiryEndDate%（随到随学）
-course.expiry_date.date_mode: >
-  开始：%expiryStartDate% &nbsp;
-  截止：%expiryEndDate%
-course.expiry_date.forever_mode: 永久有效
-course.expiry_date.expiryStartDate: >
-  课程将于%expiryStartDate%开始授课，请耐心等待
-course.expiry_date.overdue: （已到期）
-course.expiry_date.today_will_overdue: （今日过期）
-course.expiry_date.tomorrow_will_overdue: （明日过期）
-course.expiry_date.days_remaining: （剩余 %lastDays% 天）
-
-course.buy_expiry_date: 购买有效期
-course.buy_expiry_date.buy_expiry_time: >
-  <span class="course-detail-title ">购买截止日期</span>
-  <span class="gray-dark mrl">%buyExpiryTime% 23:59</span>
-
-course.showServices: 承诺服务
-course.showServices.empty: 暂未提供
-course.status.followed: 已收藏
-course.status.follow: 收藏
 course.status.closed: 已关闭
 course.status.unpublished: 未发布
 course.status.serialized: 更新中
@@ -1291,28 +991,10 @@ course.student_member: 课程学员
 course.student.cell: 人
 course.plan.cell: 个
 course.manage_btn: 管理课程
-course.preview.course: 预览课程
-course.preview.plan: 预览计划
-course.check.plan: 查看计划
-course.share: 分享
-course.belong_to_classroom_tips: >
-  该课程属于
-  <a href="%classroomUrl%">%classroomTitle%</a>
-  请加入后再学习
-course.course_limited_tips: 抱歉，该课程为限制课程，请联系客服
-course.course_closed_tips: 抱歉，教学计划%title%已关闭！
-course.courseSet_closed_tips: 抱歉，课程%title%已关闭！
-course.unbuyable.unpublished_tips: 课程还未发布，不允许加入和购买
-course.unbuyable.over_buy_expiry_time_tips: 超过加入截止日期，不允许加入和购买
-course.unbuyable.over_expiry_end_date_tips: 超过学习截止日期，不允许加入和购买
+
+
 course.introduction: 介绍
-course.introduction.more_teaching_plan: >
-  想查看更多教学计划？<a href="%courseUrl%">返回课程宣传页</a>
-course.introduction.course_introduction: 课程介绍
-course.introduction.course_target: 课程目标
-course.introduction.course_target_empty: 为设置目标
-course.introduction.audiences: 适合人群
-course.introduction.audiences_empty: 为设置目标
+
 course.catalogue.content_title: 目录
 course.catalogue.task.preview_btn: 预览
 course.catalogue.task.try_look_btn: 试看
@@ -3710,61 +3392,7 @@ attachments.download.download_btn: 下载
 attachments.download.delete_btn: 删除
 attachments.download.delete_warning: 确定删除此附件
 
-# 分享
-share.course_set_message: 我正在学习《%course%》，收获巨大哦，一起来学习吧！
-share.classroom_message: 我正在学习「%classroom%」，收获巨大哦，一起来学习吧！
-share.article_message: 我正在看「%articletitle%」，关注「%sitename%」，分享知识，成就未来。
-share.group_thread_message: 我正在「%groupname%」小组，看到「%threadname%」，很不错哦，一起来看看吧！
-share.course_message: 我正在学习《%course%》，收获巨大哦，一起来学习吧！
-share.open_course_message: 我正在学习《%course%》，收获巨大哦，一起来学习吧！
-share.task_message: 我正在学习《%course%》，收获巨大哦，一起来学习吧！
-share.weixin_share: 分享到微信
-share.tsina_share: 分享到新浪微博
-share.qq_share: 分享到QQ好友
-share.qzone_share: 分享到QQ空间
 
-# 移动端
-mobile.page_title: 移动学习
-mobile.app_name: 阔知学堂
-mobile.app_tips: 将学校装进口袋，移动学习，随时随地。
-mobile.app_download_btn: 下载APP
-mobile.app_download_tips: >
-  <p class="main-slogan">更好的移动端学习</p>
-  <p class="sub-slogan">好好学习，天天向上</p>
-mobile.app_login_btn: 登录网校
-mobile.app_login_tips: 扫一扫登录客户端
-mobile.step_one: >
-  <span class="member">1</span>第一步:
-mobile.step_one_tips: 扫描二维码，下载手机APP。
-mobile.Android_client: Android 客户端
-mobile.iPhone_client: iPhone客户端
-mobile.step_two: >
-  <span class="member">2</span>第二步: 打开阔知学堂APP，扫描网校二维码。
-mobile.vip_free_study: 会员免费买
-
-# 客服
-customer_service: 在线客户服务
-customer_service.status: 在线客户服务
-customer_service.status.open: 开启
-customer_service.status.close: 关闭
-customer_service.open_content_title: 查看在线客服
-customer_service.close_content_title: 关闭在线客服
-customer_service.open_btn: 展开
-customer_service.close_btn: 收缩
-customer_service.QQ: 客服QQ
-customer_service.mobile: 电话
-customer_service.customer_mobile: 客服电话
-customer_service.email: 邮件
-customer_service.customer_email: 客服Mail
-customer_service.feedback_email: 反馈邮件
-customer_service.qq_customer_service: QQ客服
-customer_service.qq_group: QQ群
-customer_service.mobile_group: 电话客服
-customer_service.weixin-content: 微信公众号
-customer_service.email: 电子邮箱
-customer_service.time: 服务时间：
-customer_service.send_message: 点击这里给我发消息
-customer_service.customer_email: 反馈邮件
 
 # 我的教学
 my.teaching.menu_heading: 我的教学
