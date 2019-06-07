@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 
 import 'codeages-design';
 // import 'common/tabs-lavalamp';
-import 'common/card';
+// import 'common/card';
 import 'common/ajax-event';
 import 'common/bootstrap-modal-hack';
 import RewardPointNotify from 'app/common/reward-point-notify';

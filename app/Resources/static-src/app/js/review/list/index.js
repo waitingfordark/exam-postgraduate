@@ -1,5 +1,5 @@
 import notify from 'common/notify';
-import ThreadShowWidget from 'app/js/thread/thread-show';
+// import ThreadShowWidget from 'app/js/thread/thread-show';
 let $form = $('#review-form');
 
 let validator = $form.validate({
@@ -94,23 +94,3 @@ $reviews.on('click', '.show-short-btn', function () {
   $review.find('.show-full-btn').show();
 });
 
-if ($('.js-reviews').length > 0) {
-  let threadShowWidget = new ThreadShowWidget({
-    element: '.js-reviews',
-  });
-
-  console.log($('.js-reviews'));
-  threadShowWidget.undelegateEvents('.js-toggle-subpost-form', 'click');
-  $('.js-toggle-subpost-form').click(function (e) {
-    e.stopPropagation();
-    let postNum = $(this).closest('.thread-subpost-container').find('.thread-subpost-content .thread-subpost-list .thread-subpost').length;
-
-    if (postNum >= 5) {
-      notify('danger', Translator.trans('course.manage.post_limit_hint'));
-      return;
-    }
-    let $form = $(this).parents('.thread-subpost-container').find('.thread-subpost-form');
-    $form.toggleClass('hide');
-    threadShowWidget._initSubpostForm($form);
-  });
-}
