@@ -20,26 +20,14 @@ class ManageController extends BaseQuestionController
     {
         $courseSet = $this->getCourseSetService()->tryManageCourseSet($id);
 
-        $sync = $request->query->get('sync');
-        if ($courseSet['locked'] && empty($sync)) {
-            return $this->redirectToRoute('course_set_manage_sync', array(
-                'id' => $id,
-                'sideNav' => 'question',
-            ));
-        }
-
         $conditions = $request->query->all();
 
         $conditions['courseSetId'] = $courseSet['id'];
-        $conditions['parentId'] = empty($conditions['parentId']) ? 0 : $conditions['parentId'];
+        $conditions['parentId'] = 0;
 
         $parentQuestion = array();
         $orderBy = array('createdTime' => 'DESC');
-        if ($conditions['parentId'] > 0) {
-            $parentQuestion = $this->getQuestionService()->get($conditions['parentId']);
-            $orderBy = array('createdTime' => 'ASC');
-        }
-
+        
         $paginator = new Paginator(
             $this->get('request'),
             $this->getQuestionService()->searchCount($conditions),
@@ -96,29 +84,6 @@ class ManageController extends BaseQuestionController
 
             $question = $this->getQuestionService()->create($data);
 
-            if ('continue' === $data['submission']) {
-                $urlParams = ArrayToolkit::parts($question, array('target', 'difficulty', 'parentId'));
-                $urlParams['type'] = $type;
-                $urlParams['id'] = $courseSet['id'];
-                $urlParams['goto'] = $request->query->get('goto', null);
-                $this->setFlashMessage('success', 'site.add.success');
-
-                return $this->redirect($this->generateUrl('course_set_manage_question_create', $urlParams));
-            }
-            if ('continue_sub' === $data['submission']) {
-                $this->setFlashMessage('success', 'site.add.success');
-
-                return $this->redirect(
-                    $request->query->get(
-                        'goto',
-                        $this->generateUrl(
-                            'course_set_manage_question',
-                            array('id' => $courseSet['id'], 'parentId' => $question['id'])
-                        )
-                    )
-                );
-            }
-
             $this->setFlashMessage('success', 'site.add.success');
 
             return $this->redirect(
@@ -134,8 +99,6 @@ class ManageController extends BaseQuestionController
 
         $questionConfig = $this->getQuestionConfig();
         $createController = $questionConfig[$type]['actions']['create'];
-        // var_dump($createController);
-        // die;
 
         return $this->forward($createController, array(
             'request' => $request,
@@ -149,9 +112,6 @@ class ManageController extends BaseQuestionController
         $courseSet = $this->getCourseSetService()->tryManageCourseSet($courseSetId);
 
         $question = $this->getQuestionService()->get($questionId);
-        if (!$question || $question['courseSetId'] != $courseSetId) {
-            throw new ResourceNotFoundException('question', $questionId);
-        }
 
         if ('POST' === $request->getMethod()) {
             $fields = $request->request->all();
@@ -192,24 +152,6 @@ class ManageController extends BaseQuestionController
         return $this->createJsonResponse(true);
     }
 
-    public function deletesAction(Request $request, $courseSetId)
-    {
-        $this->getCourseSetService()->tryManageCourseSet($courseSetId);
-
-        $ids = $request->request->get('ids', array());
-        $questions = $this->getQuestionService()->findQuestionsByIds($ids);
-        if (empty($questions)) {
-            throw new ResourceNotFoundException('questions', 0);
-        }
-        foreach ($questions as $question) {
-            if ($question['courseSetId'] != $courseSetId) {
-                throw new ResourceNotFoundException('question', $question['id']);
-            }
-        }
-        $this->getQuestionService()->batchDeletes($ids);
-
-        return $this->createJsonResponse(true);
-    }
 
     public function previewAction(Request $request, $courseSetId, $questionId)
     {

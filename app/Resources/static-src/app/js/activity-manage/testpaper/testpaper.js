@@ -189,46 +189,5 @@ export default class Testpaper {
     });
   }
 
-  dateTimePicker() {
-    let data = new Date();
-    let $starttime = $('input[name="startTime"]');
 
-    if ($starttime.is(':visible') && ($starttime.val() == '' || $starttime.val() == '0')) {
-      $starttime.val(data.Format('yyyy-MM-dd hh:mm'));
-    }
-   
-    $starttime.datetimepicker({
-      autoclose: true,
-      format: 'yyyy-mm-dd hh:ii',
-      language: document.documentElement.lang,
-      minView: 'hour',
-      endDate: new Date(Date.now() + 86400 * 365 * 10 *1000)
-    })
-      .on('show', event => {
-        this.$parentiframe.height($('body').height() + 240);
-      })
-      .on('hide', event => {
-        this.$step2_form.data('validator').form();
-        this.$parentiframe.height($('body').height());
-      })
-      .on('changeDate',event =>{
-        let date = event.date.valueOf();
-        // this.showEndTime(date);
-      });
-    $starttime.datetimepicker('setStartDate',data);
-    // this.showEndTime(Date.parse($starttime.val()));
-  }
-
-  // showEndTime(date) {
-  //   let limitedTime = $('input[name="limitedTime"]').val();
-  //   if (limitedTime != 0) {
-  //     let endTime = new Date(date + limitedTime * 60 * 1000);
-  //     let endDate = endTime.Format("yyyy-MM-dd hh:mm");
-  //     $('#starttime-show').html(endDate);
-  //     $('.endtime-input').removeClass('hidden');
-  //     $('input[name="endTime"]').val(endDate);
-  //   }else {
-  //     $('.endtime-input').addClass('hidden');
-  //   }
-  // }
 }

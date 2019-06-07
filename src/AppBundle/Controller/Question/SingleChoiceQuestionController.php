@@ -6,10 +6,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class SingleChoiceQuestionController extends BaseQuestionController
 {
-    public function showAction(Request $request, $id, $courseId)
-    {
-        // TODO: Implement showAction() method.
-    }
 
     public function editAction(Request $request, $courseSetId, $questionId)
     {
@@ -17,9 +13,6 @@ class SingleChoiceQuestionController extends BaseQuestionController
         $user = $this->getUser();
 
         $parentQuestion = array();
-        if ($question['parentId'] > 0) {
-            $parentQuestion = $this->getQuestionService()->get($question['parentId']);
-        }
 
         $manageCourses = $this->getCourseService()->findUserManageCoursesByCourseSetId($user['id'], $courseSetId);
         $courseTasks = $this->getTaskService()->findTasksByCourseId($question['courseId']);
@@ -27,7 +20,7 @@ class SingleChoiceQuestionController extends BaseQuestionController
         return $this->render('question-manage/single-choice-form.html.twig', array(
             'courseSet' => $courseSet,
             'question' => $question,
-            'parentQuestion' => $parentQuestion,
+            'parentQuestion' => '',
             'type' => $question['type'],
             'courseTasks' => $courseTasks,
             'courses' => $manageCourses,

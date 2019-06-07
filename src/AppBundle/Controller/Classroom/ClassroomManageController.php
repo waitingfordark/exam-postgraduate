@@ -1112,16 +1112,7 @@ class ClassroomManageController extends BaseController
 
     public function resultAnalysisAction(Request $request, $id, $activityId)
     {
-        $this->getClassroomService()->tryHandleClassroom($id);
-        $classroom = $this->getClassroomService()->getClassroom($id);
-
-        $activity = $this->getActivityService()->getActivity($activityId);
-        // var_dump($activity);
-        // die;
-        if (empty($activity) || !in_array($activity['mediaType'], array('homework', 'testpaper'))) {
-            return $this->createMessageResponse('error', 'Argument invalid');
-        }
-
+        
         $controller = 'AppBundle:Testpaper/Manage:resultAnalysis';
 
         return $this->forward($controller, array(

@@ -26,8 +26,9 @@ class LessonManageController extends BaseController
             $formData['fromCourseSetId'] = $course['courseSetId'];
             list($lesson, $task) = $this->getCourseLessonService()->createLesson($formData);
 
-            return $this->forward(
-                'AppBundle:Course/CourseManage:tasks',
+            // 显示考试管理列表
+            return $this->redirectToRoute(
+                'course_set_manage_course_tasks',
                 array(
                     'courseId' => $course['id'],
                     'courseSetId' => $course['courseSetId']
@@ -47,11 +48,8 @@ class LessonManageController extends BaseController
             $fields = $request->request->all();
             $fields['doTimes'] = 0; 
 
-            // 这里已经更新了
-            // $lesson = $this->getCourseLessonService()->updateLesson($lesson['id'], $fields);
             $task = $this->getTaskService()->updateTask($lessonId, $fields);
-            // var_dump($task);
-            // die;
+           
 
             return $this->forward(
                 'AppBundle:Course/CourseManage:tasks',
@@ -84,57 +82,7 @@ class LessonManageController extends BaseController
         return $this->createJsonResponse(array('success' => true));
     }
 
-    public function setOptionalAction(Request $request, $courseId, $lessonId)
-    {
-        $this->getCourseLessonService()->setOptional($courseId, $lessonId);
 
-        return $this->createJsonResponse(array('success' => true));
-    }
-
-    public function unsetOptionalAction(Request $request, $courseId, $lessonId)
-    {
-        $this->getCourseLessonService()->unsetOptional($courseId, $lessonId);
-
-        return $this->createJsonResponse(array('success' => true));
-    }
-
-    private function createTaskByFileAndCourse($file, $course)
-    {
-        $task = array(
-            'mediaType' => $file['type'],
-            'fromCourseId' => $course['id'],
-            'fromUserId' => $this->getUser()->getId(),
-            'fromCourseSetId' => $course['courseSetId'],
-            'courseSetType' => 'normal',
-            'media' => json_encode(array('source' => 'self', 'id' => $file['id'], 'name' => $file['filename'])),
-            'mediaId' => $file['id'],
-            'type' => $file['type'],
-            'length' => $file['length'],
-            'title' => str_replace(strrchr($file['filename'], '.'), '', $file['filename']),
-            'ext' => array('mediaSource' => 'self', 'mediaId' => $file['id']),
-            'categoryId' => 0,
-        );
-        if ('document' == $file['type']) {
-            $task['type'] = 'doc';
-            $task['mediaType'] = 'doc';
-        }
-
-        return $task;
-    }
-
-    //创建任务或修改任务返回的html
-    protected function getTaskJsonView($course, $task)
-    {
-        $taskJsonData = $this->createCourseStrategy($course)->getTasksJsonData($task);
-        if (empty($taskJsonData)) {
-            return $this->createJsonResponse(false);
-        }
-
-        return $this->createJsonResponse($this->renderView(
-            $taskJsonData['template'],
-            $taskJsonData['data']
-        ));
-    }
 
     /**
      * @return CourseService

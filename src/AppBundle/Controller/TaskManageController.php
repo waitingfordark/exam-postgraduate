@@ -76,43 +76,6 @@ class TaskManageController extends BaseController
         return $this->createJsonResponse(array('code' => true, 'message', 'html' => $html));
     }
 
-    public function batchCreateTasksAction(Request $request, $courseId)
-    {
-        $this->getCourseService()->tryManageCourse($courseId);
-        $mode = $request->query->get('mode');
-        if ($request->isMethod('POST')) {
-            $fileId = $request->request->get('fileId');
-            $file = $this->getUploadFileService()->getFile($fileId);
-
-            if (!in_array($file['type'], array('document', 'video', 'audio', 'ppt', 'flash'))) {
-                return $this->createJsonResponse(array('error' => '不支持的文件类型'));
-            }
-
-            $course = $this->getCourseService()->getCourse($courseId);
-            $task = $this->createTaskByFileAndCourse($file, $course);
-            $task['mode'] = $mode;
-
-            return $this->createTask($request, $task, $course);
-        }
-
-        $token = $request->query->get('token');
-        $parser = new UploaderToken();
-        $params = $parser->parse($token);
-
-        if (!$params) {
-            return $this->createJsonResponse(array('error' => 'bad token'));
-        }
-
-        return $this->render(
-            'course-manage/batch-create/batch-create-modal.html.twig',
-            array(
-                'token' => $token,
-                'targetType' => $params['targetType'],
-                'courseId' => $courseId,
-                'mode' => $mode,
-            )
-        );
-    }
 
     private function createTaskByFileAndCourse($file, $course)
     {

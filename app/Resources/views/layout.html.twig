@@ -1,13 +1,7 @@
 {% import "macro.html.twig" as web_macro %}
 <!DOCTYPE html>
-<!--[if lt IE 7]>
-<html class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>
-<html class="lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>
-<html class="lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!-->
-<html> <!--<![endif]-->
+
+<html>
 
 {% set lang = app.request.getLocale() %}
 {% set mobile = is_show_mobile_page() %}
@@ -25,7 +19,6 @@
   <meta name="viewport"
     content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <title>
-    {# {%- block title -%}{%- endblock -%} #}
     在线考试系统
   </title>
   {% block meta %}
@@ -41,16 +34,6 @@
 
 
   {{ setting('login_bind.verify_code', '')|raw }}
-  {% if setting('site.favicon') %}
-    {# <link rel="icon" href="{{ asset(setting('site.favicon')) }}" type="image/x-icon"/>
-    <link rel="shortcut icon" href="{{ asset(setting('site.favicon')) }}" type="image/x-icon" media="screen"/> #}
-  {% endif %}
-
-  <!--[if lt IE 9]>
-  <script src="{{ asset('static-dist/libs/html5shiv.js') }}"></script>
-  <script src="{{ asset('static-dist/es5-shim/es5-shim.js') }}"></script>
-  <script src="{{ asset('static-dist/es5-shim/es5-sham.js') }}"></script>
-  <![endif]-->
 
   {% block stylesheets %}
     {% include 'css_loader.html.twig' %}
@@ -61,16 +44,10 @@
 </head>
 <body class="{% block bodyClass %}{{ 'es-main-' ~ maincolor }} {{ 'es-nav-' ~ navigationcolor }} {% if bodyClass|default('') %}{{ bodyClass }}{% endif %}{% endblock %}">
 
-<!--[if lt IE 9]>
-<script src="{{ asset('static-dist/libs/fix-ie.js') }}"></script>
-{% include 'default/ie8-alert.html.twig' %}
-<![endif]-->
-
 {% block body %}
   <div class="es-wrap">
 
     {% block header %}
-      {# {% include 'site-hint.html.twig' %} #}
       {% include 'default/header.html.twig' %}
       {% include 'default/exception.html.twig' %}
     {% endblock %}
@@ -86,11 +63,8 @@
     {% endblock %}
 
     {% block footer %}
-      {% include 'default/footer.html.twig' %}
     {% endblock %}
 
-    {% block footer_mobile %}
-    {% endblock %}
 
     {% block bottom %}{% endblock %}
   </div>
@@ -118,13 +92,6 @@
   <div id="login-modal" class="modal" data-url="{{ path('login_ajax') }}"></div>
   <div id="modal" class="modal"></div>
   <div id="attachment-modal" class="modal"></div>
-
-  {% set reward_notify = pop_reward_point_notify() %}
-  {% if reward_notify %}
-    <div class="hidden" id="rewardPointNotify">
-      {{ reward_notify }}
-    </div>
-  {% endif %}
 
 {% endblock %}
 

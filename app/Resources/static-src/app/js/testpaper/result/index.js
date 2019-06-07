@@ -1,16 +1,12 @@
 import DoTestBase from '../widget/do-test-base';
 import { 
   initScrollbar,
-  testpaperCardFixed,
   testpaperCardLocation,
-  onlyShowError,
-  initWatermark } from '../widget/part';
+  onlyShowError } from '../widget/part';
 
 initScrollbar();
-testpaperCardFixed();
 testpaperCardLocation();
 onlyShowError();
-initWatermark();
 
 let doBase = new DoTestBase($('.js-task-testpaper-body'));
 clearInterval(doBase.$usedTimer);

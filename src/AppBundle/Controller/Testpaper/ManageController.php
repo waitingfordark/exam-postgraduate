@@ -22,22 +22,10 @@ class ManageController extends BaseController
     {
         $courseSet = $this->getCourseSetService()->tryManageCourseSet($id);
 
-        $sync = $request->query->get('sync');
-        if ($courseSet['locked'] && empty($sync)) {
-            return $this->redirectToRoute('course_set_manage_sync', array(
-                'id' => $id,
-                'sideNav' => 'testpaper',
-            ));
-        }
-
         $conditions = array(
             'courseSetId' => $courseSet['id'],
             'type' => 'testpaper',
         );
-
-        if ($courseSet['parentId'] > 0 && $courseSet['locked']) {
-            $conditions['copyIdGT'] = 0;
-        }
 
         $paginator = new Paginator(
             $this->get('request'),
@@ -211,12 +199,6 @@ class ManageController extends BaseController
 
     public function activityResultListAction(Request $request, $activityId)
     {
-        $activity = $this->getActivityService()->getActivity($activityId);
-
-        if (empty($activity) || 'testpaper' != $activity['mediaType']) {
-            return $this->createMessageResponse('error', 'Argument invalid');
-        }
-
         $conditions = array(
             'lessonId' => $activityId,
             'status' => 'finished'
@@ -436,7 +418,7 @@ class ManageController extends BaseController
         $testpaper = $this->getTestpaperService()->getTestpaper($testpaperId);
 
         if (!$testpaper || $testpaper['courseSetId'] != $courseSetId) {
-            return $this->createMessageResponse('error', 'testpaper not found');
+            return $this->createMessageResponse('error', '没有找到试卷');
         }
 
         if ('draft' != $testpaper['status']) {
@@ -448,10 +430,6 @@ class ManageController extends BaseController
 
             if (empty($fields['questions'])) {
                 return $this->createMessageResponse('error', '试卷题目不能为空！');
-            }
-
-            if (!empty($fields['passedScore'])) {
-                $fields['passedCondition'] = array($fields['passedScore']);
             }
 
             $this->getTestpaperService()->updateTestpaperItems($testpaper['id'], $fields);

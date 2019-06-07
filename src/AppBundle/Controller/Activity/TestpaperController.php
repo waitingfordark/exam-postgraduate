@@ -50,39 +50,6 @@ class TestpaperController extends BaseActivityController implements ActivityActi
         ));
     }
 
-    public function previewAction(Request $request, $task)
-    {
-        return $this->previewTestpaper($task['activityId'], $task['courseId']);
-    }
-
-    public function previewTestpaper($id, $courseId)
-    {
-        $activity = $this->getActivityService()->getActivity($id);
-        $testpaperActivity = $this->getTestpaperActivityService()->getActivity($activity['mediaId']);
-        $testpaper = $this->getTestpaperService()->getTestpaperByIdAndType($testpaperActivity['mediaId'], $activity['mediaType']);
-
-        if (!$testpaper) {
-            return $this->render('activity/testpaper/preview.html.twig', array(
-                'paper' => null,
-            ));
-        }
-
-        $questions = $this->getTestpaperService()->showTestpaperItems($testpaper['id']);
-
-        $total = $this->getTestpaperService()->countQuestionTypes($testpaper, $questions);
-
-        $attachments = $this->getTestpaperService()->findAttachments($testpaper['id']);
-
-        return $this->render('activity/testpaper/preview.html.twig', array(
-            'questions' => $questions,
-            'limitedTime' => $testpaperActivity['limitedTime'],
-            'paper' => $testpaper,
-            'paperResult' => array(),
-            'total' => $total,
-            'attachments' => $attachments,
-            'questionTypes' => $this->getCheckedQuestionType($testpaper),
-        ));
-    }
 
     public function editAction(Request $request, $id, $courseId)
     {
@@ -99,7 +66,6 @@ class TestpaperController extends BaseActivityController implements ActivityActi
 
         $testpapers = $this->findCourseTestpapers($course);
 
-        // $features = $this->container->hasParameter('enabled_features') ? $this->container->getParameter('enabled_features') : array();
 
         return $this->render('activity/testpaper/modal1.html.twig', array(
             'activity' => $activity,
@@ -115,12 +81,7 @@ class TestpaperController extends BaseActivityController implements ActivityActi
         $course = $this->getCourseService()->getCourse($courseId);
         $testpapers = $this->findCourseTestpapers($course);
 
-        // $features = $this->container->hasParameter('enabled_features') ? $this->container->getParameter('enabled_features') : array();
-
-
-        // 直接套用其他模板的话会少一些变量，可以考虑写一个新的
-        // var_dump(1);
-        // die;
+     
         return $this->render('activity/testpaper/modal1.html.twig', array(
             'testpapers' => $testpapers,
             'features' => array(),
