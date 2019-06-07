@@ -226,8 +226,6 @@ class ManageController extends BaseController
 
         $studentIds = ArrayToolkit::column($firstResults, 'userId');
         $users = $this->getUserService()->findUsersByIds($studentIds);
-        // var_dump($users);
-        // die;
 
         return $this->render(
             'task/testpaper-result-list.html.twig',
@@ -348,27 +346,6 @@ class ManageController extends BaseController
         $this->getTestpaperService()->deleteTestpaper($testpaperId);
 
         return $this->createJsonResponse(true);
-    }
-
-    public function deletesAction(Request $request, $courseSetId)
-    {
-        $this->getCourseSetService()->tryManageCourseSet($courseSetId);
-
-        $ids = $request->request->get('ids');
-
-        $testpapers = $this->getTestpaperService()->findTestpapersByIds($ids);
-        if (!empty($testpapers)) {
-            foreach ($testpapers as $testpaper) {
-                if ($testpaper['courseSetId'] != $courseSetId) {
-                    return $this->createMessageResponse('error', 'testpaper not found');
-                }
-            }
-            $this->getTestpaperService()->deleteTestpapers($ids);
-
-            return $this->createJsonResponse(true);
-        }
-
-        return $this->createMessageResponse('error', 'testpaper not found');
     }
 
     public function publishAction(Request $request, $courseSetId, $testpaperId)
@@ -493,36 +470,6 @@ class ManageController extends BaseController
         ));
     }
 
-    public function previewAction(Request $request, $courseSetId, $testpaperId)
-    {
-        $this->getCourseSetService()->tryManageCourseSet($courseSetId);
-
-        $testpaper = $this->getTestpaperService()->getTestpaper($testpaperId);
-        if (!$testpaper || $testpaper['courseSetId'] != $courseSetId) {
-            return $this->createMessageResponse('error', 'testpaper not found');
-        }
-
-        if ('closed' === $testpaper['status']) {
-            return $this->createMessageResponse('warning', 'testpaper already closed');
-        }
-
-        $questions = $this->getTestpaperService()->showTestpaperItems($testpaper['id']);
-
-        $total = $this->getTestpaperService()->countQuestionTypes($testpaper, $questions);
-
-        $attachments = $this->getTestpaperService()->findAttachments($testpaper['id']);
-
-        return $this->render('testpaper/manage/preview.html.twig', array(
-            'questions' => $questions,
-            'limitedTime' => $testpaper['limitedTime'],
-            'paper' => $testpaper,
-            'paperResult' => array(),
-            'total' => $total,
-            'attachments' => $attachments,
-            'questionTypes' => $this->getCheckedQuestionType($testpaper),
-        ));
-    }
-
     public function resultAnalysisAction(Request $request, $targetId, $targetType, $activityId, $studentNum)
     {
         $activity = $this->getActivityService()->getActivity($activityId);
@@ -553,75 +500,6 @@ class ManageController extends BaseController
             'relatedData' => $relatedData,
             'targetType' => $targetType,
         ));
-    }
-
-    public function resultGraphAction($activityId)
-    {
-        $activity = $this->getActivityService()->getActivity($activityId);
-
-        if (!$activity || 'testpaper' != $activity['mediaType']) {
-            return $this->createMessageResponse('error', 'Argument Invalid');
-        }
-
-        $testpaperActivity = $this->getTestpaperActivityService()->getActivity($activity['mediaId']);
-
-        $testpaper = $this->getTestpaperService()->getTestpaper($testpaperActivity['mediaId']);
-        $userFirstResults = $this->getTestpaperService()->findResultsByTestIdAndActivityId($testpaper['id'], $activity['id']);
-
-        $data = $this->fillGraphData($testpaper, $userFirstResults);
-        $analysis = $this->analysisFirstResults($userFirstResults);
-
-        $task = $this->getTaskService()->getTaskByCourseIdAndActivityId($activity['fromCourseId'], $activity['id']);
-
-        return $this->render('testpaper/manage/result-graph-modal.html.twig', array(
-            'activity' => $activity,
-            'testpaper' => $testpaper,
-            'data' => $data,
-            'analysis' => $analysis,
-            'task' => $task,
-        ));
-    }
-
-    protected function fillGraphData($testpaper, $userFirstResults)
-    {
-        $data = array('xScore' => array(), 'yFirstNum' => array(), 'yMaxNum' => array());
-
-        $totalScore = $testpaper['score'];
-        $maxTmpScore = 0;
-
-        $column = $totalScore <= 5 ? ($totalScore / 1) : 5;
-        for ($i = 1; $i <= $column; ++$i) {
-            $maxScoreCount = 0;
-            $firstScoreCount = 0;
-            $minTmpScore = $maxTmpScore;
-            $maxTmpScore = $totalScore * ($i / $column);
-
-            foreach ($userFirstResults as $result) {
-                if ($maxTmpScore == $totalScore) {
-                    if ($result['firstScore'] >= $minTmpScore && $result['firstScore'] <= $maxTmpScore) {
-                        ++$firstScoreCount;
-                    }
-
-                    if ($result['maxScore'] >= $minTmpScore && $result['maxScore'] <= $maxTmpScore) {
-                        ++$maxScoreCount;
-                    }
-                } else {
-                    if ($result['firstScore'] >= $minTmpScore && $result['firstScore'] < $maxTmpScore) {
-                        ++$firstScoreCount;
-                    }
-
-                    if ($result['maxScore'] >= $minTmpScore && $result['maxScore'] < $maxTmpScore) {
-                        ++$maxScoreCount;
-                    }
-                }
-            }
-
-            $data['xScore'][] = $minTmpScore.'-'.$maxTmpScore;
-            $data['yFirstNum'][] = $firstScoreCount;
-            $data['yMaxNum'][] = $maxScoreCount;
-        }
-
-        return json_encode($data);
     }
 
     protected function analysisFirstResults($userFirstResults)
