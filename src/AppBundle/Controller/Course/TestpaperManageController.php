@@ -24,21 +24,6 @@ class TestpaperManageController extends BaseController
         ));
     }
 
-    /**
-     * 仅作为8.0之前版本通知使用.
-     */
-    public function checkForwordAction(Request $request, $resultId)
-    {
-        $result = $this->getTestpaperService()->getTestpaperResult($resultId);
-
-        return $this->forward('AppBundle:Course/TestpaperManage:check', array(
-            'request' => $request,
-            'resultId' => $result['id'],
-            'source' => 'course',
-            'targetId' => $result['courseId'],
-        ));
-    }
-
     public function checkListAction(Request $request, $id)
     {
         $course = $this->getCourseService()->tryManageCourse($id);
@@ -81,26 +66,6 @@ class TestpaperManageController extends BaseController
         ));
     }
 
-    public function resultGraphAction(Request $request, $id, $activityId)
-    {
-        $this->getCourseService()->tryManageCourse($id);
-        $activity = $this->getActivityService()->getActivity($activityId);
-
-        if (empty($activity) || $activity['fromCourseId'] != $id) {
-            return $this->createMessageResponse('error', 'Activity not found');
-        }
-
-        if ('homework' == $activity['mediaType']) {
-            $controller = 'AppBundle:HomeworkManage:resultGraph';
-        } else {
-            $controller = 'AppBundle:Testpaper/Manage:resultGraph';
-        }
-
-        return $this->forward($controller, array(
-            'activityId' => $activityId,
-        ));
-    }
-
     public function resultAnalysisAction(Request $request, $id, $activityId)
     {
         $course = $this->getCourseService()->tryManageCourse($id);
@@ -122,28 +87,6 @@ class TestpaperManageController extends BaseController
             'targetType' => 'course',
             'studentNum' => $course['studentNum'],
         ));
-    }
-
-    public function resultNextCheckAction($id, $activityId)
-    {
-        $this->getCourseService()->tryManageCourse($id);
-        $activity = $this->getActivityService()->getActivity($activityId);
-
-        if (empty($activity) || $activity['fromCourseId'] != $id) {
-            return $this->createMessageResponse('error', 'Activity not found');
-        }
-
-        $checkResult = $this->getTestpaperService()->getNextReviewingResult(array($id), $activity['id'], $activity['mediaType']);
-
-        if (empty($checkResult)) {
-            $route = $this->getRedirectRoute('list', $activity['mediaType']);
-
-            return $this->redirect($this->generateUrl($route, array('id' => $id)));
-        }
-
-        $route = $this->getRedirectRoute('check', $activity['mediaType']);
-
-        return $this->redirect($this->generateUrl($route, array('id' => $id, 'resultId' => $checkResult['id'])));
     }
 
     protected function getRedirectRoute($mode, $type)

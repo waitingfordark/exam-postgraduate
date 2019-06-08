@@ -12,7 +12,5 @@ interface ActivityActionInterface
 
     public function createAction(Request $request, $courseId);
 
-    public function previewAction(Request $request, $task);
-
     public function finishConditionAction(Request $request, $activity);
 }

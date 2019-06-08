@@ -13,31 +13,6 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class CourseSetController extends CourseBaseController
 {
-    public function favoriteAction(Request $request)
-    {
-        $user = $this->getCurrentUser();
-
-        $paginator = new Paginator(
-            $this->get('request'),
-            $this->getCourseSetService()->countUserFavorites($user['id']),
-            12
-        );
-
-        $courseFavorites = $this->getCourseSetService()->searchUserFavorites(
-            $user['id'],
-            $paginator->getOffsetCount(),
-            $paginator->getPerPageCount()
-        );
-
-        return $this->render(
-            'my/learning/course-set/favorite.html.twig',
-            array(
-                'courseFavorites' => $courseFavorites,
-                'paginator' => $paginator,
-            )
-        );
-    }
-
     public function teachingAction(Request $request, $filter = 'normal')
     {
         $user = $this->getCurrentUser();
@@ -50,12 +25,6 @@ class CourseSetController extends CourseBaseController
             'type' => $filter,
             'parentId' => 0,
         );
-
-        if ('classroom' == $filter) {
-            $conditions['parentId_GT'] = 0;
-            unset($conditions['type']);
-            unset($conditions['parentId']);
-        }
 
         $paginator = new Paginator(
             $this->get('request'),
@@ -92,25 +61,10 @@ class CourseSetController extends CourseBaseController
             $courseSets
         );
 
-        $classrooms = array();
-
-        if ('classroom' == $filter) {
-            $classrooms = $this->getClassroomService()->findClassroomsByCourseSetIds(
-                ArrayToolkit::column($courseSets, 'id')
-            );
-            $classrooms = ArrayToolkit::index($classrooms, 'courseSetId');
-
-            foreach ($classrooms as &$classroom) {
-                $_classroom = $this->getClassroomService()->getClassroom($classroom['classroomId']);
-                $classroom['classroomTitle'] = $_classroom['title'];
-            }
-        }
-
         return $this->render(
             'my/teaching/course-sets.html.twig',
             array(
                 'courseSets' => $courseSets,
-                'classrooms' => $classrooms,
                 'paginator' => $paginator,
                 'filter' => $filter,
             )
@@ -122,23 +76,6 @@ class CourseSetController extends CourseBaseController
         return $this->container->get('router')->generate($route, $parameters, $referenceType);
     }
 
-    public function teachingLivesCalendarAction(Request $request)
-    {
-        $user = $this->getCurrentUser();
-
-        if (!$user->isTeacher()) {
-            return $this->createMessageResponse('error', '您不是老师，不能查看此页面！');
-        }
-
-        $liveCourseNumber = $this->getTaskService()->getTodayLiveCourseNumber();
-        $openLiveCourseNumber = $this->getOpenCourseService()->getTodayOpenLiveCourseNumber();
-        $courseNumber = $liveCourseNumber + $openLiveCourseNumber;
-
-        return $this->render(
-            'my/teaching/lives-calendar.html.twig',
-            array('courseNumber' => $courseNumber)
-        );
-    }
 
     public function livesAction(Request $request)
     {

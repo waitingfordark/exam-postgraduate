@@ -1,6 +1,3 @@
-import {
-  testpaperCardFixed,
-} from 'app/js/testpaper/widget/part';
 
 $.validator.addMethod('score',function(value,element){ 
   let isFloat = /^\d+(\.\d)?$/.test(value);
@@ -28,16 +25,13 @@ class CheckTest
     this._initEvent();
     this._init();
     this._initValidate();
-    // testpaperCardFixed();
     this.isContinue = false;
   }
 
   _initEvent() {
     this.$container.on('focusin','textarea',event=>this._showEssayInputEditor(event));
     this.$container.on('click','[data-role="check-submit"]',event=>this._submitValidate(event));
-    this.$container.on('click','*[data-anchor]',event=>this._quick2Question(event));
     this.$dialog.on('click','[data-role="finish-check"]',event=>this._submit(event));
-    this.$dialog.on('click','.js-next-check',event=>this._continue(event));
     this.$dialog.on('change','select',event=>this._teacherSayFill(event));
   }
 
@@ -123,12 +117,6 @@ class CheckTest
 
   }
 
-  _quick2Question(event) {
-    let $target = $(event.currentTarget); 
-    let position = $($target.data('anchor')).offset();
-    $(document).scrollTop(position.top - 55);
-  }
-
   _submitValidate() {
     let scoreTotal = 0;
 
@@ -168,13 +156,9 @@ class CheckTest
     let passedStatus = this.$dialog.find('[name="passedStatus"]:checked').val();
     let gotoUrl = $target.data('goto');
 
-    console.log(gotoUrl);
-    // ,goto: gotoUrl
-
     $target.button('loading');
     $.post($target.data('postUrl'), {result:this.checkContent,teacherSay:teacherSay,passedStatus:passedStatus,isContinue:this.isContinue}, function(response) {
       if (response.goto != '') {
-        // window.location.reload();
         window.location.href = response.goto;
       } else {
         window.location.reload();

@@ -1,61 +1,19 @@
 {% import "admin/macro.html.twig" as admin_macro %}
-
 {% import "common/data-dict-macro.html.twig" as dict_macro %}
+
 {% set target = ''~filter~'_index' %}
 <tr id="course-tr-{{ courseSet.id }}">
-  {# {% include 'org/parts/table-body-checkbox.html.twig' %} #}
   <td>{{ courseSet.id }}</td>
   <td>
     <strong>{{ courseSet.title }}</strong>
-    
-    {# {% if courseSet.type == 'live' %}
-      <span class="label label-success live-label mls">{{ 'admin.course_manage.manage.live_course'|trans }}</span>
-    {% endif %}
-    <br>
-    <span class="text-muted text-sm">{{ 'admin.course_manage.manage.category'|trans }}：{{ category.name|default('--') }}</span>
-    {% if courseSet.recommended %}
-      <span class="label label-default">{{ 'admin.course_manage.manage.recommend'|trans({'%recommendedTime%': courseSet.recommendedTime|date('Y-m-d'), '%recommendedSeq%': courseSet.recommendedSeq}) }}</span>
-    {% endif %} #}
   </td>
-  {# <td>
-    {% if courseSet.maxCoursePrice|default(0) == 0 or courseSet.maxCoursePrice|default(0) == courseSet.minCoursePrice|default(0) %}
-      {{ courseSet.maxCoursePrice|default(0) }}
-    {% else %}
-      {{ courseSet.minCoursePrice|default() }}-{{ courseSet.maxCoursePrice|default() }}
-    {% endif %}
-  </td> #}
-  
   <td>{{ dict_macro.courseStatus( courseSet.status) }}</td>
-
-  {% include 'org/parts/table-body-td.html.twig' with {orgCode: courseSet.orgCode} %}
-    
       <td>{{ courseSet.studentNum }}</td>
-    
-    {# {% if filter == 'vip' %}
-      {% set levels = courseSet['levels'] %}
-      {% set length = levels|length %}
-      {% if length == 0 %}
-        <td>{{ 'admin.course_manage.manage.vip_grade_removed'|trans }}</td>
-      {% else %}
-        <td>{{ levels|first.name }}
-          {% if length > 1 %}
-            <br>
-            <span class="text-muted text-sm">{{ 'admin.course_manage.manage.vip_grade_count'|trans({'%count%': length}) }}</span>
-          {% endif %}
-        </td>
-      {% endif %}
-    {% endif %} #}
-  
   <td>
     {{ user.nickname }}
     <br>
     <span class="text-muted text-sm">{{ courseSet.createdTime|date('Y-n-d H:i') }}</span>
   </td>
-  {# {% if filter != 'open' and filter != 'liveOpen' %}
-    <td>
-      <span class="text-info">{{ dict_text('courseSerializeMode',courseSet.serializeMode) }}</span>
-    </td>
-  {% endif %} #}
   <td>
     <div class="btn-group">
       {% include 'admin/role/templates/group-button.html.twig' with {parentCode: 'admin_course_manage', group:'groupButton', courseSet: courseSet} %}

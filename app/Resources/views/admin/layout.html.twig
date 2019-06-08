@@ -7,11 +7,6 @@
 {% set cloudSmsInfo = isOldSmsUser()|default(false) %}
 {% set lang = app.request.getLocale() %}
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html> <!--<![endif]-->
-{# returns app.request.locale if available and app.request.defaultLocale if app.request.locale is not set#}
 <html lang="{{ lang }}" class="{% if lang == 'en' %}es-en-admin{% endif %}">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -27,10 +22,6 @@
     {% if not setting('copyright.owned') %} | EduSoho{% endif %}
   </title>
 
-  {% if setting('site.favicon') %}
-    <link rel="icon" href="{{ asset(setting('site.favicon')) }}" type="image/x-icon" />
-    <link href="{{ asset(setting('site.favicon')) }}" rel="shortcut icon" />
-  {% endif %}
   
   {% block stylesheets %}
   {% include 'css_loader.html.twig' %}
@@ -40,59 +31,14 @@
   {% endblock %}
 
   {% block javascripts %}{% endblock %}
-  <!--[if lt IE 9]>
-    <script src="{{ asset('assets/libs/html5shiv.js') }}"></script>
-    <script src="{{ asset('assets/libs/respond.min.js') }}"></script>
-  <![endif]-->
+
 </head>
 {% block body %}
   <body {% if bodyClass|default('') %}class="{{ bodyClass }}"{% endif %}>
-    <!--[if lt IE 9]>
-      {% include 'default/ie8-alert.html.twig' %}
-    <![endif]-->
-
-    {# <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="{{ url('admin') }}">{% if not setting('copyright.owned') %}EduSoho{% endif %}{{'admin.navbar.header.console_btn'|trans}}</a>
-        </div>
-        <div class="navbar-collapse collapse">
-          {% include 'admin/role/templates/navigation.html.twig' with {parentCode:'admin'} %}
-
-          <ul class="nav navbar-nav navbar-right">
-            <li data-url="{{path('admin_common_admin')}}">
-              <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" ><span class="glyphicon glyphicon-list admin-star"></span> {{'admin.navbar.header.often_used_btn'|trans}}</a>
-              <ul class="dropdown-menu shortcuts">
-                {{ render(controller('AppBundle:Admin/CommonAdmin:commonAdmin')) }}
-              </ul>
-            </li>
-            <li><a href="{{ path('homepage') }}"><i class="glyphicon glyphicon-home"></i> {{'admin.navbar.header.home_btn'|trans}}</a></li>
-            <li class="dropdown">
-              <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i> {{ app.user.nickname }} <span class="glyphicon glyphicon-chevron-down"></span></a>
-              <ul class="dropdown-menu main-list">
-                {% if 'ROLE_TEACHER' in app.user.roles %}
-                  <li><a href="{{ path('my') }}"><i class="es-icon es-icon-event mrs" style="vertical-align: middle;"></i>{{ 'homepage.header.my_course'|trans }}</a></li>
-                {% endif %}
-                <li><a href="{{ path('my_courses_learning') }}"><i class="es-icon es-icon-book mrs"></i>{{ 'homepage.header.my_learning'|trans }}</a></li>
-                <li><a href="{{ path('logout') }}"><i class="glyphicon glyphicon-off"></i> {{'admin.navbar.header.dropdown_menu.exit_btn'|trans}}</a></li>
-              </ul>
-            </li>
-          </ul>
-
-        </div>
-      </div>
-    </div> #}
 
     {% include 'default/header.html.twig' %}
 
     <div class="container">
-
-      {% include 'admin/plugin-upgrade-notify-modal.html.twig' %}
 
       {% block container %}
         <div class="row">
@@ -133,7 +79,6 @@
 
               {% block content_header %}{% endblock %}
 
-              {# {% block tabs %}{% include 'admin/role/templates/tabs.html.twig' %}{% endblock %} #}
 
               {% block capsule %}{% endblock %}
 

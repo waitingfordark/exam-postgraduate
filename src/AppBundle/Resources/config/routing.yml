@@ -257,27 +257,14 @@ search:
     path:  /search
     defaults: { _controller: AppBundle:Search:index }
 
-cloud_search:
-    path:  /cloud/search
-    defaults: { _controller: AppBundle:Search:cloudSearch }
+
 
 settings:
     path:  /settings
     defaults: { _controller: AppBundle:Settings:profile }
     h5: true
 
-settings_avatar_crop_modal:
-    path:  /settings/avatar/crop/modal
-    defaults: { _controller: AppBundle:Settings:avatarCropModal }
 
-settings_profile_avatar_crop_modal:
-    path:  /settings/profile/avatar/crop/modal
-    defaults: { _controller: AppBundle:Settings:profileAvatarCropModal }
-
-settings_avatar_fetch_partner:
-    path:  /settings/avatar/fetch_partner
-    defaults: { _controller: AppBundle:Settings:avatarFetchPartner }
-    methods: [POST]
 
 settings_security:
     path:  /settings/security
@@ -287,25 +274,7 @@ settings_set_password:
     path:  /settings/set_password
     defaults: { _controller: AppBundle:Settings:setPassword }
 
-settings_pay_password:
-    path:  /settings/pay_password
-    defaults: { _controller: AppBundle:Settings:payPassword }
 
-settings_reset_pay_password:
-    path:  /settings/reset_pay_password
-    defaults: { _controller: AppBundle:Settings:resetPayPassword }
-
-settings_find_pay_password:
-    path:  /settings/find_pay_password
-    defaults: { _controller: AppBundle:Settings:findPayPassword }
-
-settings_update_pay_password:
-    path:  /settings/update_pay_password
-    defaults: { _controller: AppBundle:Settings:updatePayPassword }
-
-settings_security_questions:
-    path:  /settings/security_questions
-    defaults: { _controller: AppBundle:Settings:securityQuestions }
 
 setting_nickname:
     path: /settings/nickname
@@ -369,10 +338,6 @@ raw_password_update:
     path: /raw/password/update
     defaults: { _controller: AppBundle:PasswordReset:changeRawPassword }
 
-password_reset_check_mobile:
-    path:  /password/reset/check/mobile
-    defaults: { _controller: AppBundle:PasswordReset:checkMobileExists }
-
 
 category_all:
     path: /category/all
@@ -394,42 +359,16 @@ tag_show:
     path: /tag/{name}
     defaults: { _controller: AppBundle:Tag:show }
 
-following_match_bynickname:
-    path: /following/bynickname/match_jsonp
-    defaults: { _controller: AppBundle:Message:match }
-
-
-notification:
-    path: /notification
-    defaults: { _controller: AppBundle:Notification:index }
-
-batch_notification_show:
-    path: /notification/{id}
-    defaults: { _controller:AppBundle:Notification:show }
 
 my_teaching_course_sets:
     path: /my/teaching/course_sets/{filter}
     defaults: { _controller: AppBundle:My/CourseSet:teaching, filter: 'normal' }
 
-my_teaching_open_courses:
-    path: /my/teaching/open/courses/{filter}
-    defaults: { _controller: AppBundle:My/OpenCourse:teaching, filter:'open'}
 
 my_teaching_threads:
     path: /my/teaching/threads/{type}
     defaults: { _controller: AppBundle:My/Thread:teaching }
 
-my_teaching_classrooms:
-    path: /my/teaching/classrooms
-    defaults: { _controller: AppBundle:My/Classroom:teaching }
-
-my_teaching_live_calendar:
-    path: /my/teaching/live/calendar
-    defaults: { _controller: AppBundle:My/CourseSet:teachingLivesCalendar }
-
-my_live_courses_learning:
-    path: /my/learning/live
-    defaults: { _controller: AppBundle:My/CourseSet:lives }
 
 my_testpaper_check_list:
     path: /my/testpaper/check/{status}
@@ -439,77 +378,10 @@ my_testpaper_list:
     path: /my/testpaper/list
     defaults: { _controller: AppBundle:My/Testpaper:list }
 
-my_favorite_question_list:
-    path: /my/question/favorite/list
-    defaults: { _controller: AppBundle:My/Question:favoriteList }
-
-my_favorite_question_preview:
-    path: /my/question/{id}/favorite/preview
-    defaults: { _controller: AppBundle:My/Question:preview }
-
-my_question_favorite:
-    path: /my/question/{questionId}/favorite
-    defaults: { _controller: AppBundle:My/Question:favorite }
-
-my_question_unfavorite:
-    path: /my/question/unfavorite/{id}
-    defaults: { _controller: AppBundle:My/Question:unFavorite }
-
-my_homework_check_list:
-    path: /my/homework/check/{status}
-    defaults: { _controller: AppBundle:My/Homework:checkList, status: 'reviewing' }
-
-my_homework_list:
-    path: /my/homework/{status}/list
-    defaults: { _controller: AppBundle:My/Homework:list, status: 'finished' }
-
-my_orders:
-    path: /my/orders
-    defaults: { _controller: AppBundle:My/Order:index }
-    h5: true
-
-my_order_refunds:
-    path: /my/order_refunds
-    defaults: { _controller: AppBundle:My/OrderRefund:index }
-
-my_order_refund_detail:
-    path: /my/order_refund/{id}/detail
-    defaults: { _controller: AppBundle:My/OrderRefund:detail }
-
-my_order_refund_apply:
-    path: /my/order_refund/{id}/apply
-    defaults: { _controller: AppBundle:My/OrderRefund:applyRefund }
-
-my_order_cancel:
-    path: /my/order/{id}/cancel
-    defaults: { _controller: AppBundle:My/Order:cancel }
-    methods: [POST]
-
-web_user_order_detail:
-    path: /my/order/{id}/detail
-    defaults: { _controller: AppBundle:My/Order:detail }
-
-my_refunds:
-    path: /my/refunds
-    defaults: { _controller: AppBundle:My/Order:refunds }
-
-income_records:
-    path: /my/income_records
-    defaults: { _controller: AppBundle:My/MoneyRecord:index }
-
-payout_records:
-    path: /my/payout_records
-    defaults: { _controller: AppBundle:My/MoneyRecord:payout }
 
 user_show:
     path:  /user/{id}
     defaults: { _controller: AppBundle:User:show }
-
-user_info_fill:
-    path: /user/{id}/saveinfo
-    defaults: { _controller: AppBundle:User:fillInfoWhenBuy }
-    methods: [POST]
-
 
 
 user_about:
@@ -524,47 +396,7 @@ user_learn:
     path:  /user/{id}/learn
     defaults: { _controller: AppBundle:User:learn }
 
-user_favorited:
-    path:  /user/{id}/favorited
-    defaults: { _controller: AppBundle:User:favorited }
 
-user_group:
-    path:  /user/{id}/group
-    defaults: { _controller: AppBundle:User:group }
-
-user_following:
-    path:  /user/{id}/following
-    defaults: { _controller: AppBundle:User:following }
-
-user_follower:
-    path:  /user/{id}/follower
-    defaults: { _controller: AppBundle:User:follower }
-
-user_follow:
-    path:  /user/{id}/follow
-    defaults: { _controller: AppBundle:User:follow }
-    methods: [POST]
-
-user_unfollow:
-    path:  /user/{id}/unfollow
-    defaults: { _controller: AppBundle:User:unfollow }
-    methods: [POST]
-
-user_remind_counter:
-    path:  /user_remind_counter
-    defaults: { _controller: AppBundle:User:remindCounter }
-
-user_teaching_classrooms:
-    path:  /user/{id}/teaching/classrooms
-    defaults: { _controller: AppBundle:User:teaching }
-
-user_learning_classrooms:
-    path:  /user/{id}/learning/classrooms
-    defaults: { _controller: AppBundle:User:learning }
-
-user_card_show:
-    path:  /user/{userId}/card/show
-    defaults: { _controller: AppBundle:User:cardShow }
 
 login_after_fill_userinfo:
     path:  /fill/userinfo
@@ -605,10 +437,6 @@ message_delete:
     methods: [POST]
 
 
-course_set_live_capacity:
-    path: /course_set/{courseSetId}/manage/course/{courseId}/live_capacity
-    defaults: { _controller: AppBundle:Course/CourseManage:liveCapacity }
-
 teacher:
     path: /teacher
     defaults: {_controller: AppBundle:Teacher:index }
@@ -617,197 +445,20 @@ teacher_search:
     path: /teacher/search
     defaults: {_controller: AppBundle:Teacher:search }
 
-partner_login:
-    path: /partner/login
-    defaults: {_controller: AppBundle:Partner:login }
-
-partner_logout:
-    path: /partner/logout
-    defaults: {_controller: AppBundle:Partner:logout }
-
-partner_discuz_notify:
-    path:  /partner/discuz/api/notify
-    defaults: {_controller: AppBundle:PartnerDiscuz:notify }
-
-partner_phpwind_notify:
-    path: /partner/phpwind/api/notify
-    defaults: {_controller: AppBundle:PartnerPhpwind:notify }
-
 
 systeminfo:
     path: /systeminfo
     defaults: {_controller: AppBundle:Systeminfo:index }
-
-setting_approval_submit:
-    path: /settings/approval/submit
-    defaults: { _controller: AppBundle:Settings:approvalSubmit }
-
-article_show:
-    path: /article
-    defaults: { _controller: AppBundle:Article:index }
-
-article_detail:
-    path: /article/{id}
-    defaults: { _controller: AppBundle:Article:detail }
-
-article_category:
-    path: /article/category/{categoryCode}
-    defaults: { _controller: AppBundle:Article:category, category:'' }
-
-article_post:
-    path: /article/{id}/post
-    defaults: { _controller: AppBundle:Article:post }
-    methods: [POST]
-
-article_post_reply:
-    path:  /article/{articleId}/post/{postId}/
-    defaults: { _controller: AppBundle:Article:postReply }
-    methods: [POST]
-
-article_like:
-    path: /article/{articleId}/like
-    defaults: { _controller: AppBundle:Article:like }
-    methods: [POST]
-
-article_cancel_like:
-    path: /article/{articleId}/canceLike
-    defaults: { _controller: AppBundle:Article:cancelLike }
-    methods: [POST]
-
-article_post_jump:
-    path: /article/{articleId}/post/{postId}/jump
-    defaults: { _controller: AppBundle:Article:postJump }
-
-article_tag_show:
-    path: /article/tag/{name}
-    defaults: { _controller: AppBundle:Article:tag }
-
-
-
-
-group:
-    path:  /group
-    defaults: { _controller: AppBundle:Group:index }
-group_search_group:
-    path:  /group/search_group
-    defaults: { _controller: AppBundle:Group:search }
-group_add:
-    path:  /group/add
-    defaults: { _controller: AppBundle:Group:addGroup }
-
-group_show:
-    path:  /group/{id}
-    defaults: { _controller: AppBundle:Group:groupIndex }
-
-group_join:
-    path:  /group/{id}/join
-    defaults: { _controller: AppBundle:Group:groupJoin }
-    methods: [POST]
-
-group_exit:
-    path:  /group/{id}/exit
-    defaults: { _controller: AppBundle:Group:groupExit }
-    methods: [POST]
-
-group_member:
-    path:  /group/member/{id}
-    defaults: { _controller: AppBundle:Group:groupMember }
-group_member_delete:
-    path:  /group/member/delete/{id}
-    defaults: { _controller: AppBundle:Group:deleteMembers }
-    methods: [POST]
-group_set_admin:
-    path:  /group/set/admin/{id}
-    defaults: { _controller: AppBundle:Group:setAdmin }
-group_remove_admin:
-    path:  /group/remove/admin/{id}
-    defaults: { _controller: AppBundle:Group:removeAdmin }
-group_set:
-    path:  /group/{id}/setting/info
-    defaults: { _controller: AppBundle:Group:groupSet }
-group_setLogoCrop:
-    path:  /group/{id}/setting/logoCrop
-    defaults: { _controller: AppBundle:Group:logoCrop }
-group_logo_set:
-    path:  /group/{id}/setting/logo
-    defaults: { _controller: AppBundle:Group:setGrouplogo }
-group_edit:
-    path:  /group/info/edit/{id}
-    defaults: { _controller: AppBundle:Group:groupEdit }
-group_backgroundlogo_set:
-    path:  /group/set/backgroundlogo/{id}
-    defaults: { _controller: AppBundle:Group:setGroupBackgroundLogo }
-group_search:
-    path:  /group/{id}/serach
-    defaults: { _controller: AppBundle:GroupThread:searchResult }
-group_thread_post:
-    path:  /group/thread/{groupId}/{threadId}/post
-    defaults: { _controller: AppBundle:GroupThread:postThread }
-group_thread_add:
-    path:  /group/{id}/thread/create
-    defaults: { _controller: AppBundle:GroupThread:addThread }
-group_thread_update:
-    path:  /group/{id}/thread/{threadId}/update
-    defaults: { _controller: AppBundle:GroupThread:updateThread }
-group_thread_check_user:
-    path:  /mygroup/checkuser
-    defaults: { _controller: AppBundle:GroupThread:checkUser }
-group_thread_show:
-    path:  /group/{id}/thread/{threadId}
-    defaults: { _controller: AppBundle:GroupThread:groupThreadIndex }
-group_thread_collect:
-    path:  /group/thread/{threadId}/collect
-    defaults: { _controller: AppBundle:GroupThread:collect }
-    methods: [POST]
-group_thread_uncollect:
-    path:  /group/thread/{threadId}/uncollect
-    defaults: { _controller: AppBundle:GroupThread:uncollect }
-    methods: [POST]
-group_thread_setElite:
-    path:  /group/thread/{threadId}/setElite
-    defaults: { _controller: AppBundle:GroupThread:setElite }
-group_thread_removeElite:
-    path:  /group/thread/{threadId}/removeElite
-    defaults: { _controller: AppBundle:GroupThread:removeElite }
-group_thread_setStick:
-    path:  /group/thread/{threadId}/setStick
-    defaults: { _controller: AppBundle:GroupThread:setStick }
-group_thread_removeStick:
-    path:  /group/thread/{threadId}/removeStick
-    defaults: { _controller: AppBundle:GroupThread:removeStick }
-group_thread_closeThread:
-    path:  /group/thread/{threadId}/closeThread/{memberId}
-    defaults: { _controller: AppBundle:GroupThread:closeThread }
-group_thread_deletePost:
-    path:  /group/thread/deletePost/{postId}
-    defaults: { _controller: AppBundle:GroupThread:deletePost }
-    methods: [POST]
-group_thread_post_reply:
-    path:  /group/post/{postId}/reply
-    defaults: { _controller: AppBundle:GroupThread:postReply }
-group_thread_adopt:
-    path:  /thread/{postId}/adopt
-    defaults: { _controller: AppBundle:GroupThread:adopt }
-group_upload:
-    path:  /group/thread/upload
-    defaults: { _controller: AppBundle:GroupThread:upload }
-
-
 
 user_password_check:
     path:   /user/password/check
     defaults: { _controller: AppBundle:User:checkPassword }
 
 
-
-
-
-
 settings_check_login_password:
     path:  /settings/check_login_password
     defaults: { _controller: AppBundle:Settings:passwordCheck }
     methods: [POST]
-
 
 
 esbar_my_classroom:
@@ -834,14 +485,6 @@ my:
     path: /my
     defaults: { _controller: AppBundle:My/Course:index }
 
-my_cards:
-    path:  /my/cards
-    defaults: { _controller: AppBundle:My/Card:index }
-
-card_info:
-    path:  /card/info
-    defaults: { _controller: AppBundle:My/Card:cardInfo }
-
 
 importer_check:
     path: /importer/{type}/check
@@ -864,31 +507,10 @@ course_activity_trigger:
     defaults: { _controller: AppBundle:Activity/Activity:trigger }
     methods: [POST]
 
-course_acitvity_watch:
-    path:  /course/{courseId}/activity/{id}/watch
-    defaults: { _controller: AppBundle:Activity/Video:watch}
-
-course_activity_download:
-    path: /course/{courseId}/activiy/{activityId}/download
-    defaults: { _controller: AppBundle:Activity/Download:downloadFile }
-
-course_text_activity_auto_save:
-    path: /course/{courseId}/activity/{activityId}/text/auto_save
-    defaults: { _controller: AppBundle:Activity/Text:autoSave }
-    methods: [POST]
-
 #task
 course_task_show:
     path:  /course/{courseId}/task/{id}/show
     defaults: { _controller: AppBundle:Task:show }
-
-course_task_preview:
-    path:  /course/{courseId}/task/{id}/preview
-    defaults: { _controller: AppBundle:Task:preview }
-
-course_task_content_preview:
-    path:  /course/{courseId}/task/{id}/content/preview
-    defaults: { _controller: AppBundle:Task:contentPreview }
 
 course_task_activity_show:
     path:  /course/{courseId}/task/{id}/activity_show
@@ -920,7 +542,6 @@ course_manage_task_pre_update_check:
     defaults: { _controller: AppBundle:TaskManage:preUpdateCheck }
     methods: [POST]
 
-
 course_manage_task_create:
     path:  /course/{courseId}/task
     defaults: { _controller: AppBundle:TaskManage:create }
@@ -949,49 +570,6 @@ course_manage_task_delete:
     path:  /course/{courseId}/task/{taskId}/delete
     defaults: { _controller: AppBundle:TaskManage:delete }
 
-course_manage_task_replay_edit:
-  path: /course/{courseId}/task/{taskId}/replay/edit
-  defaults: { _controller: AppBundle:Course/CourseManage:editTaskReplay }
-
-course_manage_task_replay_title_update:
-  path:  /course/{courseId}/task/{taskId}/replay/{replayId}/update_title
-  defaults: { _controller: AppBundle:Course/CourseManage:updateTaskReplayTitle }
-  methods: [POST]
-
-course_manage_task_replay_upload:
-  path:  /course/{courseId}/task/{taskId}/replay/upload
-  defaults: { _controller: AppBundle:Course/CourseManage:uploadReplay }
-
-course_manage_task_replay_create:
-  path:  /course/{courseId}/task/{taskId}/replay/create
-  defaults: { _controller: AppBundle:Course/CourseManage:createReplay }
-  methods: [POST]
-
-course_manage_task_learn_detail:
-  path:  /course/{courseId}/task/{taskId}/learn/detail
-  defaults: { _controller: AppBundle:TaskLearnData:learnDataDetail }
-
-course_manage_student_learn_detail_modal:
-  path:  /course/{courseId}/student/{userId}/learn/detail
-  defaults: { _controller: AppBundle:TaskLearnData:studentDataDetailModal }
-
-task_live_entry:
-  path: /course/{courseId}/activity/{activityId}/live_entry
-  defaults: {_controller:  AppBundle:Activity/Live:liveEntry}
-
-live_activity_replay_entry:
-  path: /course/{courseId}/activity/{activityId}/replay/{replayId}/entry
-  defaults: { _controller: AppBundle:Activity/Live:replayEntry }
-
-live_activity_replay_url:
-  path: /course/{courseId}/activity/{activityId}/replay/{replayId}/play
-  defaults: { _controller: AppBundle:Activity/Live:replayUrl }
-
-task_live_replay_player:
-  path: /course/{courseId}/activity/{activityId}/replay
-  defaults: {_controller: AppBundle:Activity/Live:liveReplay }
-
-
 
 #task_plugin
 course_task_note_save:
@@ -1001,37 +579,6 @@ course_task_note_save:
 course_task_show_plugins:
   path: /course/{courseId}/task/{taskId}/show/plugins
   defaults: { _controller: AppBundle:Task:taskPlugins }
-
-course_task_show_plugin_task_list:
-  path: /course/{courseId}/task/{taskId}/plugin/task_list
-  defaults: { _controller: AppBundle:TaskPlugin:taskList }
-
-course_task_show_plugin_task_list_by_paging:
-  path: /course/{courseId}/plugin/task_list/paging
-  defaults: { _controller: AppBundle:TaskPlugin:taskListByPaging }
-
-course_task_plugin_note:
-  path: /course/{courseId}/task/{taskId}/plugin/note
-  defaults: { _controller: AppBundle:TaskPlugin:note }
-
-course_task_plugin_threads:
-  path: /course/{courseId}/task/{taskId}/plugin/threads
-  defaults: { _controller: AppBundle:TaskPlugin:threads }
-
-course_task_plugin_thread_create:
-  path: /course/{courseId}/task/{taskId}/plugin/thread/create
-  defaults: { _controller: AppBundle:TaskPlugin:createThread }
-  methods: [POST]
-
-course_task_plugin_thread_show:
-  path: /course/{courseId}/task/{taskId}/plugin/thread/{threadId}
-  defaults: { _controller: AppBundle:TaskPlugin:thread }
-  methods: [GET]
-
-course_task_plugin_thread_answer:
-  path: /course/{courseId}/task/{taskId}/plugin/thread/{threadId}/answer
-  defaults: { _controller: AppBundle:TaskPlugin:answerQuestion }
-  methods: [POST]
 
 course_manage_chapter_manage:
     path:  /course/{courseId}/manage/chapter/manage
@@ -1193,9 +740,6 @@ course_set_manage_course_students_deadline_batch_deadline_check:
   path:  /course_set/{courseSetId}/manage/course/{courseId}/student/deadline/check
   defaults: { _controller: AppBundle:Course/StudentManage:checkDeadline }
 
-
-
-
 course_set_manage_course_students_process:
   path: /course_set/{courseSetId}/manage/course/{courseId}/students/{userId}/process
   defaults: {_controller: AppBundle:Course/StudentManage:studyProcess}
@@ -1267,19 +811,6 @@ my_courses_learning:
 my_courses_learned:
     path: /my/courses/learned
     defaults: { _controller: AppBundle:My/Course:learned }
-
-my_courses_live_calendar:
-    path: /my/courses/live/calendar
-    defaults: { _controller: AppBundle:My/Course:learningLivesCalendar }
-
-#my_course_set
-my_course_sets_favorite:
-    path: /my/courses/favorite
-    defaults: { _controller: AppBundle:My/CourseSet:favorite }
-
-my_classrooms:
-    path: /my/classrooms
-    defaults: { _controller: AppBundle:My/Classroom:classroom }
 
 my_questions:
     path: /my/questions
@@ -1435,32 +966,7 @@ course_review_delete:
   path:  /course/{courseId}/review/{reviewId}/delete
   defaults: { _controller: AppBundle:Course/Review:delete }
 
-course_material_download:
-    path:  /course/{courseId}/material/{materialId}/download
-    defaults: { _controller: AppBundle:Course/Material:download }
 
-course_material_delete:
-    path:  /course/{id}/material/{materialId}/delete
-    defaults: { _controller: AppBundle:Course/Material:delete }
-    methods: [POST]
-
-
-#file chooser
-media_materiallib_choose:
-  path: /media/materiallib/choose
-  defaults: { _controller: AppBundle:FileChooser:materialChoose }
-
-media_materiallib_contacts:
-  path: /media/materiallib/contacts
-  defaults: { _controller: AppBundle:FileChooser:findMySharingContacts }
-
-media_course_file_choose:
-  path: /media/coursefile/{courseId}/choose
-  defaults: { _controller: AppBundle:FileChooser:courseFileChoose }
-
-media_video_import:
-  path: /media/course/{courseId}/import
-  defaults: { _controller: AppBundle:FileChooser:import }
 
 #Uploader
 uploader_auth_v2:
@@ -1635,272 +1141,6 @@ testpaper_do_suspend:
   defaults: { _controller: AppBundle:Testpaper/Testpaper:testSuspend }
   methods: [POST]
 
-
-
-
-
-#classroom
-
-classroom_manage:
-    path: /classroom/{id}/manage
-    defaults: { _controller: AppBundle:Classroom/ClassroomManage:index }
-
-classroom_manage_courses:
-    path: /classroom/{id}/manage/courses
-    defaults: { _controller: AppBundle:Classroom/ClassroomManage:courses }
-
-classroom_manage_course_remove:
-    path: /classroom/{id}/manage/course/{courseId}/remove
-    defaults: { _controller: AppBundle:Classroom/ClassroomManage:removeCourse }
-
-classroom_courses_select:
-    path: /classroom/{id}/courses/select
-    defaults: { _controller: AppBundle:Classroom/ClassroomManage:coursesSelect }
-
-classroom_manage_set_info:
-    path: /classroom/{id}/manage/set_info
-    defaults: { _controller: AppBundle:Classroom/ClassroomManage:setInfo }
-
-classroom_manage_set_picture:
-    path: /classroom/{id}/manage/set_picture
-    defaults: { _controller: AppBundle:Classroom/ClassroomManage:setPicture }
-
-classroom_manage_picture_crop:
-    path: /classroom/{id}/manage/picture_crop
-    defaults: { _controller: AppBundle:Classroom/ClassroomManage:pictureCrop }
-
-classroom_manage_set_price:
-    path: /classroom/{id}/manage/price/set
-    defaults: { _controller: AppBundle:Classroom/ClassroomManage:setPrice }
-
-classroom_manage_students:
-    path: /classroom/{id}/manage/students
-    defaults: { _controller:AppBundle:Classroom/ClassroomManage:students }
-
-classroom_manage_aduitor:
-    path: /classroom/{id}/manage/aduitor
-    defaults: { _controller: AppBundle:Classroom/ClassroomManage:aduitor }
-
-classroom_manage_record:
-    path: /classroom/{id}/manage/record/{type}
-    defaults: { _controller: AppBundle:Classroom/ClassroomManage:record }
-
-classroom_manage_service:
-    path: /classroom/{id}/manage/service
-    defaults: { _controller: AppBundle:Classroom/ClassroomManage:service}
-
-classroom_manage_teachers:
-    path: /classroom/{id}/manage/teachers
-    defaults: { _controller: AppBundle:Classroom/ClassroomManage:teachers }
-
-classroom_manage_headteacher:
-    path: /classroom/{id}/manage/headteacher
-    defaults: { _controller: AppBundle:Classroom/ClassroomManage:headteacher }
-
-classroom_manage_assistants:
-    path: /classroom/{id}/manage/assistants
-    defaults: { _controller: AppBundle:Classroom/ClassroomManage:assistants }
-
-classroom_manage_publish:
-    path: /classroom/{id}/manage/publish
-    defaults: { _controller: AppBundle:Classroom/ClassroomManage:publish }
-    methods: [POST]
-
-classroom_manage_close:
-    path: /classroom/{id}/manage/close
-    defaults: { _controller: AppBundle:Classroom/ClassroomManage:close }
-    methods: [POST]
-
-classroom_manage_checkName:
-    path: /classroom/manage/checkName
-    defaults: { _controller: AppBundle:Classroom/ClassroomManage:checkName }
-
-classroom_manage_student_remark:
-    path:  /classroom/{classroomId}/manage/student/{userId}/remark
-    defaults: { _controller: AppBundle:Classroom/ClassroomManage:remark }
-
-classroom_manage_student_remove:
-    path:  /classroom/{classroomId}/manage/student/{userId}/remove
-    defaults: { _controller: AppBundle:Classroom/ClassroomManage:remove }
-    methods: [POST]
-
-classroom_manage_student_create:
-    path:  /classroom/{id}/manage/student/create
-    defaults: { _controller: AppBundle:Classroom/ClassroomManage:create }
-
-classroom_manage_student_check:
-    path:  /classroom/{id}/manage/student_check
-    defaults: { _controller: AppBundle:Classroom/ClassroomManage:checkStudent }
-
-classroom_manage_student_export_datas:
-    path:  /classroom/{id}/manage/student/export/{role}/datas
-    defaults: { _controller: AppBundle:Classroom/ClassroomManage:exportDatas }
-
-classroom_manage_student_export_csv:
-    path:  /classroom/{id}/manage/student/export
-    defaults: { _controller: AppBundle:Classroom/ClassroomManage:exportCsv }
-
-classroom_manage_student_import:
-    path:  /classroom/{id}/manage/student/import
-    defaults: { _controller: AppBundle:Classroom/ClassroomManage:importUsers }
-
-classroom_manage_student_to_base:
-    path:  /classroom/{id}/manage/student/importing
-    defaults: { _controller: AppBundle:Classroom/ClassroomManage:excelDataImport }
-    methods: [POST]
-
-classroom_manage_testpaper:
-    path:  /classroom/{id}/manage/testpaper/list
-    defaults: { _controller: AppBundle:Classroom/ClassroomManage:testpaper }
-
-classroom_manage_testpaper_result_list:
-  path: /classroom/{id}/manage/testpaper/{testpaperId}/{activityId}/result
-  defaults: { _controller: AppBundle:Classroom/ClassroomManage:testpaperResultList }
-
-classroom_manage_testpaper_check:
-  path: /classroom/{id}/manage/testpaper/{resultId}/check
-  defaults: { _controller: AppBundle:Classroom/ClassroomManage:testpaperCheck }
-
-classroom_manage_exam_result_anlysis:
-  path: /classroom/{id}/manage/exam/activity/{activityId}/analysis
-  defaults: { _controller: AppBundle:Classroom/ClassroomManage:resultAnalysis }
-
-classroom_manage_exam_next_result_check:
-  path: /classroom/{id}/manage/activity/{activityId}/exam/check
-  defaults: { _controller: AppBundle:Classroom/ClassroomManage:resultNextCheck }
-
-classroom_manage_testpaper_result_graph:
-  path: /classroom/{id}/activity/{activityId}/testpaper/graph
-  defaults: { _controller: AppBundle:Classroom/ClassroomManage:resultGraph }
-
-classroom_manage_homework:
-    path:  /classroom/{id}/manage/homework/list
-    defaults: { _controller: AppBundle:Classroom/ClassroomManage:homework }
-
-classroom_manage_homework_check:
-  path: /classroom/{id}/manage/homework/{resultId}/check
-  defaults: { _controller: AppBundle:Classroom/ClassroomManage:homeworkCheck }
-
-classroom_manage_students_defined_show:
-    path:  /classroom/{classroomId}/manage/students/{userId}/defined_show
-    defaults: { _controller: AppBundle:Classroom/ClassroomManage:studentDefinedShow }
-
-classroom_manage_students_show:
-    path:  /classroom/{classroomId}/manage/students/{userId}/show
-    defaults: { _controller: AppBundle:Classroom/ClassroomManage:studentShow }
-
-classroom_manage_member_deadline:
-    path: /classroom/{classroomId}/manage/member/{userId}/deadline
-    defaults: { _controller: AppBundle:Classroom/ClassroomManage:setClassroomMemberDeadline }
-
-classroom_member_deadline_reach:
-    path: /classroom/{classroomId}/member/deadline/reach
-    defaults: { _controller: AppBundle:Classroom/Classroom:deadlineReach }
-
-classroom_expiry_date_rule:
-    path: /classroom_expiry_date_rule
-    defaults: { _controller: AppBundle:Classroom/ClassroomManage:expiryDateRule }
-
-classroom_explore:
-    path:  /classroom/explore/{category}
-    defaults: { _controller: AppBundle:Explore:classroom, category:'' }
-
-classroom_show:
-    path:  /classroom/{id}
-    defaults: { _controller: AppBundle:Classroom/Classroom:show }
-
-classroom_qrcode:
-    path:  /classroom/{id}/qrcode
-    defaults: { _controller: AppBundle:Classroom/Classroom:qrcode }
-
-classroom_reviews:
-    path:  /classroom/{id}/review
-    defaults: { _controller: AppBundle:Classroom/Review:list }
-
-classroom_review_create:
-    path:  /classroom/{id}/review/create
-    defaults: { _controller: AppBundle:Classroom/Review:create }
-
-classroom_review_post:
-    path:  /classroom/{id}/review/{reviewId}/post
-    defaults: { _controller: AppBundle:Classroom/Review:post }
-
-classroom_review_delete:
-    path:  /classroom/review/{reviewId}/delete
-    defaults: { _controller: AppBundle:Classroom/Review:delete }
-
-classroom_introductions:
-    path:  /classroom/{id}/introduction
-    defaults: { _controller: AppBundle:Classroom/Classroom:introduction }
-
-
-
-classroom_sign:
-    path:  classroom/sign/{classroomId}
-    defaults: { _controller: AppBundle:Classroom/Classroom:sign }
-
-classroom_signed_records:
-    path:  classroom/sign/{classroomId}/records
-    defaults: { _controller: AppBundle:Classroom/Classroom:getSignedRecordsByPeriod }
-
-classroom_become_auditor:
-    path: /classroom/{id}/becomeAuditor
-    defaults: { _controller: AppBundle:Classroom/Classroom:becomeAuditor }
-
-classroom_exit:
-    path: /classroom/{id}/exit
-    defaults: { _controller: AppBundle:Classroom/Classroom:exit }
-
-classroom_canview:
-    path: /classroom/{classroomId}/canview
-    defaults: { _controller: AppBundle:Classroom/Classroom:canview }
-
-classroom_courses:
-    path: /classroom/{classroomId}/courses
-    defaults: { _controller: AppBundle:Classroom/Course:list }
-
-
-classroom_headteacher_match:
-    path: /classroom/{classroomId}/headteacher/match
-    defaults: { _controller: AppBundle:Classroom/Utility:headteacherMatch }
-
-classroom_assistants_match:
-    path: /classroom/{classroomId}/assistants/match
-    defaults: { _controller: AppBundle:Classroom/Utility:assistantsMatch }
-
-classroom_courses_pick:
-    path: /classroom/{classroomId}/course/pick
-    defaults: { _controller: AppBundle:Classroom/Course:pick }
-
-classroom_course_search:
-    path: /classroom/{classroomId}/course/search
-    defaults: { _controller: AppBundle:Classroom/Course:search }
-
-my_teaching_classroom_threads:
-    path: /my/teaching/classroom/threads/{type}
-    defaults: { _controller: AppBundle:Classroom/Classroom:classroomThreads }
-
-classroom_course_notes_list:
-    path: /classroom/{classroomId}/courses/notes
-    defaults: { _controller: AppBundle:Classroom/CourseNote:list }
-
-classroom_teachers:
-    path: /classroom/{classroomId}/teachers/list
-    defaults: { _controller: AppBundle:Classroom/Teacher:list }
-
-classroom_teacherIds_catch:
-    path: /classroom/{classroomId}/teacherIds/catch
-    defaults: { _controller: AppBundle:Classroom/Teacher:catchIds }
-
-classroom_buy_hint:
-    path: /classroom/courses/{courseId}/buy/hint
-    defaults: { _controller: AppBundle:Classroom/CourseTask:buyHint }
-
-classrom_course_tasks_list:
-    path: /classroom/{classroomId}/course/{courseId}/tasks/list
-    defaults: { _controller: AppBundle:Classroom/CourseTask:list }
-
-
 #org
 switch_org:
     path: /swithOrg/{id}
@@ -1964,3 +1204,7 @@ event_dispatch:
   path: /event/dispatch
   defaults: { _controller: AppBundle:Event:dispatch }
   methods: [POST]
+
+classroom_manage_exam_result_anlysis:
+  path: /classroom/{id}/manage/exam/activity/{activityId}/analysis
+  defaults: { _controller: AppBundle:Classroom/ClassroomManage:resultAnalysis }

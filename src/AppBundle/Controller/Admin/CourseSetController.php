@@ -46,9 +46,8 @@ class CourseSetController extends BaseController
             $paginator->getPerPageCount()
         );
 
-        list($courseSets, $coursesCount, $classroomCourses) = $this->findRelatedOptions($filter, $courseSets);
+        list($courseSets, $coursesCount) = $this->findRelatedOptions($filter, $courseSets);
 
-        $categories = $this->getCategoryService()->findCategoriesByIds(ArrayToolkit::column($courseSets, 'categoryId'));
         $users = $this->getUserService()->findUsersByIds(ArrayToolkit::column($courseSets, 'creator'));
         $courseSetStatusNum = $this->getDifferentCourseSetsNum($conditions);
 
@@ -57,9 +56,7 @@ class CourseSetController extends BaseController
             array(
                 'courseSets' => $courseSets,
                 'users' => $users,
-                'categories' => $categories,
                 'paginator' => $paginator,
-                'classrooms' => $classroomCourses,
                 'filter' => $filter,
                 'courseSetStatusNum' => $courseSetStatusNum,
                 'coursesCount' => $coursesCount,
@@ -104,14 +101,7 @@ class CourseSetController extends BaseController
         }
 
         $courseSet = $this->getCourseSetService()->getCourseSet($id);
-        $classroomRef = $this->getClassroomService()->getClassroomCourseByCourseSetId($id);
-        if (!empty($classroomRef)) {
-            return $this->createJsonResponse(array('code' => 2, 'message' => '请先从班级管理将本课程移除'));
-        }
-        $subCourses = $this->getCourseSetService()->findCourseSetsByParentIdAndLocked($id, 1);
-        if (!empty($subCourses) || ($courseSet['parentId'] && 1 == $courseSet['locked'])) {
-            return $this->createJsonResponse(array('code' => 2, 'message' => '请先删除班级课程'));
-        }
+    
         try {
             if ('draft' == $courseSet['status']) {
                 $this->getCourseSetService()->deleteCourseSet($id);
@@ -173,224 +163,6 @@ class CourseSetController extends BaseController
         return $this->renderCourseTr($id, $request);
     }
 
-    public function recommendAction(Request $request, $id)
-    {
-        $courseSet = $this->getCourseSetService()->getCourseSet($id);
-
-        $ref = $request->query->get('ref');
-        $filter = $request->query->get('filter');
-
-        if ('POST' == $request->getMethod()) {
-            $number = $request->request->get('number');
-
-            $courseSet = $this->getCourseSetService()->recommendCourse($id, $number);
-
-            $user = $this->getUserService()->getUser($courseSet['creator']);
-
-            if ('recommendList' == $ref) {
-                return $this->render(
-                    'admin/course-set/course-recommend-tr.html.twig',
-                    array(
-                        'courseSet' => $courseSet,
-                        'user' => $user,
-                    )
-                );
-            }
-
-            return $this->renderCourseTr($id, $request);
-        }
-
-        return $this->render(
-            'admin/course-set/course-recommend-modal.html.twig',
-            array(
-                'courseSet' => $courseSet,
-                'ref' => $ref,
-                'filter' => $filter,
-            )
-        );
-    }
-
-    public function cancelRecommendAction(Request $request, $id, $target)
-    {
-        $this->getCourseSetService()->cancelRecommendCourse($id);
-
-        if ('recommend_list' == $target) {
-            return $this->createJsonResponse(array('success' => 1));
-        }
-
-        if ('normal_index' == $target) {
-            return $this->renderCourseTr($id, $request);
-        }
-
-        throw new InvalidArgumentException('Invalid Target');
-    }
-
-    public function recommendListAction(Request $request)
-    {
-        $conditions = $request->query->all();
-        $conditions['recommended'] = 1;
-
-        $conditions = $this->fillOrgCode($conditions);
-
-        $paginator = new Paginator(
-            $this->get('request'),
-            $this->getCourseSetService()->countCourseSets($conditions),
-            20
-        );
-
-        $courseSets = $this->getCourseSetService()->searchCourseSets(
-            $conditions,
-            'recommendedSeq',
-            $paginator->getOffsetCount(),
-            $paginator->getPerPageCount()
-        );
-
-        $users = $this->getUserService()->findUsersByIds(ArrayToolkit::column($courseSets, 'creator'));
-
-        $categories = $this->getCategoryService()->findCategoriesByIds(ArrayToolkit::column($courseSets, 'categoryId'));
-
-        return $this->render(
-            'admin/course-set/course-recommend-list.html.twig',
-            array(
-                'courseSets' => $courseSets,
-                'users' => $users,
-                'paginator' => $paginator,
-                'categories' => $categories,
-            )
-        );
-    }
-
-    public function dataAction(Request $request, $filter)
-    {
-        $conditions = $request->query->all();
-
-        if ('normal' == $filter) {
-            $conditions['parentId'] = 0;
-            $conditions['excludeTypes'] = array('reservation');
-            $conditions = $this->filterCourseSetType($conditions);
-        }
-
-        if ('classroom' == $filter) {
-            $conditions['parentId_GT'] = 0;
-        }
-
-        $conditions = $this->fillOrgCode($conditions);
-
-        $count = $this->getCourseSetService()->countCourseSets($conditions);
-        $paginator = new Paginator($this->get('request'), $count, 20);
-
-        $courseSets = $this->getCourseSetService()->searchCourseSets(
-            $conditions,
-            array('id' => 'DESC'),
-            $paginator->getOffsetCount(),
-            $paginator->getPerPageCount()
-        );
-        $courseSetIds = ArrayToolkit::column($courseSets, 'id');
-        $classrooms = array();
-
-        if ('classroom' == $filter) {
-            $classrooms = $this->getClassroomService()->findClassroomsByCoursesIds(
-                ArrayToolkit::column($courseSets, 'id')
-            );
-            $classrooms = ArrayToolkit::index($classrooms, 'courseId');
-
-            foreach ($classrooms as $key => $classroom) {
-                $classroomInfo = $this->getClassroomService()->getClassroom($classroom['classroomId']);
-                $classrooms[$key]['classroomTitle'] = $classroomInfo['title'];
-            }
-        }
-
-        $courseSetIncomes = $this->getCourseSetService()->findCourseSetIncomesByCourseSetIds($courseSetIds);
-        $courseSetIncomes = ArrayToolkit::index($courseSetIncomes, 'courseSetId');
-
-        $courseIds = ArrayToolkit::column($courseSets, 'defaultCourseId');
-        $courses = $this->getCourseService()->findCoursesByIds($courseIds);
-
-        foreach ($courseSets as $key => &$courseSet) {
-            // TODO 完成人数目前只统计了默认教学计划
-            $courseSetId = $courseSet['id'];
-            $defaultCourseId = $courseSet['defaultCourseId'];
-            $courseCount = $this->getCourseService()->searchCourseCount(array('courseSetId' => $courseSetId));
-            $isLearnedNum = empty($courses[$defaultCourseId]) ? 0 : $this->getMemberService()->countMembers(
-                array('finishedTime_GT' => 0, 'courseId' => $courseSet['defaultCourseId'], 'learnedCompulsoryTaskNumGreaterThan' => $courses[$defaultCourseId]['compulsoryTaskNum'])
-            );
-
-            $taskCount = $this->getTaskService()->countTasks(array('fromCourseSetId' => $courseSetId));
-
-            $courseSet['learnedTime'] = $this->getTaskService()->sumCourseSetLearnedTimeByCourseSetId($courseSetId);
-            $courseSet['learnedTime'] = round($courseSet['learnedTime'] / 60);
-            if (!empty($courseSetIncomes[$courseSetId])) {
-                $courseSet['income'] = $courseSetIncomes[$courseSetId]['income'];
-            } else {
-                $courseSet['income'] = 0;
-            }
-            $courseSet['isLearnedNum'] = $isLearnedNum;
-            $courseSet['taskCount'] = $taskCount;
-            $courseSet['courseCount'] = $courseCount;
-        }
-
-        return $this->render(
-            'admin/course-set/data.html.twig',
-            array(
-                'courseSets' => $courseSets,
-                'paginator' => $paginator,
-                'filter' => $filter,
-                'classrooms' => $classrooms,
-            )
-        );
-    }
-
-    public function detailDataAction(Request $request, $id)
-    {
-        $courseSet = $this->getCourseSetService()->tryManageCourseSet($id);
-        $courses = $this->getCourseService()->findCoursesByCourseSetId($id);
-        $courseId = $request->query->get('courseId');
-
-        if (empty($courseId)) {
-            $courseId = $courses[0]['id'];
-        }
-
-        $count = $this->getMemberService()->countMembers(array('courseId' => $courseId, 'role' => 'student'));
-
-        $paginator = new Paginator($this->get('request'), $count, 20);
-
-        $students = $this->getMemberService()->searchMembers(
-                array('courseId' => $courseId, 'role' => 'student'),
-                array('createdTime' => 'DESC'),
-                $paginator->getOffsetCount(),
-                $paginator->getPerPageCount()
-        );
-
-        foreach ($students as $key => &$student) {
-            $user = $this->getUserService()->getUser($student['userId']);
-            $student['nickname'] = $user['nickname'];
-
-            $questionCount = $this->getThreadService()->countThreads(
-                array('courseId' => $courseId, 'type' => 'question', 'userId' => $user['id'])
-            );
-            $student['questionCount'] = $questionCount;
-
-            if ($student['finishedTime'] > 0) {
-                $student['fininshDay'] = intval(($student['finishedTime'] - $student['createdTime']) / (60 * 60 * 24));
-            } else {
-                $student['fininshDay'] = intval((time() - $student['createdTime']) / (60 * 60 * 24));
-            }
-
-            $student['learnTime'] = intval($student['lastLearnTime'] - $student['createdTime']);
-        }
-
-        return $this->render(
-            'admin/course-set/course-data-modal.html.twig',
-            array(
-                'courseSet' => $courseSet,
-                'courses' => $courses,
-                'paginator' => $paginator,
-                'students' => $students,
-                'courseId' => $courseId,
-            )
-        );
-    }
-
     public function cloneAction(Request $request, $courseSetId)
     {
         $courseSet = $this->getCourseSetService()->getCourseSet($courseSetId);
@@ -403,37 +175,6 @@ class CourseSetController extends BaseController
         );
     }
 
-    public function cloneByCrontabAction(Request $request, $courseSetId)
-    {
-        $jobName = 'clone_course_set_'.$courseSetId;
-        $jobs = $this->getSchedulerService()->countJobs(array('name' => $jobName, 'deleted' => 0));
-        $title = $request->request->get('title');
-        $user = $this->getCurrentUser();
-
-        if ($jobs) {
-            return new JsonResponse(array('success' => 0, 'msg' => 'notify.job_redo_warning.hint'));
-        } else {
-            //复制整个课程，在预期时间后一个小时有效，非无限时间
-            $this->getSchedulerService()->register(array(
-                'name' => $jobName,
-                'source' => SystemCrontabInitializer::SOURCE_SYSTEM,
-                'expression' => intval(time() + 10),
-                'class' => 'Biz\Course\Job\CloneCourseSetJob',
-                'args' => array('courseSetId' => $courseSetId, 'userId' => $user->getId(), 'params' => array('title' => $title)),
-                'misfire_threshold' => 60 * 60,
-            ));
-        }
-
-        return new JsonResponse(array('success' => 1, 'msg' => 'notify.course_set_clone_start.message'));
-    }
-
-    public function cloneByWebAction(Request $request, $courseSetId)
-    {
-        $title = $request->request->get('title');
-        $this->getCourseSetService()->cloneCourseSet($courseSetId, array('title' => $title));
-
-        return new JsonResponse(array('success' => 1));
-    }
 
     /**
      * @return SettingService
@@ -481,53 +222,6 @@ class CourseSetController extends BaseController
                 'vips' => $vips,
             )
         );
-    }
-
-    //@deprecated
-    protected function returnDeleteStatus($result, $type)
-    {
-        $dataDictionary = array(
-            'questions' => '问题',
-            'testpapers' => '试卷',
-            'materials' => '课时资料',
-            'chapters' => '课时章节',
-            'drafts' => '课时草稿',
-            'lessons' => '课时',
-            'lessonLearns' => '课时时长',
-            'lessonReplays' => '课时录播',
-            'lessonViews' => '课时播放时长',
-            'homeworks' => '课时作业',
-            'exercises' => '课时练习',
-            'favorites' => '课时收藏',
-            'notes' => '课时笔记',
-            'threads' => '课程话题',
-            'reviews' => '课程评价',
-            'announcements' => '课程公告',
-            'statuses' => '课程动态',
-            'members' => '课程成员',
-            'conversation' => '会话',
-            'course' => '课程',
-        );
-
-        if ($result > 0) {
-            $message = $dataDictionary[$type].'数据删除';
-
-            return array('success' => true, 'message' => $message);
-        } else {
-            if ('homeworks' == $type || 'exercises' == $type) {
-                $message = $dataDictionary[$type].'数据删除失败或插件未安装或插件未升级';
-
-                return array('success' => false, 'message' => $message);
-            } elseif ('course' == $type) {
-                $message = $dataDictionary[$type].'数据删除';
-
-                return array('success' => false, 'message' => $message);
-            } else {
-                $message = $dataDictionary[$type].'数据删除失败';
-
-                return array('success' => false, 'message' => $message);
-            }
-        }
     }
 
     public function chooserAction(Request $request)
@@ -633,48 +327,15 @@ class CourseSetController extends BaseController
 
     protected function findRelatedOptions($filter, $courseSets)
     {
-        $classroomCourses = array();
         $coursesCount = array();
-
-        $courseSetIds = ArrayToolkit::column($courseSets, 'id');
-        if ('classroom' == $filter) {
-            $classroomCourses = $this->getClassroomService()->findClassroomCourseByCourseSetIds($courseSetIds);
-
-            $classroomIds = ArrayToolkit::column($classroomCourses, 'classroomId');
-            $classrooms = $this->getClassroomService()->findClassroomsByIds($classroomIds);
-            $classrooms = ArrayToolkit::index($classrooms, 'id');
-
-            array_walk($classroomCourses, function (&$course, $key) use ($classrooms) {
-                $course['classroomTitle'] = empty($classrooms[$course['classroomId']]) ? '' : $classrooms[$course['classroomId']]['title'];
-            });
-            $classroomCourses = ArrayToolkit::index($classroomCourses, 'courseSetId');
-        } elseif ('vip' == $filter) {
-            $courseSets = $this->_fillVipCourseSetLevels($courseSets);
-        } else {
-            $coursesCount = $this->getCourseService()->countCoursesGroupByCourseSetIds($courseSetIds);
-            $coursesCount = ArrayToolkit::index($coursesCount, 'courseSetId');
-        }
-
-        return array($courseSets, $coursesCount, $classroomCourses);
+        $courseSetIds = ArrayToolkit::column($courseSets, 'id');        
+        
+        $coursesCount = $this->getCourseService()->countCoursesGroupByCourseSetIds($courseSetIds);
+        $coursesCount = ArrayToolkit::index($coursesCount, 'courseSetId');
+        
+        return array($courseSets, $coursesCount);
     }
 
-    private function _fillVipCourseSetLevels($courseSets)
-    {
-        foreach ($courseSets as &$courseSet) {
-            $courses = $this->getCourseService()->findCoursesByCourseSetId($courseSet['id']);
-            $levelIds = ArrayToolkit::column($courses, 'vipLevelId');
-            $levelIds = array_unique($levelIds);
-            $levels = $this->getVipLevelService()->searchLevels(
-                array('ids' => $levelIds),
-                array('seq' => 'ASC'),
-                0,
-                PHP_INT_MAX
-            );
-            $courseSet['levels'] = $levels;
-        }
-
-        return $courseSets;
-    }
 
     protected function filterCourseSetType($conditions)
     {

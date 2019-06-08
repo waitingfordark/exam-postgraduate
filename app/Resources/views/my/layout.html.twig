@@ -20,14 +20,11 @@
           <li class="list-group-item">
             <a href="{{ path('my_testpaper_list') }}">{{ '我的考试' }}</a>
           </li>
-
-          {{ slot('my.learning.menu', {'side_nav': side_nav}) }}
         </ul>
       </div>
     </div>
     <div class="col-md-9">{% block main %}{% endblock %}</div>
   </div>
 
-  {% block main_mobile %}{% endblock %}
 
 {% endblock %}

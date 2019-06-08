@@ -12,11 +12,8 @@
     {% endif %}
 
     {% if status == 'finished' %}
-      <div>
-        <div class="text-warning">
-          {{'my.teaching.testpaper.answer_detail'|trans({'%totalCount%': paperResult.score, '%objectiveScore%': paperResult.objectiveScore, '%subjectiveScore%': paperResult.subjectiveScore, '%teacherName%': teacher.nickname|default('my.teaching.testpaper.default_teacher'|trans), '%checkTime%': paperResult.checkedTime|date('site.date_format_H_i'|trans)})|raw}}
-        </div>
-      </div>
+          {# {{'my.teaching.testpaper.answer_detail'|trans({'%totalCount%': paperResult.score, '%checkTime%': paperResult.checkedTime|date('site.date_format_H_i'|trans)})|raw}} #}
+          <a class="link-primary" href="{{ path('course_manage_testpaper_check', {id:paperResult.courseId,resultId:paperResult.id,source:source|default('course'),targetId:targetId|default(0)}) }}">详情</a>
     {% endif %}
   </td>
 </tr>

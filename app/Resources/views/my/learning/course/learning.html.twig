@@ -1,8 +1,6 @@
 {% extends 'my/learning/course/layout.html.twig' %}
 
-{% set mobile = is_show_mobile_page() %}
 {% set tab_nav = 'learning' %}
-{% block title %}{{ 'my.learning.course.learning'|trans }} - {{ parent() }}{% endblock %}
 {% do script(['libs/echo-js.js','app/js/my/learn/my-course/index.js'])%}
 
 {% block main %}
@@ -49,14 +47,4 @@
     </div>
   </div>
 {% endblock %}
-
-{# {% block main_mobile %}
-  {% if mobile %}
-    {% include 'my/learning/course/learning-mobile.html.twig' with {'courses':learningCourses} %}
-  {% endif %}
-{% endblock %}
-
-{% block bottom %}
-  {% include 'mobile/footer-tool-bar.html.twig' with { mobile_tool_bar: 'learning' } %}
-{% endblock %} #}
 

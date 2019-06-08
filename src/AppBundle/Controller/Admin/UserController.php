@@ -80,13 +80,6 @@ class UserController extends BaseController
             );
         }
 
-        $app = $this->getAppService()->findInstallApp('UserImporter');
-
-        $showUserExport = false;
-
-        if (!empty($app) && array_key_exists('version', $app)) {
-            $showUserExport = version_compare($app['version'], '1.0.2', '>=');
-        }
 
         $userIds = ArrayToolkit::column($users, 'id');
         $profiles = $this->getUserService()->findUserProfilesByIds($userIds);
@@ -98,8 +91,6 @@ class UserController extends BaseController
             'allRoles' => $allRoles,
             'userCount' => $userCount,
             'paginator' => $paginator,
-            'profiles' => $profiles,
-            'showUserExport' => $showUserExport,
         ));
     }
 
