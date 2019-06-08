@@ -1,3 +1,0 @@
-custom_homepage:
-    path:     /hello
-    defaults: { _controller: CustomBundle:Default:hello }

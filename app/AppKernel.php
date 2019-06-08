@@ -69,15 +69,13 @@ class AppKernel extends Kernel implements PluginableHttpKernelInterface
             new Symfony\Bundle\MonologBundle\MonologBundle(),
             new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
-            new Endroid\QrCode\Bundle\EndroidQrCodeBundle(),
             new Topxia\WebBundle\TopxiaWebBundle(),
             new Topxia\AdminBundle\TopxiaAdminBundle(),
             new Bazinga\Bundle\JsTranslationBundle\BazingaJsTranslationBundle(),
             new OAuth2\ServerBundle\OAuth2ServerBundle(),
             new Codeages\PluginBundle\CodeagesPluginBundle(),
             new AppBundle\AppBundle(),
-            new CustomBundle\CustomBundle(),
-            // new ApiBundle\ApiBundle(),
+            // new CustomBundle\CustomBundle(),
         );
 
         if (is_file($this->getRootDir().'/config/sentry.yml')) {
