@@ -23,24 +23,6 @@ class CourseExtension extends Extension implements ServiceProviderInterface
                 'priority' => 30,
                 'visible' => 1,
             ),
-            CourseSetService::LIVE_TYPE => array(
-                'template' => 'courseset-manage/live/create-show.html.twig',
-                'saveAction' => 'AppBundle:Course/CourseSetManage:saveCourse',
-                'priority' => 20,
-                'visible' => 1,
-            ),
-            OpenCourseService::OPEN_TYPE => array(
-                'template' => 'open-course-manage/open/create-show.html.twig',
-                'saveAction' => 'AppBundle:OpenCourseManage:saveCourse',
-                'priority' => 10,
-                'visible' => 1,
-            ),
-            OpenCourseService::LIVE_OPEN_TYPE => array(
-                'template' => 'open-course-manage/liveOpen/create-show.html.twig',
-                'saveAction' => 'AppBundle:OpenCourseManage:saveCourse',
-                'priority' => 0,
-                'visible' => 1,
-            ),
         );
     }
 

@@ -135,7 +135,7 @@ class WebExtension extends \Twig_Extension
             new \Twig_SimpleFunction('export_scripts', array($this, 'exportScripts')),
             new \Twig_SimpleFunction('order_payment', array($this, 'getOrderPayment')),
             new \Twig_SimpleFunction('classroom_permit', array($this, 'isPermitRole')),
-            new \Twig_SimpleFunction('crontab_next_executed_time', array($this, 'getNextExecutedTime')),
+            // new \Twig_SimpleFunction('crontab_next_executed_time', array($this, 'getNextExecutedTime')),
             new \Twig_SimpleFunction('finger_print', array($this, 'getFingerprint')),
             new \Twig_SimpleFunction('get_parameters_from_url', array($this, 'getParametersFromUrl')),
             new \Twig_SimpleFunction('is_trial', array($this, 'isTrial')),
@@ -1535,10 +1535,10 @@ class WebExtension extends \Twig_Extension
         return $builder->buildChoices($groupName, $indent);
     }
 
-    public function getNextExecutedTime()
-    {
-        return $this->createService('Crontab:CrontabService')->getNextExcutedTime();
-    }
+    // public function getNextExecutedTime()
+    // {
+    //     return $this->createService('Crontab:CrontabService')->getNextExcutedTime();
+    // }
 
     public function getUploadMaxFilesize($formated = true)
     {

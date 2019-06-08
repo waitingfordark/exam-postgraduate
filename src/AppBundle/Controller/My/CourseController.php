@@ -80,8 +80,6 @@ class CourseController extends CourseBaseController
         $course = $this->getCourseService()->getCourse($id);
         $member = $this->getCourseMember($request, $course);
 
-        $tags = $this->findCourseSetTagsByCourseSetId($course['courseSetId']);
-
         $teacherIds = $course['teacherIds'];
         $teachers = $this->getUserService()->findUsersByIds($teacherIds);
 
@@ -89,7 +87,6 @@ class CourseController extends CourseBaseController
             'course/course-show.html.twig',
             array(
                 'tab' => $tab,
-                'tags' => $tags,
                 'member' => $member,
                 'isCourseTeacher' => 'teacher' == $member['role'],
                 'course' => $course,

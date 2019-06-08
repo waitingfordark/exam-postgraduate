@@ -7,12 +7,12 @@
   app.basePath = '{{ base_path() }}';
   app.theme = '{{ setting("theme.uri"|default("default")) }}';
 
-  {% set crontabNextExecutedTime = crontab_next_executed_time() %}
+  {# {% set crontabNextExecutedTime = crontab_next_executed_time() %}
   {% if not setting('magic.disable_web_crontab', 0) and crontabNextExecutedTime > 0  %}
     {% if date(crontabNextExecutedTime|date('Y-m-d H:i:s')) < date() %}
       app.scheduleCrontab = '{{ path('crontab_web') }}';
     {% endif %}
-  {% endif %}
+  {% endif %} #}
 
   var CLOUD_FILE_SERVER = "{{ setting('developer.cloud_file_server', '') }}"; 
 

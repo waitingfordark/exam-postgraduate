@@ -531,10 +531,7 @@ class CourseManageController extends BaseController
             $course['deadlineType'] = 'end_date';
             $course['expiryMode'] = 'days';
         }
-        $tags = $this->getTagService()->findTagsByOwner(array(
-            'ownerType' => 'course-set',
-            'ownerId' => $course['courseSetId'],
-        ));
+       
 
         return $this->redirectToRoute(
             'course_set_manage_course_tasks',
@@ -544,18 +541,6 @@ class CourseManageController extends BaseController
                 'courseId' => $courseId
             )
         );
-
-        // return $this->render(
-        //     'course-manage/info.html.twig',
-        //     array(
-        //         'courseSet' => $courseSet,
-        //         'tags' => ArrayToolkit::column($tags, 'name'),
-        //         'course' => $course,
-        //         'audioServiceStatus' => $audioServiceStatus,
-        //         'canFreeTasks' => $this->findCanFreeTasks($course),
-        //         'freeTasks' => $freeTasks,
-        //     )
-        // );
     }
 
     public function headerAction($courseSet, $course)
@@ -567,110 +552,6 @@ class CourseManageController extends BaseController
                 'course' => $course,
             )
         );
-    }
-
-    public function courseRuleAction(Request $request)
-    {
-        return $this->render('course-manage/rule.html.twig');
-    }
-
-    public function liveCapacityAction(Request $request, $courseSetId, $courseId)
-    {
-        $this->getCourseService()->tryManageCourse($courseId);
-
-        $client = new EdusohoLiveClient();
-        $liveCapacity = $client->getCapacity();
-
-        return $this->createJsonResponse($liveCapacity);
-    }
-
-    public function marketingAction(Request $request, $courseSetId, $courseId)
-    {
-        $freeTasks = $this->getTaskService()->findFreeTasksByCourseId($courseId);
-        if ($request->isMethod('POST')) {
-            $data = $request->request->all();
-            if (empty($data['enableBuyExpiryTime'])) {
-                unset($data['buyExpiryTime']);
-            }
-
-            $data = $this->prepareExpiryMode($data);
-
-            if (!empty($data['services'])) {
-                $data['services'] = json_decode($data['services'], true);
-            }
-
-            $freeTaskIds = ArrayToolkit::column($freeTasks, 'id');
-            $this->getTaskService()->updateTasks($freeTaskIds, array('isFree' => 0));
-            if (!empty($data['freeTaskIds'])) {
-                $canFreeTaskIds = $data['freeTaskIds'];
-                $this->getTaskService()->updateTasks($canFreeTaskIds, array('isFree' => 1));
-                unset($data['freeTaskIds']);
-            }
-
-            $this->getCourseService()->updateCourseMarketing($courseId, $data);
-            $this->setFlashMessage('success', 'site.save.success');
-
-            return $this->redirect(
-                $this->generateUrl(
-                    'course_set_manage_course_marketing',
-                    array('courseSetId' => $courseSetId, 'courseId' => $courseId)
-                )
-            );
-        }
-
-        $courseSet = $this->getCourseSetService()->getCourseSet($courseSetId);
-
-        $sync = $request->query->get('sync');
-        if ($courseSet['locked'] && empty($sync)) {
-            return $this->redirectToRoute(
-                'course_set_manage_sync',
-                array(
-                    'id' => $courseSetId,
-                    'sideNav' => 'marketing',
-                )
-            );
-        }
-
-        $course = $this->getCourseService()->tryManageCourse($courseId, $courseSetId);
-
-        //prepare form data
-        if ('end_date' == $course['expiryMode']) {
-            $course['deadlineType'] = 'end_date';
-            $course['expiryMode'] = 'days';
-        }
-
-        return $this->render(
-            'course-manage/marketing.html.twig',
-            array(
-                'courseSet' => $courseSet,
-                'course' => $this->formatCourseDate($course),
-                'canFreeTasks' => $this->findCanFreeTasks($course),
-                'freeTasks' => $freeTasks,
-            )
-        );
-    }
-
-    private function findCanFreeTasks($course)
-    {
-        $types = array();
-        $activities = $this->getActivityConfig();
-        foreach ($activities as $type => $activity) {
-            if (isset($activity['canFree']) && $activity['canFree']) {
-                $types[] = $type;
-            }
-        }
-
-        if (empty($types)) {
-            return array();
-        }
-
-        $conditions = array(
-            'courseId' => $course['id'],
-            'types' => $types,
-            'isOptional' => 0,
-        );
-
-        return $this->getTaskService()->searchTasks($conditions, array('seq' => 'ASC'), 0, PHP_INT_MAX);
     }
 
     protected function sortTasks($tasks)
@@ -839,26 +720,6 @@ class CourseManageController extends BaseController
         ));
     }
 
-    public function publishSetTitleAction(Request $request, $courseSetId, $courseId)
-    {
-        if ($request->isMethod('POST')) {
-            $defaultPlanTitle = $request->request->get('title');
-            $this->getCourseService()->publishAndSetDefaultCourseType($courseId, $defaultPlanTitle);
-
-            return $this->createJsonResponse(array(
-                'success' => true,
-            ));
-        }
-
-        return $this->render(
-            'course-manage/publish-set-title-modal.html.twig',
-            array(
-                'courseSetId' => $courseSetId,
-                'courseId' => $courseId,
-            )
-        );
-    }
-
     public function courseItemsSortAction(Request $request, $courseId)
     {
         $ids = $request->request->get('ids', array());
@@ -867,197 +728,12 @@ class CourseManageController extends BaseController
         return $this->createJsonResponse(array('result' => true));
     }
 
-    public function ordersAction(Request $request, $courseSetId, $courseId)
-    {
-        $courseSet = $this->getCourseSetService()->getCourseSet($courseSetId);
-        $course = $this->getCourseService()->tryManageCourse($courseId, $courseSetId);
-
-        $courseSetting = $this->setting('course');
-
-        if (!$this->getCurrentUser()->isAdmin()
-            && (empty($courseSetting['teacher_search_order']) || 1 != $courseSetting['teacher_search_order'])
-        ) {
-            throw $this->createAccessDeniedException('查询订单已关闭，请联系管理员');
-        }
-
-        $conditions = $request->query->all();
-        $type = 'course';
-        $conditions['order_item_target_type'] = $type;
-
-        if (isset($conditions['keywordType'])) {
-            $conditions[$conditions['keywordType']] = trim($conditions['keyword']);
-        }
-
-        $conditions['order_item_target_ids'] = array($courseId);
-
-        if (!empty($conditions['startDateTime']) && !empty($conditions['endDateTime'])) {
-            $conditions['start_time'] = strtotime($conditions['startDateTime']);
-            $conditions['end_time'] = strtotime($conditions['endDateTime']);
-        }
-
-        if (!empty($conditions['buyer'])) {
-            $user = $this->getUserService()->getUserByNickname($conditions['buyer']);
-            $conditions['user_id'] = $user ? $user['id'] : -1;
-        }
-
-        if (!empty($conditions['displayStatus'])) {
-            $conditions['statuses'] = $this->container->get('web.twig.order_extension')->getOrderStatusFromDisplayStatus($conditions['displayStatus'], 1);
-        }
-
-        $paginator = new Paginator(
-            $request,
-            $this->getOrderService()->countOrders($conditions),
-            10
-        );
-
-        $orders = $this->getOrderService()->searchOrders(
-            $conditions,
-            array('created_time' => 'DESC'),
-            $paginator->getOffsetCount(),
-            $paginator->getPerPageCount()
-        );
-
-        $orderIds = ArrayToolkit::column($orders, 'id');
-        $orderSns = ArrayToolkit::column($orders, 'sn');
-
-        $orderItems = $this->getOrderService()->findOrderItemsByOrderIds($orderIds);
-        $orderItems = ArrayToolkit::index($orderItems, 'order_id');
-
-        $paymentTrades = $this->getPayService()->findTradesByOrderSns($orderSns);
-        $paymentTrades = ArrayToolkit::index($paymentTrades, 'order_sn');
-
-        foreach ($orders as &$order) {
-            $order['item'] = empty($orderItems[$order['id']]) ? array() : $orderItems[$order['id']];
-            $order['trade'] = empty($paymentTrades[$order['sn']]) ? array() : $paymentTrades[$order['sn']];
-        }
-
-        $users = $this->getUserService()->findUsersByIds(ArrayToolkit::column($orders, 'user_id'));
-
-        return $this->render(
-            'course-manage/order/list.html.twig',
-            array(
-                'courseSet' => $courseSet,
-                'course' => $course,
-                'request' => $request,
-                'orders' => $orders,
-                'users' => $users,
-                'paginator' => $paginator,
-            )
-        );
-    }
-
-    public function taskLearnDetailAction(Request $request, $courseSetId, $courseId, $taskId)
-    {
-        $students = array();
-        $task = $this->getTaskService()->getTask($taskId);
-        $activity = $this->getActivityService()->getActivity($task['activityId']);
-
-        $count = $this->getTaskResultService()->countUsersByTaskIdAndLearnStatus($taskId, 'all');
-        $paginator = new Paginator($request, $count, 20);
-
-        $results = $this->getTaskResultService()->searchTaskResults(
-            array('courseId' => $courseId, 'activityId' => $task['activityId']),
-            array('createdTime' => 'ASC'),
-            $paginator->getOffsetCount(),
-            $paginator->getPerPageCount()
-        );
-
-        foreach ($results as $key => $result) {
-            $user = $this->getUserService()->getUser($result['userId']);
-            $students[$key]['nickname'] = $user['nickname'];
-            $students[$key]['startTime'] = $result['createdTime'];
-            $students[$key]['finishedTime'] = $result['finishedTime'];
-            $students[$key]['learnTime'] = round($result['time'] / 60);
-            $students[$key]['watchTime'] = round($result['watchTime'] / 60);
-
-            if ('testpaper' == $activity['mediaType']) {
-                $testpaperActivity = $this->getTestpaperActivityService()->getActivity($activity['mediaId']);
-                $paperResult = $this->getTestpaperService()->getUserFinishedResult(
-                    $testpaperActivity['mediaId'],
-                    $courseId,
-                    $activity['id'],
-                    'testpaper',
-                    $user['id']
-                );
-                $students[$key]['result'] = empty($paperResult) ? 0 : $paperResult['score'];
-            }
-        }
-
-        $task['length'] = intval($activity['length']);
-
-        return $this->render(
-            'course-manage/dashboard/task-detail-modal.html.twig',
-            array(
-                'task' => $task,
-                'paginator' => $paginator,
-                'students' => $students,
-            )
-        );
-    }
-
-    public function questionMarkerStatsAction(Request $request, $courseSetId, $courseId)
-    {
-        $courseSet = $this->getCourseSetService()->getCourseSet($courseSetId);
-        $course = $this->getCourseService()->tryManageCourse($courseId, $courseSetId);
-
-        $taskId = $request->query->get('taskId', 0);
-
-        $stats = $this->getMarkerReportService()->statTaskQuestionMarker($courseId, $taskId);
-        $this->sortMarkerStats($stats, $request);
-
-        return $this->render('course-manage/question-marker/stats.html.twig', array(
-            'courseSet' => $courseSet,
-            'course' => $course,
-            'stats' => $stats,
-        ));
-    }
-
-    public function questionMarkerAnalysisAction(Request $request, $courseSetId, $courseId, $questionMarkerId)
-    {
-        $this->getCourseService()->tryManageCourse($courseId, $courseSetId);
-
-        $taskId = $request->query->get('taskId');
-        $analysis = $this->getMarkerReportService()->analysisQuestionMarker($courseId, $taskId, $questionMarkerId);
-
-        return $this->render('course-manage/question-marker/analysis.html.twig', array(
-            'analysis' => $analysis,
-        ));
-    }
-
     public function showPublishAction(Request $request, $courseId)
     {
         $status = $request->request->get('status', 1);
         $this->getCourseService()->changeShowPublishLesson($courseId, $status);
 
         return $this->createJsonResponse(true);
-    }
-
-    private function sortMarkerStats(&$stats, $request)
-    {
-        $order = $request->query->get('order', '');
-        if ($order) {
-            uasort($stats['questionMarkers'], function ($questionMarker1, $questionMarker2) use ($order) {
-                if ('desc' == $order) {
-                    return $questionMarker1['pct'] < $questionMarker2['pct'];
-                } else {
-                    return $questionMarker1['pct'] > $questionMarker2['pct'];
-                }
-            });
-        }
-    }
-
-    protected function _getLiveReplayMedia(array $task)
-    {
-        if ('live' == $task['type']) {
-            $activity = $this->getActivityService()->getActivity($task['activityId'], true);
-            if ('videoGenerated' == $activity['ext']['replayStatus']) {
-                return $this->getUploadFileService()->getFile($activity['ext']['mediaId']);
-            } else {
-                return array();
-            }
-        }
-
-        return array();
     }
 
     protected function formatCourseDate($course)
@@ -1229,10 +905,5 @@ class CourseManageController extends BaseController
     protected function getCourseLessonService()
     {
         return $this->createService('Course:LessonService');
-    }
-
-    protected function getTagService()
-    {
-        return $this->createService('Taxonomy:TagService');
     }
 }

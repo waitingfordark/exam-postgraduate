@@ -119,13 +119,13 @@ abstract class CourseBaseController extends BaseController
         return $member;
     }
 
-    protected function findCourseSetTagsByCourseSetId($courseSetId)
-    {
-        $tags = $this->getTagService()->findTagsByOwner(array('ownerType' => 'course-set', 'ownerId' => $courseSetId));
-        $tags = ArrayToolkit::index($tags, 'id');
+    // protected function findCourseSetTagsByCourseSetId($courseSetId)
+    // {
+    //     $tags = $this->getTagService()->findTagsByOwner(array('ownerType' => 'course-set', 'ownerId' => $courseSetId));
+    //     $tags = ArrayToolkit::index($tags, 'id');
 
-        return $tags;
-    }
+    //     return $tags;
+    // }
 
     /**
      * @return CourseService

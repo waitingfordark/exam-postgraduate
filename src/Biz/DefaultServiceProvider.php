@@ -18,7 +18,7 @@ use Biz\Importer\ClassroomMemberImporter;
 use Biz\Testpaper\Builder\ExerciseBuilder;
 use Biz\Testpaper\Builder\HomeworkBuilder;
 use Biz\Testpaper\Builder\TestpaperBuilder;
-use Biz\Article\Event\ArticleEventSubscriber;
+// use Biz\Article\Event\ArticleEventSubscriber;
 use Biz\Testpaper\Pattern\QuestionTypePattern;
 use Biz\Thread\Firewall\ArticleThreadFirewall;
 use Biz\Thread\Firewall\ClassroomThreadFirewall;
@@ -100,9 +100,9 @@ class DefaultServiceProvider implements ServiceProviderInterface
             return new OpenCourseThreadEventProcessor($biz);
         };
 
-        $biz['thread_event_processor.article'] = function ($biz) {
-            return new ArticleEventSubscriber($biz);
-        };
+        // $biz['thread_event_processor.article'] = function ($biz) {
+        //     return new ArticleEventSubscriber($biz);
+        // };
 
         $biz['importer.course-member'] = function ($biz) {
             return new CourseMemberImporter($biz);

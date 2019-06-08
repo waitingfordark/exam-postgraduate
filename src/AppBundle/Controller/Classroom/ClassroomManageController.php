@@ -1119,7 +1119,7 @@ class ClassroomManageController extends BaseController
             'activityId' => $activityId,
             'targetId' => $id,
             'targetType' => 'classroom',
-            'studentNum' => $classroom['studentNum'],
+            'studentNum' => 0,
         ));
     }
 

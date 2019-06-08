@@ -77,10 +77,10 @@
 
   {% block floatConsult %}
   
-    {% set cloudConsultPath = cloudConsultPath() %}
+    {# {% set cloudConsultPath = cloudConsultPath() %}
     {% if cloudConsultPath|default() %}
       {{ cloudConsultPath | raw }}
-    {% endif %}
+    {% endif %} #}
 
     {% if setting('consult.enabled', 0) and (consultDisplay|default(false) or siteNav|default() == '/' ) %}
       {% if not setting('esBar.enabled',0) %}

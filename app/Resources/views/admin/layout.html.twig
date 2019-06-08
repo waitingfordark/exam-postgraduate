@@ -4,7 +4,6 @@
 
 {% set menu = menu|default(null) %}
 {% set currentMenu = permission(menu) %}
-{% set cloudSmsInfo = isOldSmsUser()|default(false) %}
 {% set lang = app.request.getLocale() %}
 <!DOCTYPE html>
 <html lang="{{ lang }}" class="{% if lang == 'en' %}es-en-admin{% endif %}">

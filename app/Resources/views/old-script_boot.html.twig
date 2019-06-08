@@ -7,12 +7,12 @@
   app.theme = '{{ setting("theme.uri"|default("default")) }}';
   app.jsPaths = {{ js_paths()|json_encode|raw }};
 
-  {% set crontabNextExecutedTime = crontab_next_executed_time() %}
+  {# {% set crontabNextExecutedTime = crontab_next_executed_time() %}
   {% if not setting('magic.disable_web_crontab', 0) and crontabNextExecutedTime > 0 %}
     {% if date(crontabNextExecutedTime|date('Y-m-d H:i:s')) < date() %}
       app.scheduleCrontab = '{{ path('crontab_web') }}';
     {% endif %}
-  {% endif %}
+  {% endif %} #}
 
   window.CKEDITOR_BASEPATH = app.basePath + '/assets/libs/ckeditor/4.6.7/';
   window.CLOUD_FILE_SERVER = "{{ setting('developer.cloud_file_server', '') }}"; 

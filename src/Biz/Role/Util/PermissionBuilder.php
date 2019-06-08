@@ -244,25 +244,25 @@ class PermissionBuilder
             }
         }
 
-        $count = $this->getAppService()->findAppCount();
-        $apps = $this->getAppService()->findApps(0, $count);
+        // $count = $this->getAppService()->findAppCount();
+        // $apps = $this->getAppService()->findApps(0, $count);
 
-        foreach ($apps as $app) {
-            if ('plugin' != $app['type']) {
-                continue;
-            }
+        // foreach ($apps as $app) {
+        //     if ('plugin' != $app['type']) {
+        //         continue;
+        //     }
 
-            if ('MAIN' !== $app['code'] && $app['protocol'] < 3) {
-                continue;
-            }
+        //     if ('MAIN' !== $app['code'] && $app['protocol'] < 3) {
+        //         continue;
+        //     }
 
-            if (!PluginVersionToolkit::dependencyVersion($app['code'], $app['version'])) {
-                continue;
-            }
+        //     if (!PluginVersionToolkit::dependencyVersion($app['code'], $app['version'])) {
+        //         continue;
+        //     }
 
-            $code = ucfirst($app['code']);
-            $configPaths[] = "{$rootDir}/../plugins/{$code}Plugin/Resources/config/menus_{$position}.yml";
-        }
+        //     $code = ucfirst($app['code']);
+        //     $configPaths[] = "{$rootDir}/../plugins/{$code}Plugin/Resources/config/menus_{$position}.yml";
+        // }
 
         return $configPaths;
     }
@@ -459,10 +459,10 @@ class PermissionBuilder
         return $user->getPermissions();
     }
 
-    protected function getAppService()
-    {
-        return $this->getServiceKernel()->createService('CloudPlatform:AppService');
-    }
+    // protected function getAppService()
+    // {
+    //     return $this->getServiceKernel()->createService('CloudPlatform:AppService');
+    // }
 
     protected function getServiceKernel()
     {
