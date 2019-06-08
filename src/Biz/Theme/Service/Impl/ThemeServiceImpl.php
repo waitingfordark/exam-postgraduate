@@ -74,7 +74,8 @@ class ThemeServiceImpl extends BaseService implements ThemeService
 
     public function getThemeConfigByName($name)
     {
-        $config = $this->getThemeConfigDao()->getThemeConfigByName($name);
+        // $config = $this->getThemeConfigDao()->getThemeConfigByName($name);
+        $config = array();
         $config['allConfig'] = $this->allConfig;
 
         if (empty($config['config'])) {

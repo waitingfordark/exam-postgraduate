@@ -368,50 +368,6 @@ class CourseMemberDaoImpl extends AdvancedDaoImpl implements CourseMemberDao
         return $this->db()->fetchColumn($sql, array($userId, $type, $isLearned, $role));
     }
 
-    public function countMemberByUserIdAndRoleAndIsLearned($userId, $role, $isLearned, $filterReservation = false)
-    {
-        //        $sql = "SELECT COUNT(*) FROM {$this->table} WHERE  userId = ? AND role = ? AND isLearned = ?";
-        $sql = "SELECT COUNT( m.courseId ) FROM {$this->table} m ";
-        $sql .= ' JOIN '.CourseDao::TABLE_NAME.' AS c ON m.courseId = c.id AND m.userId = ? AND m.role = ? AND m.isLearned = ?';
-        if ($filterReservation) {
-            $sql .= " AND c.type != 'reservation'";
-        }
-
-        return $this->db()->fetchColumn($sql, array($userId, $role, $isLearned));
-    }
-
-    public function findMembersNotInClassroomByUserIdAndRoleAndType($userId, $role, $type, $start, $limit, $onlyPublished = true)
-    {
-        $sql = "SELECT m.* FROM {$this->table} m ";
-
-        $sql .= ' JOIN  '.CourseDao::TABLE_NAME.' AS c ON m.userId = ? ';
-        $sql .= ' AND m.role =  ? AND c.type = ? AND m.courseId = c.id AND c.parentId = 0';
-
-        if ($onlyPublished) {
-            $sql .= " AND c.status = 'published' ";
-        }
-
-        $sql .= ' ORDER BY createdTime DESC';
-        $sql = $this->sql($sql, array(), $start, $limit);
-
-        return $this->db()->fetchAll($sql, array($userId, $role, $type));
-    }
-
-    public function updateByClassroomIdAndUserId($classroomId, $userId, array $fields)
-    {
-        return $this->update(array(
-            'classroomId' => $classroomId,
-            'userId' => $userId,
-        ), $fields);
-    }
-
-    public function updateByClassroomId($classroomId, array $fields)
-    {
-        return $this->update(array(
-            'classroomId' => $classroomId,
-        ), $fields);
-    }
-
     /**
      * @param $conditions
      * @param string $format

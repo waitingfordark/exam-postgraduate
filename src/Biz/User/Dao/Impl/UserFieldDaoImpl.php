@@ -25,7 +25,8 @@ class UserFieldDaoImpl extends GeneralDaoImpl implements UserFieldDao
     {
         $sql = "SELECT * FROM {$this->table} where enabled=1 ORDER BY seq";
 
-        return $this->db()->fetchAll($sql) ?: array();
+        return array();
+        // return $this->db()->fetchAll($sql) ?: array();
     }
 
     protected function createQueryBuilder($conditions)

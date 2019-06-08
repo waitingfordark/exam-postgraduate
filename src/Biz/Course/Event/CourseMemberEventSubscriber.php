@@ -65,7 +65,6 @@ class CourseMemberEventSubscriber extends EventSubscriber implements EventSubscr
     public function onCourseJoin(Event $event)
     {
         $this->countStudentMember($event);
-        $this->countIncome($event);
         $this->sendWelcomeMsg($event);
         $this->publishStatus($event, 'become_student');
     }
@@ -99,21 +98,6 @@ class CourseMemberEventSubscriber extends EventSubscriber implements EventSubscr
         }
     }
 
-    private function countIncome(Event $event)
-    {
-        $course = $event->getSubject();
-
-        $conditions = array(
-            'target_id' => $course['id'],
-            'target_type' => 'course',
-            'statuses' => array('success', 'finished'),
-        );
-
-        $income = $this->getOrderFacadeService()->sumOrderItemPayAmount($conditions);
-        $income = MathToolkit::simple($income, 0.01);
-
-        $this->getCourseDao()->update($course['id'], array('income' => $income));
-    }
 
     private function sendWelcomeMsg(Event $event)
     {

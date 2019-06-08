@@ -593,7 +593,6 @@ class CourseManageController extends BaseController
             }
 
             $this->getCourseMemberService()->setCourseTeachers($courseId, $teachers);
-            $this->setFlashMessage('success', 'site.save.success');
 
             return $this->redirectToRoute(
                 'course_set_manage_course_teachers',
@@ -602,16 +601,6 @@ class CourseManageController extends BaseController
         }
 
         $courseSet = $this->getCourseSetService()->getCourseSet($courseSetId);
-
-        if ($courseSet['locked']) {
-            return $this->redirectToRoute(
-                'course_set_manage_sync',
-                array(
-                    'id' => $courseSetId,
-                    'sideNav' => 'teachers',
-                )
-            );
-        }
 
         $course = $this->getCourseService()->tryManageCourse($courseId, $courseSetId);
         $teachers = $this->getCourseService()->findTeachersByCourseId($courseId);
@@ -623,11 +612,18 @@ class CourseManageController extends BaseController
                     'id' => $teacher['userId'],
                     'isVisible' => $teacher['isVisible'],
                     'nickname' => $teacher['nickname'],
-
-                    'avatar' => $this->get('web.twig.extension')->avatarPath($teacher, 'small'),
                 );
             }
         }
+
+        return $this->render(
+            'course-manage/teacher/index.html.twig',
+            array(
+                'courseSet' => $courseSet,
+                'course' => $course,
+                'teacherIds' => $teacherIds,
+            )
+        );
 
         return $this->render(
             'course-manage/teachers.html.twig',
@@ -664,15 +660,11 @@ class CourseManageController extends BaseController
         return $this->createJsonResponse($teachers);
     }
 
+    // course 教学计划
     public function closeCheckAction(Request $request, $courseSetId, $courseId)
     {
         $course = $this->getCourseService()->tryManageCourse($courseId, $courseSetId);
         $publishedCourses = $this->getCourseService()->findPublishedCoursesByCourseSetId($courseSetId);
-        if (1 == count($publishedCourses)) {
-            return $this->createJsonResponse(
-                array('warn' => true, 'message' => "{$course['title']}是课程下唯一发布的教学计划，如果关闭则所在课程也会被关闭。")
-            );
-        }
 
         return $this->createJsonResponse(array('warn' => false));
     }

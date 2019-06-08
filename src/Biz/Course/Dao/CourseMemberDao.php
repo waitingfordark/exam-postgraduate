@@ -123,13 +123,5 @@ interface CourseMemberDao extends GeneralDaoInterface
 
     public function countMemberByUserIdAndCourseTypeAndIsLearned($userId, $role, $type, $isLearned);
 
-    public function countMemberByUserIdAndRoleAndIsLearned($userId, $role, $isLearned);
-
-    public function findMembersNotInClassroomByUserIdAndRoleAndType($userId, $role, $type, $start, $limit, $onlyPublished = true);
-
-    public function updateByClassroomIdAndUserId($classroomId, $userId, array $fields);
-
-    public function updateByClassroomId($classroomId, array $fields);
-
     public function searchMemberCountsByConditionsGroupByCreatedTimeWithFormat($conditions, $format = '%Y-%m-%d');
 }

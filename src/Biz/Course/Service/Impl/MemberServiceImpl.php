@@ -31,13 +31,9 @@ use Biz\Course\Util\CourseTitleUtils;
  */
 class MemberServiceImpl extends BaseService implements MemberService
 {
+    // 成为学员且生成订单
     public function becomeStudentAndCreateOrder($userId, $courseId, $data)
     {
-        //        $data = ArrayToolkit::parts($data, array('price', 'amount', 'remark', 'isAdminAdded', 'source'));
-
-        if (!ArrayToolkit::requireds($data, array('price', 'remark'))) {
-            throw $this->createServiceException('parameter is invalid!');
-        }
 
         $this->getCourseService()->tryManageCourse($courseId);
 
@@ -616,15 +612,8 @@ class MemberServiceImpl extends BaseService implements MemberService
             throw $this->createNotFoundException();
         }
 
-        if (!in_array($course['status'], array('published'))) {
-            throw $this->createServiceException('不能加入未发布教学计划');
-        }
 
         $user = $this->getUserService()->getUser($userId);
-
-        if (empty($user)) {
-            throw $this->createServiceException("用户(#{$userId})不存在，加入教学计划失败！");
-        }
 
         $member = $this->getMemberDao()->getByCourseIdAndUserId($courseId, $userId);
 
@@ -671,7 +660,7 @@ class MemberServiceImpl extends BaseService implements MemberService
         $reason = $this->buildJoinReason($info, $order);
         $member = $this->addMember($fields, $reason);
 
-        $this->refreshMemberNoteNumber($courseId, $userId);
+        // $this->refreshMemberNoteNumber($courseId, $userId);
 
         $this->dispatchEvent(
             'course.join',
@@ -1316,6 +1305,7 @@ class MemberServiceImpl extends BaseService implements MemberService
         return $record;
     }
 
+    // 添加成员
     private function addMember($member, $reason = array())
     {
         try {
@@ -1333,6 +1323,7 @@ class MemberServiceImpl extends BaseService implements MemberService
         return $member;
     }
 
+    // 移除成员
     private function removeMember($member, $reason = array())
     {
         try {
