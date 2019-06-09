@@ -20,10 +20,6 @@ class TaskController extends BaseController
     {
         $task = $this->tryLearnTask($courseId, $id);
 
-        // if (empty($preview) && 'published' != $task['status']) {
-        //     return $this->render('task/inform.html.twig');
-        // }
-
         return $this->forward(
             'AppBundle:Activity/Activity:show',
             array(

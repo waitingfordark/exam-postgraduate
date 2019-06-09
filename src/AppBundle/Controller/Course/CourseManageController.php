@@ -177,22 +177,6 @@ class CourseManageController extends BaseController
 
     public function teachersAction(Request $request, $courseSetId, $courseId)
     {
-        if ($request->isMethod('POST')) {
-            $data = $request->request->all();
-            if (empty($data) || !isset($data['teachers'])) {
-                throw new InvalidArgumentException('Empty Data');
-            }
-
-            $teachers = json_decode($data['teachers'], true);
-
-            $this->getCourseMemberService()->setCourseTeachers($courseId, $teachers);
-
-            return $this->redirectToRoute(
-                'course_set_manage_course_teachers',
-                array('courseSetId' => $courseSetId, 'courseId' => $courseId)
-            );
-        }
-
         $courseSet = $this->getCourseSetService()->getCourseSet($courseSetId);
 
         $course = $this->getCourseService()->tryManageCourse($courseId, $courseSetId);
@@ -261,32 +245,8 @@ class CourseManageController extends BaseController
         );
     }
 
-    public function teachersMatchAction(Request $request, $courseSetId, $courseId)
-    {
-        $queryField = $request->query->get('q');
 
-        $users = $this->getUserService()->searchUsers(
-            array('nickname' => $queryField, 'roles' => 'ROLE_TEACHER'),
-            array('createdTime' => 'DESC'),
-            0,
-            10
-        );
-
-        $teachers = array();
-
-        foreach ($users as $user) {
-            $teachers[] = array(
-                'id' => $user['id'],
-                'nickname' => $user['nickname'],
-                'avatar' => $this->getWebExtension()->avatarPath($user, 'small'),
-                'isVisible' => 1,
-            );
-        }
-
-        return $this->createJsonResponse($teachers);
-    }
-
-    // course 教学计划
+    // course 
     public function closeCheckAction(Request $request, $courseSetId, $courseId)
     {
         $course = $this->getCourseService()->tryManageCourse($courseId, $courseSetId);
@@ -331,20 +291,6 @@ class CourseManageController extends BaseController
         }
     }
 
-    public function prePublishAction($courseSetId, $courseId)
-    {
-        return $this->createJsonResponse(array(
-            'success' => $this->getCourseService()->hasNoTitleForDefaultPlanInMulPlansCourse($courseId),
-        ));
-    }
-
-    public function courseItemsSortAction(Request $request, $courseId)
-    {
-        $ids = $request->request->get('ids', array());
-        $this->getCourseService()->sortCourseItems($courseId, $ids);
-
-        return $this->createJsonResponse(array('result' => true));
-    }
 
     public function showPublishAction(Request $request, $courseId)
     {
