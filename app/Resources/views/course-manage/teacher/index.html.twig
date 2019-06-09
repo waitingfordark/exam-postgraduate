@@ -1,10 +1,13 @@
 {% extends 'course-manage/layout.html.twig' %}
 
 {% do script(['app/js/course-manage/students/index.js']) %}
-{% set course_side_nav = 'students' %}
+
 {% block main_heading_class %}course-main-header{% endblock %}
 {% block main_heading %}
-  {% include 'course-manage/panel-header/course-publish-header.html.twig' with {code: course_side_nav, btnGroup:1} %}
+  <div class="cd-main__title">
+    教师管理
+  </div>
+
 {% endblock %}
 
 {% block main_body %}
@@ -14,7 +17,6 @@
       <table class="table table-striped" id="course-student-list">
         <thead>
           <tr>
-            <th width="23%">序号</th>
             <th width="17%">名字</th>
             <th width="25%">操作</th>
           </tr>
@@ -23,18 +25,11 @@
           {% for user in teacherIds if user %}
             {# {% set user = users[teacher.userId]|default(null) %} #}
             <tr id="student-{{user.id}}-tr" class="students-item js-students-item">
-              <td class="hidden">
-                <input value="{{user.id}}" type="checkbox"  autocomplete="off" data-role="batch-item" >
-              </td>
-              <td class="media media-middle" >
-              
-                {{ loop.index }}
-              </td>
               <td style="vertical-align: middle;">{{ user.nickname }}</td>
               <td style="vertical-align: middle;">
                 
-                {% if app.user.isAdmin() or setting('course.teacher_manage_student', 0) %}
-                  <a class="mrm link-primary js-remove-student" href="javascript:;" data-url="{{path('course_set_manage_course_students_remove', {courseSetId: courseSet.id, courseId: course.id, userId: user.id})}}" data-user="{{'site.default.student'|trans}}">移除</a>
+                {% if app.user.isAdmin() or app.user.isTeacher() %}
+                  <a class="mrm link-primary" data-toggle="modal" data-target="#modal" data-url="{{ path('course_set_manage_course_teachers_add', {courseSetId:courseSet.id, courseId: course.id}) }}">修改</a>
                 {% endif %}
                 
               </td>
@@ -45,8 +40,6 @@
 
         </tbody>
       </table>
-      <nav class="text-center">
-        {# {{ web_macro.paginator(paginator) }} #}
-      </nav>
+
     </div>
 {% endblock %}

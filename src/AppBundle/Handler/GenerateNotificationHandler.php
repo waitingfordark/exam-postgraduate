@@ -48,9 +48,9 @@ class GenerateNotificationHandler
 
         $this->sendCoursesOverdueNotification($user);
 
-        $this->sendClassroomsOverdueNotification($user);
+        // $this->sendClassroomsOverdueNotification($user);
 
-        $this->sendVipsOverdueNotification($user);
+        // $this->sendVipsOverdueNotification($user);
     }
 
     protected function sendCoursesOverdueNotification(CurrentUser $user)

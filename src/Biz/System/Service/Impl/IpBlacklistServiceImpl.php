@@ -64,7 +64,8 @@ class IpBlacklistServiceImpl extends BaseService implements IpBlacklistService
 
     public function clearFailedIp($ip)
     {
-        $ip = $this->getIpBlacklistDao()->getByIpAndType($ip, 'failed');
+        // $ip = $this->getIpBlacklistDao()->getByIpAndType($ip, 'failed');
+        $ip = array();
         if (empty($ip)) {
             return;
         }

@@ -40,7 +40,7 @@ class UserProvider implements UserProviderInterface
         }
 
         $user['currentIp'] = $request->getClientIp();
-        $user['org'] = $this->loadOrg($request, $user);
+        // $user['org'] = '';
         $currentUser = new CurrentUser();
         $currentUser->fromArray($user);
         $currentUser->setPermissions(PermissionBuilder::instance()->getPermissionsByRoles($currentUser->getRoles()));

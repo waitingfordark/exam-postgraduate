@@ -62,20 +62,6 @@ services:
     biz.service_provider.collector:
         class: Biz\ServiceProviderCollector
 
-    # coupon_service_provider:
-    #     class: Biz\Coupon\CouponServiceProvider
-    #     calls:
-    #         - [setBiz, ['@biz']]
-    #     tags:
-    #         - { name: extension }
-
-    # mail_service_provider:
-    #     class: Biz\Mail\MailServiceProvider
-    #     calls:
-    #         - [setBiz, ['@biz']]
-    #     tags:
-    #         - { name: extension }
-
     web.twig.question_type_extension:
         class: AppBundle\Twig\QuestionTypeExtension
         arguments:    ['@service_container', '@biz']

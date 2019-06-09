@@ -1,10 +1,19 @@
 {% extends 'course-manage/layout.html.twig' %}
 
 {% do script(['app/js/course-manage/students/index.js']) %}
-{% set course_side_nav = 'students' %}
 {% block main_heading_class %}course-main-header{% endblock %}
 {% block main_heading %}
-  {% include 'course-manage/panel-header/course-publish-header.html.twig' with {code: course_side_nav, btnGroup:1} %}
+  <div class="cd-main__title">
+    学生管理
+  </div>
+
+  <div class="course-main-header__operation">
+    {% if app.user.isAdmin() or setting('course.teacher_manage_student', 0) %}
+      {% if course.status == 'published' %}
+        <button class="cd-btn cd-btn-info cd-btn-sm mhs" id="student-add-btn" data-toggle="modal" data-target="#modal" data-url="{{ path('course_set_manage_course_students_add', {courseSetId:courseSet.id, courseId: course.id}) }}">{{'course.members_manage.add_btn'|trans}}</button>
+      {% endif %}
+    {% endif %}
+  </div>
 {% endblock %}
 
 {% block main_body %}

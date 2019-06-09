@@ -75,20 +75,6 @@
     {% endif %}
   {% endblock %}
 
-  {% block floatConsult %}
-  
-    {# {% set cloudConsultPath = cloudConsultPath() %}
-    {% if cloudConsultPath|default() %}
-      {{ cloudConsultPath | raw }}
-    {% endif %} #}
-
-    {% if setting('consult.enabled', 0) and (consultDisplay|default(false) or siteNav|default() == '/' ) %}
-      {% if not setting('esBar.enabled',0) %}
-        {% include 'float-consult.html.twig' %}
-      {% endif %}
-    {% endif %}
-  {% endblock %}
-
   <div id="login-modal" class="modal" data-url="{{ path('login_ajax') }}"></div>
   <div id="modal" class="modal"></div>
   <div id="attachment-modal" class="modal"></div>

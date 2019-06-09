@@ -295,7 +295,8 @@ class QuestionServiceImpl extends BaseService implements QuestionService
 
     public function findUserFavoriteQuestions($userId)
     {
-        return $this->getQuestionFavoriteDao()->findUserFavoriteQuestions($userId);
+        return array();
+        // return $this->getQuestionFavoriteDao()->findUserFavoriteQuestions($userId);
     }
 
     public function deleteFavoriteByQuestionId($questionId)

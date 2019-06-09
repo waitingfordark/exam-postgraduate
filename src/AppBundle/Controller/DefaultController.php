@@ -23,70 +23,7 @@ class DefaultController extends BaseController
     {
         $user = $this->getCurrentUser();
 
-
-        if (!empty($user['id'])) {
-            $this->getBatchNotificationService()->checkoutBatchNotification($user['id']);
-        }
-
-        $custom = $this->isCustom();
-        $friendlyLinks = $this->getNavigationService()->getOpenedNavigationsTreeByType('friendlyLink');
         return $this->redirect($this->generateUrl('my_courses_learning'));
-
-        return $this->render('default/index.html.twig', array('friendlyLinks' => $friendlyLinks, 'custom' => $custom));
-    }
-
-    public function appDownloadAction()
-    {
-        $meCount = $this->getMeCount();
-        $mobileCode = (empty($meCount['mobileCode']) ? 'edusohov3' : $meCount['mobileCode']);
-
-        if ($this->getWebExtension()->isMicroMessenger() && 'edusohov3' == $mobileCode) {
-            $url = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.edusoho.kuozhi';
-        } else {
-            $url = $this->generateUrl('mobile_download', array('from' => 'qrcode', 'code' => $mobileCode), true);
-        }
-
-        return $this->render('mobile/app-download.html.twig', array(
-            'url' => $url,
-        ));
-    }
-
-    public function promotedTeacherBlockAction()
-    {
-        $teacher = $this->getUserService()->findLatestPromotedTeacher(0, 1);
-
-        if ($teacher) {
-            $teacher = $teacher[0];
-            $teacher = array_merge(
-                $teacher,
-                $this->getUserService()->getUserProfile($teacher['id'])
-            );
-        }
-
-        if (isset($teacher['locked']) && '0' !== $teacher['locked']) {
-            $teacher = null;
-        }
-
-        return $this->render('default/promoted-teacher-block.html.twig', array(
-            'teacher' => $teacher,
-        ));
-    }
-
-    public function latestReviewsBlockAction($number)
-    {
-        $reviews = $this->getReviewService()->searchReviews(array('private' => 0), 'latest', 0, $number);
-        $users = $this->getUserService()->findUsersByIds(ArrayToolkit::column($reviews, 'userId'));
-        $courses = $this->getCourseService()->findCoursesByIds(ArrayToolkit::column($reviews, 'courseId'));
-
-        $courseSets = $this->getCourseSetService()->findCourseSetsByIds(ArrayToolkit::column($courses, 'courseSetId'));
-        $courseSets = ArrayToolkit::index($courseSets, 'id');
-
-        return $this->render('default/latest-reviews-block.html.twig', array(
-            'reviews' => $reviews,
-            'users' => $users,
-            'courses' => $courses,
-            'courseSets' => $courseSets,
-        ));
     }
 
     public function topNavigationAction($siteNav = null, $isMobile = false)
@@ -98,83 +35,6 @@ class DefaultController extends BaseController
             'siteNav' => $siteNav,
             'isMobile' => $isMobile,
         ));
-    }
-
-    public function footNavigationAction()
-    {
-        $navigations = $this->getNavigationService()->findNavigationsByType('foot', 0, 100);
-
-        return $this->render('default/foot-navigation.html.twig', array(
-            'navigations' => $navigations,
-        ));
-    }
-
-    public function friendlyLinkAction()
-    {
-        $friendlyLinks = $this->getNavigationService()->getOpenedNavigationsTreeByType('friendlyLink');
-
-        return $this->render('default/friend-link.html.twig', array(
-            'friendlyLinks' => $friendlyLinks,
-        ));
-    }
-
-    public function customerServiceAction()
-    {
-        $customerServiceSetting = $this->getSettingService()->get('customerService', array());
-
-        return $this->render('default/customer-service-online.html.twig', array(
-            'customerServiceSetting' => $customerServiceSetting,
-        ));
-    }
-
-    public function jumpAction(Request $request)
-    {
-        $courseId = (int) ($request->query->get('id'));
-
-        if ($this->getCourseMemberService()->isCourseTeacher($courseId, $this->getCurrentUser()->id)) {
-            $url = $this->generateUrl('live_course_manage_replay', array('id' => $courseId));
-        } else {
-            $url = $this->generateUrl('course_show', array('id' => $courseId));
-        }
-
-        $jumpScript = "<script type=\"text/javascript\"> if (top.location !== self.location) {top.location = \"{$url}\";}</script>";
-
-        return new Response($jumpScript);
-    }
-
-    public function coursesCategoryAction(Request $request)
-    {
-        $conditions = $request->query->all();
-        $conditions['status'] = 'published';
-        $conditions['parentId'] = 0;
-        $categoryId = isset($conditions['categoryId']) ? $conditions['categoryId'] : 0;
-        $orderBy = $conditions['orderBy'];
-        $courseType = isset($conditions['courseType']) ? $conditions['courseType'] : 'course';
-
-        $config = $this->getThemeService()->getCurrentThemeConfig();
-
-        if (!empty($config['confirmConfig'])) {
-            $config = $config['confirmConfig']['blocks']['left'];
-
-            foreach ($config as $template) {
-                if (('course-grid-with-condition-index' == $template['code'] && 'course' == $courseType)
-                    || ('open-course' == $template['code'] && 'open-course' == $courseType)) {
-                    $config = $template;
-                }
-            }
-
-            $config['orderBy'] = $orderBy;
-            $config['categoryId'] = $categoryId;
-
-            return $this->render('default/'.$config['code'].'.html.twig', array(
-                'config' => $config,
-            ));
-        } else {
-            return $this->render('default/course-grid-with-condition-index.html.twig', array(
-                'categoryId' => $categoryId,
-                'orderBy' => $orderBy,
-            ));
-        }
     }
 
     public function translateAction(Request $request)
@@ -205,25 +65,6 @@ class DefaultController extends BaseController
         return $this->createJsonResponse(true);
     }
 
-    private function getMeCount()
-    {
-        $meCount = $this->setting('meCount', false);
-        if (false === $meCount) {
-            //判断是否是定制用户
-            $result = CloudAPIFactory::create('leaf')->get('/me');
-            $this->getSettingService()->set('meCount', $result);
-        }
-        $meCount = $this->setting('meCount');
-
-        return $meCount;
-    }
-
-    private function isCustom()
-    {
-        $result = $this->getMeCount();
-
-        return isset($result['hasMobile']) ? $result['hasMobile'] : 0;
-    }
 
     /**
      * @return SettingService

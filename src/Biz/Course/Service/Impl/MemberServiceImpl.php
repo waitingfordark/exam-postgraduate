@@ -25,10 +25,7 @@ use Biz\Classroom\Service\ClassroomService;
 use AppBundle\Common\TimeMachine;
 use Biz\Course\Util\CourseTitleUtils;
 
-/**
- * Class MemberServiceImpl
- * 所有api 均迁移自 courseService 中的对member操作的api.
- */
+
 class MemberServiceImpl extends BaseService implements MemberService
 {
     // 成为学员且生成订单
@@ -467,7 +464,7 @@ class MemberServiceImpl extends BaseService implements MemberService
 
     private function updateCourseTeacherIds($courseId, $teachers)
     {
-        $teachers = ArrayToolkit::group($teachers, 'isVisible');
+        // $teachers = ArrayToolkit::group($teachers, 'isVisible');
 
         $visibleTeacherIds = empty($teachers[1]) ? array() : ArrayToolkit::column($teachers[1], 'id');
         $fields = array('teacherIds' => $visibleTeacherIds);

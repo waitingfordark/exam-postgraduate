@@ -53,212 +53,9 @@ class CourseManageController extends BaseController
         );
     }
 
-    public function copyAction(Request $request, $courseSetId)
-    {
-        if ($request->isMethod('POST')) {
-            $data = $request->request->all();
-
-            $data = $this->prepareExpiryMode($data);
-
-            $this->getCourseService()->copyCourse($data);
-
-            return $this->redirect(
-                $this->generateUrl('course_set_manage_courses', array('courseSetId' => $courseSetId))
-            );
-        }
-
-        $courseId = $request->query->get('courseId');
-        $course = $this->getCourseService()->tryManageCourse($courseId, $courseSetId);
-        $courseSet = $this->getCourseSetService()->getCourseSet($courseSetId);
-
-        if ('end_date' == $course['expiryMode']) {
-            $course['deadlineType'] = 'end_date';
-            $course['expiryMode'] = 'days';
-        }
-
-        return $this->render(
-            'course-manage/create-modal.html.twig',
-            array(
-                'courseSet' => $courseSet,
-                'course' => $course,
-            )
-        );
-    }
-
-    public function replayAction(Request $request, $courseSetId, $courseId)
-    {
-        $courseSet = $this->getCourseSetService()->getCourseSet($courseSetId);
-
-        if ($courseSet['locked']) {
-            return $this->redirectToRoute(
-                'course_set_manage_sync',
-                array(
-                    'id' => $courseSetId,
-                    'sideNav' => 'replay',
-                )
-            );
-        }
-
-        $course = $this->getCourseService()->tryManageCourse($courseId);
-
-        $tasks = $this->getTaskService()->findTasksFetchActivityByCourseId($course['id']);
-
-        $liveTasks = array_filter(
-            $tasks,
-            function ($task) {
-                return 'live' === $task['type'] && 'published' === $task['status'];
-            }
-        );
-
-        foreach ($liveTasks as $key => $task) {
-            $task['isEnd'] = $this->get('web.twig.live_extension')->isLiveFinished($task['activityId'], 'course');
-            $task['file'] = $this->_getLiveReplayMedia($task);
-            $liveTasks[$key] = $task;
-        }
-
-        $default = $this->getSettingService()->get('default', array());
-        $lessons = $this->getCourseLessonService()->findLessonsByCourseId($courseId);
-        $lessons = ArrayToolkit::index($lessons, 'id');
-
-        return $this->render(
-            'course-manage/live-replay/index.html.twig',
-            array(
-                'courseSet' => $courseSet,
-                'course' => $course,
-                'tasks' => $liveTasks,
-                'default' => $default,
-                'lessons' => $lessons,
-            )
-        );
-    }
-
-    public function updateTaskReplayTitleAction(Request $request, $courseId, $taskId, $replayId)
-    {
-        $title = $request->request->get('title');
-
-        if (empty($title)) {
-            return $this->createJsonResponse(false);
-        }
-
-        $this->getLiveReplayService()->updateReplay($replayId, array('title' => $title));
-
-        return $this->createJsonResponse(true);
-    }
-
-    public function uploadReplayAction(Request $request, $courseId, $taskId)
-    {
-        $course = $this->getCourseService()->tryManageCourse($courseId);
-        $task = $this->getTaskService()->getTask($taskId);
-        $activity = $this->getActivityService()->getActivity($task['activityId'], true);
-
-        if ('POST' == $request->getMethod()) {
-            $fileId = $request->request->get('fileId', 0);
-            $this->getActivityService()->updateActivity($activity['id'], array('fileId' => $fileId));
-
-            return $this->redirect(
-                $this->generateUrl(
-                    'course_set_manage_course_replay',
-                    array(
-                        'courseSetId' => $course['courseSetId'],
-                        'courseId' => $course['id'],
-                    )
-                )
-            );
-        }
-
-        if ('videoGenerated' == $activity['ext']['replayStatus']) {
-            $task['media'] = $this->getUploadFileService()->getFile($activity['ext']['mediaId']);
-        }
-
-        return $this->render(
-            'course-manage/live-replay/upload-modal.html.twig',
-            array(
-                'course' => $course,
-                'task' => $task,
-                'activity' => $activity,
-            )
-        );
-    }
-
-    public function editTaskReplayAction(Request $request, $courseId, $taskId)
-    {
-        $course = $this->getCourseService()->tryManageCourse($courseId);
-        $task = $this->getTaskService()->getTask($taskId);
-        $activity = $this->getActivityService()->getActivity($task['activityId']);
-        $replays = $this->getLiveReplayService()->findReplayByLessonId($activity['id']);
-
-        if ('POST' == $request->getMethod()) {
-            $ids = $request->request->get('visibleReplays');
-            $this->getLiveReplayService()->updateReplayShow($ids, $activity['id']);
-
-            return $this->redirect(
-                $this->generateUrl(
-                    'course_set_manage_course_replay',
-                    array(
-                        'courseSetId' => $course['courseSetId'],
-                        'courseId' => $course['id'],
-                    )
-                )
-            );
-        }
-
-        return $this->render(
-            'course-manage/live-replay/modal.html.twig',
-            array(
-                'replays' => $replays,
-                'taskId' => $task['id'],
-                'course' => $course,
-                'task' => $task,
-            )
-        );
-    }
-
-    public function createReplayAction(Request $request, $courseId, $taskId)
-    {
-        $course = $this->getCourseService()->tryManageCourse($courseId);
-        $task = $this->getTaskService()->getTask($taskId);
-        $activity = $this->getActivityService()->getActivity($task['activityId'], true);
-
-        $liveId = $activity['ext']['liveId'];
-        $provider = $activity['ext']['liveProvider'];
-        $resultList = $this->getLiveReplayService()->generateReplay(
-            $liveId,
-            $course['id'],
-            $activity['id'],
-            $provider,
-            'live'
-        );
-
-        if (array_key_exists('error', $resultList)) {
-            return $this->createJsonResponse($resultList, Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
-
-        $task['isEnd'] = intval(time() - $task['endTime']) > 0;
-        $task['canRecord'] = $this->get('web.twig.live_extension')->canRecord($liveId);
-
-        $client = new EdusohoLiveClient();
-
-        if ('live' == $task['type']) {
-            $result = $client->getMaxOnline($liveId);
-            $this->getTaskService()->setTaskMaxOnlineNum($task['id'], $result['onLineNum']);
-        }
-
-        return $this->createJsonResponse(true);
-    }
-
     public function listAction(Request $request, $courseSetId)
     {
         $courseSet = $this->getCourseSetService()->tryManageCourseSet($courseSetId);
-        $sync = $request->query->get('sync');
-        if ($courseSet['locked'] && empty($sync)) {
-            return $this->redirectToRoute(
-                'course_set_manage_sync',
-                array(
-                    'id' => $courseSetId,
-                    'sideNav' => 'tasks',
-                )
-            );
-        }
 
         $conditions = array(
             'courseSetId' => $courseSet['id'],
@@ -314,116 +111,10 @@ class CourseManageController extends BaseController
         return array($courses, $courseSet);
     }
 
-    public function overviewAction(Request $request, $courseSetId, $courseId)
-    {
-        $course = $this->getCourseService()->tryManageCourse($courseId, $courseSetId);
-        $courseSet = $this->getCourseSetService()->getCourseSet($courseSetId);
-
-        $summary = $this->getReportService()->summary($course['id']);
-
-        return $this->render(
-            'course-manage/overview/overview.html.twig',
-            array(
-                'summary' => $summary,
-                'courseSet' => $courseSet,
-                'course' => $course,
-            )
-        );
-    }
-
-    public function trendencyAction(Request $request, $courseSetId, $courseId)
-    {
-        $startTime = $request->query->get('startTime');
-        $endTime = $request->query->get('endTime');
-        $timeRange = array(
-            'startTime' => $startTime,
-            'endTime' => $endTime,
-        );
-        $data = $this->getCourseMemberService()->findDailyIncreaseNumByCourseIdAndRoleAndTimeRange($courseId, 'student', $timeRange);
-        $data = $this->fillAnalysisData($timeRange, $data);
-
-        return $this->createJsonpResponse($data);
-    }
-
-    protected function fillAnalysisData($condition, $currentData)
-    {
-        $timeRange = $this->getTimeRange($condition);
-        $dateRange = DateToolkit::generateDateRange(
-            date('Y-m-d', $timeRange['startTime']),
-            date('Y-m-d', $timeRange['endTime'])
-        );
-
-        $zeroData = array();
-
-        foreach ($dateRange as $key => $value) {
-            $zeroData[] = array('date' => $value, 'count' => 0);
-        }
-
-        $currentData = ArrayToolkit::index($currentData, 'date');
-
-        $zeroData = ArrayToolkit::index($zeroData, 'date');
-
-        $currentData = array_merge($zeroData, $currentData);
-
-        $currentData = array_values($currentData);
-
-        return $currentData;
-    }
-
-    protected function fillAnalysisSum($timeRange, $currentData, $initValue = 0)
-    {
-        $timeRange = $this->getTimeRange($timeRange);
-        $dateRange = DateToolkit::generateDateRange(
-            date('Y-m-d', $timeRange['startTime']),
-            date('Y-m-d', $timeRange['endTime'])
-        );
-
-        $initData = array();
-
-        foreach ($dateRange as $value) {
-            $initData[] = array('date' => $value, 'count' => $initValue);
-        }
-
-        for ($i = 0; $i < count($initData); ++$i) {
-            foreach ($currentData as $value) {
-                if (in_array($initData[$i]['date'], $value)) {
-                    $initData[$i]['count'] += $value['count'];
-                    break;
-                }
-            }
-            if (isset($initData[$i + 1])) {
-                $initData[$i + 1]['count'] = $initData[$i]['count'];
-            }
-        }
-
-        return json_encode($initData);
-    }
-
-    protected function getTimeRange($fields)
-    {
-        $startTime = !empty($fields['startTime']) ? $fields['startTime'] : date('Y-m', time());
-        $endTime = !empty($fields['endTime']) ? $fields['endTime'] : date('Y-m-d', time());
-
-        return array(
-            'startTime' => strtotime($startTime),
-            'endTime' => strtotime($endTime) + 24 * 3600 - 1,
-        );
-    }
-
     public function tasksAction(Request $request, $courseSetId, $courseId)
     {
         $course = $this->getCourseService()->tryManageCourse($courseId, $courseSetId);
         $courseSet = $this->getCourseSetService()->getCourseSet($courseSetId);
-        $sync = $request->query->get('sync');
-        if ($courseSet['locked'] && empty($sync)) {
-            return $this->redirectToRoute(
-                'course_set_manage_course_students',
-                array(
-                    'courseSetId' => $courseSetId,
-                    'courseId' => $courseId,
-                )
-            );
-        }
 
         $tasks = $this->getTaskService()->findTasksByCourseId($courseId);
         $tasksListJsonData = $this->createCourseStrategy($course)->getTasksListJsonData($courseId);
@@ -442,34 +133,6 @@ class CourseManageController extends BaseController
         );
     }
 
-    public function prepareExpiryMode($data)
-    {
-        if (empty($data['expiryMode']) || 'days' != $data['expiryMode']) {
-            unset($data['deadlineType']);
-        }
-        if (!empty($data['deadlineType'])) {
-            if ('end_date' == $data['deadlineType']) {
-                $data['expiryMode'] = 'end_date';
-                if (isset($data['deadline'])) {
-                    $data['expiryEndDate'] = $data['deadline'];
-                }
-
-                return $data;
-            } else {
-                $data['expiryMode'] = 'days';
-
-                return $data;
-            }
-        }
-
-        return $data;
-    }
-
-    /**
-     * @param $course
-     *
-     * @return CourseStrategy
-     */
     protected function createCourseStrategy($course)
     {
         return $this->getBiz()->offsetGet('course.strategy_context')->createStrategy($course['courseType']);
@@ -483,56 +146,14 @@ class CourseManageController extends BaseController
         if ($request->isMethod('POST')) {
             $data = $request->request->all();
             $courseSet = $this->getCourseSetService()->tryManageCourseSet($courseSetId);
-            if (in_array($courseSet['type'], array('live', 'reservation')) || !empty($courseSet['parentId'])) {
-                $this->getCourseSetService()->updateCourseSet($courseSetId, $data);
-                unset($data['title']);
-                unset($data['subtitle']);
-            }
-            $data = $this->prepareExpiryMode($data);
-            if (!empty($data['services'])) {
-                $data['services'] = json_decode($data['services'], true);
-            }
-
-            if (!empty($data['freeTaskIds']) || !empty($freeTasks)) {
-                $freeTaskIds = ArrayToolkit::column($freeTasks, 'id');
-                $canFreeTaskIds = empty($data['freeTaskIds']) ? array() : $data['freeTaskIds'];
-                if (!ArrayToolkit::isSameValues($freeTaskIds, $canFreeTaskIds)) {
-                    $this->getTaskService()->updateTasks($freeTaskIds, array('isFree' => 0));
-                    $this->getTaskService()->updateTasks($canFreeTaskIds, array('isFree' => 1));
-                }
-                unset($data['freeTaskIds']);
-            }
-
+            
             $updatedCourse = $this->getCourseService()->updateBaseInfo($courseId, $data);
-            if (empty($course['enableAudio']) && $updatedCourse['enableAudio']) {
-                $this->getCourseService()->batchConvert($course['id']);
-            }
 
             return $this->createJsonResponse(true);
         }
 
         $courseSet = $this->getCourseSetService()->getCourseSet($courseSetId);
-
-        $sync = $request->query->get('sync');
-        if ($courseSet['locked'] && empty($sync)) {
-            return $this->redirectToRoute(
-                'course_set_manage_sync',
-                array(
-                    'id' => $courseSetId,
-                    'sideNav' => 'info',
-                )
-            );
-        }
-
-        $audioServiceStatus = $this->getUploadFileService()->getAudioServiceStatus();
-
-        $course = $this->formatCourseDate($course);
-        if ('end_date' == $course['expiryMode']) {
-            $course['deadlineType'] = 'end_date';
-            $course['expiryMode'] = 'days';
-        }
        
-
         return $this->redirectToRoute(
             'course_set_manage_course_tasks',
             array(
@@ -554,31 +175,6 @@ class CourseManageController extends BaseController
         );
     }
 
-    protected function sortTasks($tasks)
-    {
-        $tasks = ArrayToolkit::group($tasks, 'categoryId');
-        $modes = array(
-            'preparation' => 0,
-            'lesson' => 1,
-            'exercise' => 2,
-            'homework' => 3,
-            'extraClass' => 4,
-        );
-
-        foreach ($tasks as $key => $taskGroups) {
-            uasort(
-                $taskGroups,
-                function ($item1, $item2) use ($modes) {
-                    return $modes[$item1['mode']] > $modes[$item2['mode']];
-                }
-            );
-
-            $tasks[$key] = $taskGroups;
-        }
-
-        return $tasks;
-    }
-
     public function teachersAction(Request $request, $courseSetId, $courseId)
     {
         if ($request->isMethod('POST')) {
@@ -588,9 +184,6 @@ class CourseManageController extends BaseController
             }
 
             $teachers = json_decode($data['teachers'], true);
-            if (empty($teachers)) {
-                throw new InvalidArgumentException('Empty Data');
-            }
 
             $this->getCourseMemberService()->setCourseTeachers($courseId, $teachers);
 
@@ -624,13 +217,46 @@ class CourseManageController extends BaseController
                 'teacherIds' => $teacherIds,
             )
         );
+    }
+
+    // 添加教师
+    public function addTeachersAction(Request $request, $courseSetId, $courseId)
+    {
+        $operateUser = $this->getUser();
+        $courseSetting = $this->getSettingService()->get('course');
+
+        if ($request->isMethod('POST')) {
+            $data = $request->request->all();
+
+            $teachers = $this->getUserService()->searchUsers(
+                array('nickname' => $data['queryfield'], 'roles' => 'ROLE_TEACHER'),
+                array('createdTime' => 'DESC'),
+                0,
+                10
+            );
+
+            if(empty($teachers)) {
+                $this->setFlashMessage('wrong', '没有找到用户');
+                return $this->redirectToRoute(
+                    'course_set_manage_course_teachers',
+                    array('courseSetId' => $courseSetId, 'courseId' => $courseId)
+                ); 
+            }
+
+            $this->getCourseMemberService()->setCourseTeachers($courseId, $teachers);
+
+            return $this->redirectToRoute(
+                'course_set_manage_course_teachers',
+                array('courseSetId' => $courseSetId, 'courseId' => $courseId)
+            );
+        }
+        $course = $this->getCourseService()->tryManageCourse($courseId, $courseSetId);
 
         return $this->render(
-            'course-manage/teachers.html.twig',
+            'course-manage/teacher/add-modal.html.twig',
             array(
-                'courseSet' => $courseSet,
                 'course' => $course,
-                'teacherIds' => $teacherIds,
+                'courseSetId' => $courseSetId,
             )
         );
     }
@@ -728,17 +354,6 @@ class CourseManageController extends BaseController
         return $this->createJsonResponse(true);
     }
 
-    protected function formatCourseDate($course)
-    {
-        if (!empty($course['expiryStartDate'])) {
-            $course['expiryStartDate'] = date('Y-m-d', $course['expiryStartDate']);
-        }
-        if (!empty($course['expiryEndDate'])) {
-            $course['expiryEndDate'] = date('Y-m-d', $course['expiryEndDate']);
-        }
-
-        return $course;
-    }
 
     /**
      * @return CourseSetService

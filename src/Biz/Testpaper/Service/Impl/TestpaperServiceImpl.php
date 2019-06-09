@@ -894,8 +894,9 @@ class TestpaperServiceImpl extends BaseService implements TestpaperService
             'targetType' => 'question.answer',
             'type' => 'attachment',
         );
-        $attachments = $this->getUploadFileService()->searchUseFiles($conditions, false);
-        $attachments = ArrayToolkit::index($attachments, 'targetId');
+        // $attachments = $this->getUploadFileService()->searchUseFiles($conditions, false);
+        // $attachments = ArrayToolkit::index($attachments, 'targetId');
+        $attachments = array();
 
         foreach ($itemResults as $key => $itemResult) {
             $itemResults[$key]['attachment'] = array();

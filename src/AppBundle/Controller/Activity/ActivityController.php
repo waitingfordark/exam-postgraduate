@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ActivityController extends BaseController
 {
-    public function showAction($task, $preview)
+    public function showAction($task)
     {
         $activity = $this->getActivityService()->getActivity($task['activityId']);
 
@@ -20,20 +20,6 @@ class ActivityController extends BaseController
 
         return $this->forward($actionConfig['controller'].':show', array(
             'activity' => $activity,
-            'preview' => $preview,
-        ));
-    }
-
-    public function previewAction($task)
-    {
-        $activity = $this->getActivityService()->getActivity($task['activityId']);
-        if (empty($activity)) {
-            throw $this->createNotFoundException('activity not found');
-        }
-        $actionConfig = $this->getActivityConfig($activity['mediaType']);
-
-        return $this->forward($actionConfig['controller'].':preview', array(
-            'task' => $task,
         ));
     }
 

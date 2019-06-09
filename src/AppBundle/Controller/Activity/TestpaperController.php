@@ -14,30 +14,20 @@ class TestpaperController extends BaseActivityController implements ActivityActi
 {
     public function showAction(Request $request, $activity, $preview = 0)
     {
-        if ($preview) {
-            return $this->previewTestpaper($activity['id'], $activity['fromCourseId']);
-        }
-
         $user = $this->getUser();
         $testpaperActivity = $this->getTestpaperActivityService()->getActivity($activity['mediaId']);
         $testpaper = $this->getTestpaperService()->getTestpaperByIdAndType($testpaperActivity['mediaId'], $activity['mediaType']);
 
-        if (!$testpaper) {
-            return $this->render('activity/testpaper/preview.html.twig', array(
-                'paper' => null,
-            ));
-        }
-
         $testpaperResult = $this->getTestpaperService()->getUserLatelyResultByTestId($user['id'], $testpaperActivity['mediaId'], $activity['fromCourseId'], $activity['id'], $activity['mediaType']);
 
-        if (!$testpaperResult || ($testpaperResult['status'] == 'doing' && !$testpaperResult['updateTime']) || $testpaper['status'] != 'open') {
-            // return $this->render('activity/testpaper/show.html.twig', array(
-            //     'activity' => $activity,
-            //     'testpaperActivity' => $testpaperActivity,
-            //     'testpaperResult' => $testpaperResult,
-            //     'testpaper' => $testpaper,
-            //     'courseId' => $activity['fromCourseId'],
-            // ));
+        if ($testpaperResult['status'] === 'doing') {
+            return $this->render('activity/testpaper/show.html.twig', array(
+                'activity' => $activity,
+                'testpaperActivity' => $testpaperActivity,
+                'testpaperResult' => $testpaperResult,
+                'testpaper' => $testpaper,
+                'courseId' => $activity['fromCourseId'],
+            ));
         } elseif ($testpaperResult['status'] === 'finished') {
             return $this->forward('AppBundle:Testpaper/Testpaper:showResult', array(
                 'resultId' => $testpaperResult['id'],

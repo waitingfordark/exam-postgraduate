@@ -135,7 +135,7 @@ class TestpaperController extends BaseController
 
         $student = $this->getUserService()->getUser($testpaperResult['userId']);
 
-        $attachments = $this->getTestpaperService()->findAttachments($testpaper['id']);
+        // $attachments = $this->getTestpaperService()->findAttachments($testpaper['id']);
 
         $activity = $this->getActivityService()->getActivity($testpaperResult['lessonId']);
         $testpaperActivity = $this->getTestpaperActivityService()->getActivity($activity['mediaId']);
@@ -150,7 +150,7 @@ class TestpaperController extends BaseController
             'total' => $total,
             'student' => $student,
             'source' => $request->query->get('source', 'course'),
-            'attachments' => $attachments,
+            // 'attachments' => $attachments,
             'questionTypes' => $this->getCheckedQuestionType($testpaper),
             'task' => $task,
             'action' => $request->query->get('action', ''),

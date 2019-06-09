@@ -20,11 +20,6 @@ jstranslation_js:
         domain: "[\\w]+"
 
 
-homepage_category:
-    path: /course/search
-    defaults: { _controller: AppBundle:Default:coursesCategory }
-
-
 login:
     path:  /login
     defaults: { _controller: AppBundle:Login:index }
@@ -514,7 +509,7 @@ course_task_show:
 
 course_task_activity_show:
     path:  /course/{courseId}/task/{id}/activity_show
-    defaults: { _controller: AppBundle:Task:taskActivity }
+    defaults: { _controller: AppBundle:Task:show }
 
 course_task_trigger:
     path:  /course/{courseId}/task/{id}/trigger
@@ -718,6 +713,10 @@ course_set_manage_course_records:
 course_set_manage_course_students_add:
   path: /course_set/{courseSetId}/manage/course/{courseId}/students/add
   defaults: {_controller: AppBundle:Course/StudentManage:createCourseStudent}
+
+course_set_manage_course_teachers_add:
+  path: /course_set/{courseSetId}/manage/course/{courseId}/teachers/add
+  defaults: {_controller: AppBundle:Course/CourseManage:addTeachers}
 
 course_set_manage_course_students_remove:
   path: /course_set/{courseSetId}/manage/course/{courseId}/students/{userId}/remove
