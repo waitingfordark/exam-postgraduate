@@ -34,9 +34,9 @@ class TestpaperController extends BaseActivityController implements ActivityActi
             ));
         }
 
-        return $this->forward('AppBundle:Testpaper/Testpaper:doTestpaper', array(
-            'testId' => $testpaperActivity['mediaId'],
+        return $this->redirectToRoute('testpaper_do', array(
             'lessonId' => $activity['id'],
+            'testId' => $testpaperActivity['mediaId'],
         ));
     }
 

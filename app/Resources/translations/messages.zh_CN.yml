@@ -1243,9 +1243,7 @@ course.testpaper_manage.empty: >
   </div>
 course.testpaper_manage.delete_btn: 删除
 course.testpaper_manage.tips: >
-  提示：试卷一旦发布不能修改，发布后的试卷需要
-  <strong class="color-warning">添加到%taskName%</strong>
-  中才能正常使用。
+  试卷一旦发布不能修改
 course.testpaper_manage.score: %score%分
 course.testpaper_manage.passed_condition: 及格%passedCondition%分
 course.testpaper_manage.limited_time: %limitedTime%分钟
@@ -1255,10 +1253,10 @@ course.testpaper_manage.testpaper_status.draft: 草稿
 course.testpaper_manage.testpaper_status.open: 已发布
 course.testpaper_manage.testpaper_status.closed: 已关闭
 course.testpaper_manage.publish_btn: 发布试卷
-course.testpaper_manage.publish_tips: 真的要发布%name%吗？ 试卷发布后无论是否关闭都将无法修改。
+course.testpaper_manage.publish_tips:  试卷发布后无论是否关闭都将无法修改。
 course.testpaper_manage.close_btn: 关闭试卷
 course.testpaper_manage.close_tips: 真的要关闭试卷%name%吗？
-course.testpaper_manage.testpaper_quoted_close_tips: 该试卷已被%taskName%引用，真的要关闭吗？
+course.testpaper_manage.testpaper_quoted_close_tips: 
 course.testpaper_manage.edit_btn: 编辑试卷信息
 course.testpaper_manage.manage_btn: 管理题目
 course.testpaper_manage.repead_btn: 重新生成题目

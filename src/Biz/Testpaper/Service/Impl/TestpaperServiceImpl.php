@@ -386,7 +386,7 @@ class TestpaperServiceImpl extends BaseService implements TestpaperService
         }
 
         $answers = empty($formData['data']) ? array() : $formData['data'];
-        $attachments = empty($formData['attachments']) ? array() : $formData['attachments'];
+        $attachments = array();
         $orders = empty($formData['seq']) ? array() : $formData['seq'];
 
         $this->submitAnswers($result['id'], $answers, $attachments);

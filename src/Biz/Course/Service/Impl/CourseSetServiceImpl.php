@@ -30,143 +30,6 @@ class CourseSetServiceImpl extends BaseService implements CourseSetService
         return $this->getCourseSetDao()->findCourseSetsByParentIdAndLocked($parentId, $locked);
     }
 
-    // Refactor: recommendCourseSet
-    public function recommendCourse($id, $number)
-    {
-        $this->tryManageCourseSet($id);
-        if (!is_numeric($number)) {
-            throw $this->createAccessDeniedException('recommend seq must be number!');
-        }
-
-        $fields = array(
-            'recommended' => 1,
-            'recommendedSeq' => (int) $number,
-            'recommendedTime' => time(),
-        );
-
-        $courseSet = $this->getCourseSetDao()->update($id, $fields);
-
-        $this->dispatchEvent(
-            'courseSet.recommend',
-            new Event(
-                $courseSet,
-                $fields
-            )
-        );
-
-        return $courseSet;
-    }
-
-    // Refactor: cancelRecommendCourseSet
-    public function cancelRecommendCourse($id)
-    {
-        $course = $this->tryManageCourseSet($id);
-        $fields = array(
-            'recommended' => 0,
-            'recommendedTime' => 0,
-            'recommendedSeq' => 0,
-        );
-        $this->getCourseSetDao()->update(
-            $id,
-            $fields
-        );
-
-        $this->dispatchEvent(
-            'courseSet.recommend.cancel',
-            new Event(
-                $course,
-                $fields
-            )
-        );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function findRandomCourseSets($conditions, $num = 3)
-    {
-        $count = $this->countCourseSets($conditions);
-        $max = $count - $num - 1;
-        if ($max < 0) {
-            $max = 0;
-        }
-        $offset = rand(0, $max);
-
-        return $this->searchCourseSets($conditions, 'latest', $offset, $num);
-    }
-
-    public function favorite($id)
-    {
-        $courseSet = $this->getCourseSet($id);
-        $user = $this->getCurrentUser();
-
-        if (empty($courseSet)) {
-            return false;
-        }
-
-        if (!$user->isLogin()) {
-            $this->createNewException(UserException::UN_LOGIN());
-        }
-
-        $isFavorite = $this->isUserFavorite($user['id'], $courseSet['id']);
-
-        if ($isFavorite) {
-            return true;
-        }
-
-        $course = $this->getCourseService()->getFirstPublishedCourseByCourseSetId($courseSet['id']);
-
-        if (empty($course)) {
-            return false;
-        }
-
-        $favorite = array(
-            'courseSetId' => $courseSet['id'],
-            'type' => 'course',
-            'userId' => $user['id'],
-            'courseId' => $course['id'],
-        );
-
-        $favorite = $this->getFavoriteDao()->create($favorite);
-
-        $this->dispatch('courseSet.favorite', $favorite, array('courseSet' => $courseSet, 'course' => $course));
-
-        return !empty($favorite);
-    }
-
-    public function unfavorite($id)
-    {
-        $courseSet = $this->getCourseSet($id);
-        $user = $this->getCurrentUser();
-
-        if (empty($courseSet)) {
-            return false;
-        }
-
-        if (!$user->isLogin()) {
-            throw $this->createAccessDeniedException('user is not log in');
-        }
-
-        $favorite = $this->getFavoriteDao()->getByUserIdAndCourseSetId($user['id'], $courseSet['id'], 'course');
-
-        if (empty($favorite)) {
-            return true;
-        }
-
-        $this->getFavoriteDao()->delete($favorite['id']);
-        $this->getLogService()->info('course', 'delete_favorite', "删除收藏(#{$id})", $favorite);
-
-        return true;
-    }
-
-    public function isUserFavorite($userId, $courseSetId)
-    {
-        $courseSet = $this->getCourseSet($courseSetId);
-        $favorite = $this->getFavoriteDao()->getByUserIdAndCourseSetId($userId, $courseSet['id'], 'course');
-
-        return !empty($favorite);
-    }
-
     public function tryManageCourseSet($id)
     {
         $user = $this->getCurrentUser();
@@ -270,7 +133,6 @@ class CourseSetServiceImpl extends BaseService implements CourseSetService
             return 0;
         }
 
-        //屏蔽预约课程
         $count = $this->countCourseSets(
             array(
                 'ids' => $ids,
@@ -385,45 +247,6 @@ class CourseSetServiceImpl extends BaseService implements CourseSetService
         return $created;
     }
 
-    public function copyCourseSet($classroomId, $courseSetId, $courseId)
-    {
-        //$courseSet = $this->tryManageCourseSet($courseSetId);
-        $courseSet = $this->getCourseSet($courseSetId);
-
-        $newCourse = $this->biz['classroom_course_copy']->copy($courseSet, array('courseId' => $courseId, 'classroomId' => $classroomId));
-
-        $this->dispatchEvent(
-            'classroom.course.copy',
-            new Event(
-                $newCourse,
-                array('classroomId' => $classroomId, 'courseSetId' => $courseSetId, 'courseId' => $courseId)
-            )
-        );
-
-        return $newCourse;
-    }
-
-    public function cloneCourseSet($courseSetId, $params = array())
-    {
-        $courseSet = $this->getCourseSetDao()->get($courseSetId);
-        try {
-            $this->beginTransaction();
-            $courseSet = $this->getCourseSet($courseSetId);
-            if (empty($courseSet)) {
-                $this->createNotFoundException('courseSet not found');
-            }
-            $this->biz['course_set_courses_copy']->copy($courseSet, array('params' => $params));
-
-            $this->getLogService()->info(AppLoggerConstant::COURSE, 'clone_course_set', "复制课程 - {$courseSet['title']}(#{$courseSetId}) 成功", array('courseSetId' => $courseSetId));
-            $this->commit();
-        } catch (\Exception $e) {
-            $this->rollback();
-            $this->getLogService()->error(AppLoggerConstant::COURSE, 'clone_course_set', "复制课程 - {$courseSet['title']}(#{$courseSetId}) 失败", array('error' => $e->getMessage()));
-
-            throw $e;
-        }
-    }
-
     public function updateCourseSet($id, $fields)
     {
         if (!ArrayToolkit::requireds($fields, array('title', 'categoryId', 'serializeMode'))) {
@@ -529,35 +352,12 @@ class CourseSetServiceImpl extends BaseService implements CourseSetService
         $this->dispatchEvent('course-set.update', new Event($courseSet));
     }
 
-    public function changeCourseSetCover($id, $coverArray)
-    {
-        if (empty($coverArray)) {
-            throw $this->createInvalidArgumentException('Invalid Param: cover');
-        }
-        $courseSet = $this->tryManageCourseSet($id);
-        $covers = array();
-        foreach ($coverArray as $cover) {
-            $file = $this->getFileService()->getFile($cover['id']);
-            $covers[$cover['type']] = $file['uri'];
-        }
-
-        $courseSet = $this->getCourseSetDao()->update($courseSet['id'], array('cover' => $covers));
-
-        $this->dispatchEvent('course-set.update', new Event($courseSet));
-
-        return $courseSet;
-    }
 
     public function deleteCourseSet($id)
     {
         $courseSet = $this->tryManageCourseSet($id);
-        $subCourseSets = $this->getCourseSetDao()->findCourseSetsByParentIdAndLocked($id, 1);
-        if (!empty($subCourseSets)) {
-            throw $this->createAccessDeniedException('该课程在班级下引用，请先删除引用课程！');
-        }
+       
         $this->getCourseDeleteService()->deleteCourseSet($courseSet['id']);
-
-        $this->dispatchEvent('course-set.delete', new Event($courseSet));
     }
 
     public function findTeachingCourseSetsByUserId($userId, $onlyPublished = true)

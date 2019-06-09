@@ -45,7 +45,7 @@
           </div>
         </div>
 
-        <div class="form-group mbl">
+        <div class="form-group mbl hidden">
           <div class="controls">
             <input type="checkbox" name="_remember_me" checked="checked"> {{ 'user.login.remember_me'|trans }}
           </div>
@@ -57,27 +57,7 @@
         <input type="hidden" name="_target_path" value="{{ _target_path }}">
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
       </form>
-
-      {# <div class="mbl">
-        <a class="link-primary" href="{{ path('password_reset') }}">{{ 'user.login.find_password'|trans }}</a>
-        <span class="color-gray mhs">|</span>
-        <span class="color-gray">{{ 'user.login.ask_register'|trans }}</span>
-        <a class="link-primary" href="{{ path('register', {goto:_target_path}) }}">{{ 'user.login.go_register'|trans }}</a>
-      </div>
-
-      {% if setting('login_bind.enabled') %}
-        <div class="social-login">
-        <span>
-          {{ render(controller('AppBundle:Login:oauth2LoginsBlock', {targetPath:_target_path})) }}
-        </span>
-          <div class="line"></div>
-        </div>
-      {% endif %} #}
     </div>
   </div>
 
-{% endblock %}
-
-{% block bottom %}
-  {# {% include 'mobile/footer-tool-bar.html.twig' with { mobile_tool_bar: 'login' } %} #}
 {% endblock %}

@@ -29,10 +29,6 @@ class RegisterController extends BaseController
 
         $registerEnable = $this->getAuthService()->isRegisterEnabled();
 
-        if (!$registerEnable) {
-            return $this->createMessageResponse('info', '注册已关闭，请联系管理员', null, 3000, $this->getTargetPath($request));
-        }
-
         if ('POST' === $request->getMethod()) {
             try {
                 $registration = $request->request->all();
@@ -46,26 +42,10 @@ class RegisterController extends BaseController
                 $registration['createdIp'] = $request->getClientIp();
                 $authSettings = $this->getSettingService()->get('auth', array());
 
-                //拖动校验
-                $this->dragCaptchaValidator($registration, $authSettings);
-
-                //手机校验码
-                if ($this->smsCodeValidator($authSettings, $registration)) {
-                    $registration['verifiedMobile'] = '';
-                    $request->request->add(array_merge($request->request->all(), array('mobile' => $registration['mobile'])));
-
-                    list($result, $sessionField, $requestField) = SmsToolkit::smsCheck($request, $scenario = 'sms_registration');
-
-                    if ($result) {
-                        $registration['verifiedMobile'] = $sessionField['to'];
-                    } else {
-                        return $this->createMessageResponse('info', '手机号码和短信验证码不匹配，请重新注册');
-                    }
-                }
 
                 $registration['createdIp'] = $request->getClientIp();
                 $registration['registeredWay'] = 'web';
-                $registration = DistributorCookieToolkit::setCookieTokenToFields($request, $registration, DistributorCookieToolkit::USER);
+                // $registration = DistributorCookieToolkit::setCookieTokenToFields($request, $registration, DistributorCookieToolkit::USER);
 
                 $user = $this->getAuthService()->register($registration);
 
@@ -90,15 +70,15 @@ class RegisterController extends BaseController
                         $this->authenticateUser($user);
                     }
 
-                    $goto = $this->generateUrl('partner_login', array('goto' => $goto));
+                    $goto = $this->generateUrl('my_courses_learning', array('goto' => $goto));
                 }
 
                 $response = $this->redirect($this->generateUrl('register_success', array('goto' => $goto)));
-                $response = DistributorCookieToolkit::clearCookieToken(
-                    $request,
-                    $response,
-                    array('checkedType' => DistributorCookieToolkit::USER)
-                );
+                // $response = DistributorCookieToolkit::clearCookieToken(
+                //     $request,
+                //     $response,
+                //     array('checkedType' => DistributorCookieToolkit::USER)
+                // );
 
                 return $response;
             } catch (ServiceException $se) {
@@ -112,9 +92,6 @@ class RegisterController extends BaseController
         $invitedCode = $this->setInviteCode($request);
         $inviteUser = empty($invitedCode) ? array() : $this->getUserService()->getUserByInviteCode($invitedCode);
 
-        if ($this->getWebExtension()->isWechatLoginBind()) {
-            return $this->redirect($this->generateUrl('login_bind', array('type' => 'weixinmob', '_target_path' => $this->getTargetPath($request))));
-        }
 
         return $this->render('register/index.html.twig', array(
             'isRegisterEnabled' => $registerEnable,
@@ -511,19 +488,6 @@ class RegisterController extends BaseController
             $welcomeBody = $this->getWebExtension()->plainTextFilter($welcomeBody, 1000);
         }
 
-        $this->getMessageService()->sendMessage($senderUser['id'], $user['id'], $welcomeBody);
-        $conversation = $this->getMessageService()->getConversationByFromIdAndToId($user['id'], $senderUser['id']);
-        $this->getMessageService()->deleteConversation($conversation['id']);
-    }
-
-    protected function getWelcomeBody($user)
-    {
-        $site = $this->getSettingService()->get('site', array());
-        $valuesToBeReplace = array('{{nickname}}', '{{sitename}}', '{{siteurl}}');
-        $valuesToReplace = array($user['nickname'], $site['name'], $site['url']);
-        $welcomeBody = $this->setting('auth.welcome_body', '注册欢迎的内容');
-
-        return str_replace($valuesToBeReplace, $valuesToReplace, $welcomeBody);
     }
 
     protected function sendVerifyEmail($token, $user)
@@ -616,13 +580,6 @@ class RegisterController extends BaseController
         return $this->getBiz()->service('System:SettingService');
     }
 
-    /**
-     * @return MessageService
-     */
-    protected function getMessageService()
-    {
-        return $this->getBiz()->service('User:MessageService');
-    }
 
     /**
      * @return NotificationService

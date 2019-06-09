@@ -18,8 +18,9 @@ use AppBundle\Common\Exception\AccessDeniedException;
 
 class TestpaperController extends BaseController
 {
-    public function doTestpaper1Action(Request $request, $testId, $lessonId)
+    public function doTestpaperAction(Request $request, $lessonId, $testId)
     {
+        // die(1);
         $user = $this->getUser();
 
         $testpaper = $this->getTestpaperService()->getTestpaperByIdAndType($testId, 'testpaper');
@@ -42,6 +43,8 @@ class TestpaperController extends BaseController
         }
 
         $fields = $this->getTestpaperFields($lessonId);
+
+        // 这里开始考试
         $testpaperResult = $this->getTestpaperService()->startTestpaper($testpaper['id'], $fields);
 
         if ('doing' === $testpaperResult['status']) {
@@ -84,7 +87,6 @@ class TestpaperController extends BaseController
             $testpaperResult['usedTime'] = time() - $activity['startTime'];
         }
 
-        $attachments = $this->getTestpaperService()->findAttachments($testpaper['id']);
         $limitedTime = $testpaperActivity['limitedTime'] * 60 - $testpaperResult['usedTime'];
         $limitedTime = $limitedTime > 0 ? $limitedTime : 1;
 
@@ -97,7 +99,6 @@ class TestpaperController extends BaseController
             'testpaperActivity' => $testpaperActivity,
             'favorites' => ArrayToolkit::column($favorites, 'questionId'),
             'total' => $total,
-            'attachments' => $attachments,
             'questionTypes' => $this->getCheckedQuestionType($testpaper),
             'showTypeBar' => 1,
             'showHeader' => 0,
@@ -135,7 +136,6 @@ class TestpaperController extends BaseController
 
         $student = $this->getUserService()->getUser($testpaperResult['userId']);
 
-        // $attachments = $this->getTestpaperService()->findAttachments($testpaper['id']);
 
         $activity = $this->getActivityService()->getActivity($testpaperResult['lessonId']);
         $testpaperActivity = $this->getTestpaperActivityService()->getActivity($activity['mediaId']);
@@ -150,7 +150,6 @@ class TestpaperController extends BaseController
             'total' => $total,
             'student' => $student,
             'source' => $request->query->get('source', 'course'),
-            // 'attachments' => $attachments,
             'questionTypes' => $this->getCheckedQuestionType($testpaper),
             'task' => $task,
             'action' => $request->query->get('action', ''),

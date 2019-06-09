@@ -79,17 +79,7 @@ class MemberServiceImpl extends BaseService implements MemberService
             $member = $this->getCourseMember($course['id'], $user['id']);
 
             $currentUser = $this->getCurrentUser();
-            if (isset($data['isAdminAdded']) && 1 == $data['isAdminAdded']) {
-                $message = array(
-                    'courseId' => $course['id'],
-                    'courseTitle' => $courseSet['title'],
-                    'userId' => $currentUser['id'],
-                    'userName' => $currentUser['nickname'],
-                    'type' => 'create',
-                );
-                $this->getNotificationService()->notify($member['userId'], 'student-create', $message);
-            }
-
+            
             $infoData = array(
                 'courseSetId' => $courseSet['id'],
                 'courseId' => $course['id'],
@@ -156,17 +146,7 @@ class MemberServiceImpl extends BaseService implements MemberService
 
         $this->dispatchEvent('course.quit', $course, array('userId' => $userId, 'member' => $member));
 
-        if ($this->getCurrentUser()->isAdmin()) {
-            $courseSet = $this->getCourseSetService()->getCourseSet($course['courseSetId']);
-            $this->getNotificationService()->notify(
-                $member['userId'],
-                'student-remove',
-                array(
-                    'courseId' => $course['id'],
-                    'courseTitle' => $courseSet['title'],
-                )
-            );
-        }
+       
 
         return $result;
     }

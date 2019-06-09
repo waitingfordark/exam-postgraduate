@@ -143,7 +143,7 @@ class TaskServiceImpl extends BaseService implements TaskService
         $oldTask = $task = $this->getTask($id);
 
         if (!$this->getCourseService()->tryManageCourse($task['courseId'])) {
-            throw $this->createAccessDeniedException("can not update task #{$id}.");
+            throw $this->createAccessDeniedException("更新出错");
         }
 
         $this->beginTransaction();
@@ -152,19 +152,9 @@ class TaskServiceImpl extends BaseService implements TaskService
 
             $activity = $this->getActivityService()->updateActivity($task['activityId'], $fields);
 
-            if (in_array($activity['mediaType'], self::$mediaList)) {
-                $media = json_decode($fields['media'], true);
-                $fields['mediaSource'] = $media['source'];
-            }
-
             $fields['endTime'] = $activity['endTime'];
             $strategy = $this->createCourseStrategy($task['courseId']);
             $task = $strategy->updateTask($id, $fields);
-            $this->dispatchEvent('course.task.update', new Event($task, $oldTask));
-
-            if ('download' == $task['type']) {
-                $this->dispatchEvent('course.task.material.update', new Event($task, $oldTask));
-            }
 
             $this->commit();
 
@@ -187,14 +177,9 @@ class TaskServiceImpl extends BaseService implements TaskService
             return;
         }
 
-        if (!$this->canPublish($task['id'])) {
-            return false;
-        }
-
         $strategy = $this->createCourseStrategy($task['courseId']);
 
         $task = $strategy->publishTask($task);
-        $this->dispatchEvent('course.task.publish', new Event($task));
 
         return $task;
     }
@@ -211,32 +196,10 @@ class TaskServiceImpl extends BaseService implements TaskService
                     if (!empty($task['mode']) && 'lesson' !== $task['mode']) {
                         continue;
                     }
-                    if (!$this->canPublish($task['id'])) {
-                        continue;
-                    }
                     $this->publishTask($task['id']);
                 }
             }
         }
-    }
-
-    protected function canPublish($taskId)
-    {
-        $jobName = 'course_task_create_sync_job_'.$taskId;
-
-        $fireJobs = $this->getSchedulerService()->searchJobFires(
-            array('job_name' => $jobName),
-            array('id' => 'desc'),
-            0,
-            1
-        );
-        $syncCreateTaskFireJob = reset($fireJobs);
-
-        if (!empty($syncCreateTaskFireJob) && in_array($syncCreateTaskFireJob['status'], array('executing', 'acquired'))) {
-            return false;
-        }
-
-        return true;
     }
 
     public function unpublishTask($id)
@@ -247,13 +210,8 @@ class TaskServiceImpl extends BaseService implements TaskService
             throw $this->createAccessDeniedException("can not unpublish task #{$id}.");
         }
 
-        if ('unpublished' === $task['status']) {
-            throw $this->createAccessDeniedException("task(#{$task['id']}) has been unpublished");
-        }
-
         $strategy = $this->createCourseStrategy($task['courseId']);
         $task = $strategy->unpublishTask($task);
-        $this->dispatchEvent('course.task.unpublish', new Event($task));
 
         return $task;
     }
@@ -300,7 +258,7 @@ class TaskServiceImpl extends BaseService implements TaskService
         try {
             $result = $this->createCourseStrategy($task['courseId'])->deleteTask($task);
 
-            $this->dispatchEvent('course.task.delete', new Event($task, array('user' => $this->getCurrentUser())));
+            // $this->dispatchEvent('course.task.delete', new Event($task, array('user' => $this->getCurrentUser())));
 
             $this->commit();
 

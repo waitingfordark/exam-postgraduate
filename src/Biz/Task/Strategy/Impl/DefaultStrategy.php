@@ -210,13 +210,7 @@ class DefaultStrategy extends BaseStrategy implements CourseStrategy
     //发布课时中一组任务
     public function publishTask($task)
     {
-        $tasks = $this->getTaskDao()->findByChapterId($task['categoryId']);
-        foreach ($tasks as $task) {
-            $this->getTaskDao()->update($task['id'], array('status' => 'published'));
-        }
-        $task['status'] = 'published';
-
-        return $task;
+        return $this->getTaskDao()->update($task['id'], array('status' => 'published'));
     }
 
     //取消发布课时中一组任务

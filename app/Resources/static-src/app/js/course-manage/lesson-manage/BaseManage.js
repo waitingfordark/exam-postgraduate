@@ -70,12 +70,6 @@ export default class Manage {
     this.type = '';
   }
 
-  
-
-
-
-  
-
   handleEmptyShow() {
     if (0 === $('#sortable-list').find('li').length) {
       $('.js-task-empty').removeClass('hidden');
@@ -114,22 +108,34 @@ export default class Manage {
       let $parent = $this.closest('.task-manage-item');
       let text = self._getDeleteText($this);
 
-      cd.confirm({
-        title: Translator.trans('site.delete'),
-        content: text,
-        okText: Translator.trans('site.confirm'),
-        cancelText: Translator.trans('site.cancel')
-      }).on('ok', () => {
+      if(confirm(text)) {
         if ('task' == $this.data('type') && $parent.siblings().length == 0) {
           $parent.closest('.js-task-manage-lesson').remove();
         }
         $parent.remove();
-
+  
         self.handleEmptyShow();
         $.post($this.data('url'), function(data) {
           location.reload();
         });
-      });
+      }
+      
+      // cd.confirm({
+      //   title: Translator.trans('site.delete'),
+      //   content: text,
+      //   okText: Translator.trans('site.confirm'),
+      //   cancelText: Translator.trans('site.cancel')
+      // }).on('ok', () => {
+      //   if ('task' == $this.data('type') && $parent.siblings().length == 0) {
+      //     $parent.closest('.js-task-manage-lesson').remove();
+      //   }
+      //   $parent.remove();
+
+      //   self.handleEmptyShow();
+      //   $.post($this.data('url'), function(data) {
+      //     location.reload();
+      //   });
+      // });
     });
   }
 

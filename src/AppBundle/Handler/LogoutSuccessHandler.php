@@ -13,11 +13,7 @@ class LogoutSuccessHandler extends DefaultLogoutSuccessHandler
         $goto = $request->query->get('goto');
 
         if (!$goto) {
-            if ($this->isMicroMessenger($request) && $this->isWeixinEnabled()) {
-                $goto = 'homepage';
-            } else {
-                $goto = 'login';
-            }
+            $goto = 'login';
         }
 
         $this->targetUrl = $this->httpUtils->generateUri($request, $goto);
@@ -38,15 +34,8 @@ class LogoutSuccessHandler extends DefaultLogoutSuccessHandler
         }
 
         setcookie('_last_logout_locale', $request->getSession()->get('_locale'), -1);
-        // setcookie("U_LOGIN_TOKEN", '', -1);
+ 
         return parent::onLogoutSuccess($request);
-    }
-
-    protected function isWeixinEnabled()
-    {
-        $setting = $this->getSettingService()->get('login_bind');
-
-        return isset($setting['enabled']) && isset($setting['weixinmob_enabled']) && $setting['enabled'] && $setting['weixinmob_enabled'];
     }
 
     private function getAuthService()

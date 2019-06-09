@@ -18,35 +18,6 @@ interface CourseSetService
     const NORMAL_TYPE = 'normal';
     const LIVE_TYPE = 'live';
 
-    /**
-     * collect course set.
-     *
-     * @param  $id
-     *
-     * @throws AccessDeniedException
-     *
-     * @return bool
-     */
-    public function favorite($id);
-
-    /**
-     * cancel collected course set.
-     *
-     * @param  $id
-     *
-     * @throws AccessDeniedException
-     *
-     * @return bool
-     */
-    public function unfavorite($id);
-
-    /**
-     * @param int $userId
-     * @param int $courseSetId
-     *
-     * @return bool
-     */
-    public function isUserFavorite($userId, $courseSetId);
 
     public function tryManageCourseSet($id);
 
@@ -128,17 +99,6 @@ interface CourseSetService
     public function createCourseSet($courseSet);
 
     /**
-     * 复制课程到班级.
-     *
-     * @param int $classroomId
-     * @param int $courseSetId 要复制的课程
-     * @param int $courseId    要复制的教学计划
-     *
-     * @return mixed
-     */
-    public function copyCourseSet($classroomId, $courseSetId, $courseId);
-
-    /**
      * @param $id
      * @param $fields
      *
@@ -158,15 +118,6 @@ interface CourseSetService
     public function updateCourseSetMarketing($id, $fields);
 
     public function updateCourseSetTeacherIds($id, $teacherIds);
-
-    /**
-     * @param $id
-     * @param $fields
-     *
-     * @return mixed
-     * @Log(module="course",action="update_picture",funcName="getCourseSet",param="id")
-     */
-    public function changeCourseSetCover($id, $fields);
 
     /**
      * @param $id
@@ -199,32 +150,6 @@ interface CourseSetService
     public function findPublicCourseSetsByIds(array $ids);
 
     /**
-     * @param int $userId
-     *
-     * @return int
-     */
-    public function countUserFavorites($userId);
-
-    /**
-     * @param int $userId
-     * @param int $start
-     * @param int $limit
-     *
-     * @return array[]
-     */
-    public function searchUserFavorites($userId, $start, $limit);
-
-    /**
-     * @param array $conditions
-     * @param array $orderBys
-     * @param int   $start
-     * @param int   $limit
-     *
-     * @return array[]
-     */
-    public function searchFavorites(array $conditions, array $orderBys, $start, $limit);
-
-    /**
      * 更新课程统计属性.
      *
      * 如: 学员数、笔记数、评价数量
@@ -254,45 +179,7 @@ interface CourseSetService
 
     public function findCourseSetsByParentIdAndLocked($parentId, $locked);
 
-    /**
-     * @param $id
-     * @param $number
-     *
-     * @return mixed
-     * @Log(module="course",action="recommend",funcName="getCourseSet",param="id")
-     */
-    public function recommendCourse($id, $number);
-
-    /**
-     * @param $id
-     *
-     * @return mixed
-     * @Log(module="course",action="cancel_recommend",funcName="getCourseSet")
-     */
-    public function cancelRecommendCourse($id);
-
-    /**
-     * 根据查询条件随机取指定个数的课程.
-     *
-     * @param  $conditions
-     * @param int $num
-     *
-     * @return mixed
-     */
-    public function findRandomCourseSets($conditions, $num = 3);
-
-    /**
-     * 返回课程的营收额.
-     *
-     * @param array $ids
-     *
-     * @return array[]
-     */
-    public function findCourseSetIncomesByCourseSetIds(array $courseSetIds);
-
     public function analysisCourseSetDataByTime($startTime, $endTime);
-
-    public function batchUpdateOrg($courseSetIds, $orgCode);
 
     public function updateCourseSetMinAndMaxPublishedCoursePrice($courseSetId);
 
@@ -312,15 +199,4 @@ interface CourseSetService
     public function hitCourseSet($id);
 
     public function findRelatedCourseSetsByCourseSetId($courseSetId, $count);
-
-    /**
-     * 克隆一个课程
-     *
-     * @param $courseSetId
-     *
-     * @return mixed
-     */
-    public function cloneCourseSet($courseSetId, $params);
-
-    public function refreshHotSeq();
 }

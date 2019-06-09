@@ -103,7 +103,7 @@ class AuthenticationProvider extends UserAuthenticationProvider
                         $setting = $this->getSettingService()->get('user_partner', array());
                         $emailFilter = explode("\n", $setting['email_filter']);
                         if (in_array($partnerUser['email'], $emailFilter)) {
-                            $partnerUser['email'] = $partnerUser['id'].'_dz_'.$this->getRandomString(5).'@edusoho.net';
+                            $partnerUser['email'] = $partnerUser['id'].'_dz_'.$this->getRandomString(5);
                         }
                         $registration = array();
                         $registration['nickname'] = $partnerUser['nickname'];

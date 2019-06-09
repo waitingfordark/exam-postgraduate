@@ -483,9 +483,6 @@ class ManageController extends BaseController
         $testpaperActivity = $this->getTestpaperActivityService()->getActivity($activity['mediaId']);
 
         $paper = $this->getTestpaperService()->getTestpaper($testpaperActivity['mediaId']);
-        if (empty($paper)) {
-            return $this->createMessageResponse('info', 'Paper not found');
-        }
 
         $questions = $this->getTestpaperService()->showTestpaperItems($paper['id']);
 
@@ -567,7 +564,8 @@ class ManageController extends BaseController
         $types = array();
         $excludeTypes = array(
             'uncertain_choice',
-            'material'
+            'material',
+            'fill'
         );
         foreach ($typesConfig as $type => $typeConfig) {
             if(in_array($type, $excludeTypes)) {
@@ -610,6 +608,8 @@ class ManageController extends BaseController
         $scores = array_sum(ArrayToolkit::column($finishedResults, 'score'));
         $avg = empty($relatedData['finished']) ? 0 : $scores / $relatedData['finished'];
         $relatedData['avgScore'] = number_format($avg, 1);
+        $relatedData['minScore'] = min(ArrayToolkit::column($finishedResults, 'score'));
+        $relatedData['maxScore'] = max(ArrayToolkit::column($finishedResults, 'score'));
 
         return $relatedData;
     }

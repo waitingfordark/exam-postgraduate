@@ -30,21 +30,12 @@ class LoginSuccessHandler
     }
 
     /**
-     * Do the magic.
+     *
      *
      * @param InteractiveLoginEvent $event
      */
     public function onSecurityInteractiveLogin(InteractiveLoginEvent $event)
     {
-        if ($this->checker->isGranted('IS_AUTHENTICATED_FULLY')) {
-            // user has just logged in
-        }
-
-        if ($this->checker->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            // user has logged in using remember_me cookie
-        }
-
-        // do some other magic here
         $user = $event->getAuthenticationToken()->getUser();
         $user->setPermissions(PermissionBuilder::instance()->getPermissionsByRoles($user->getRoles()));
 
@@ -52,9 +43,7 @@ class LoginSuccessHandler
         $sessionId = $request->getSession()->getId();
         $request->getSession()->set('loginIp', $request->getClientIp());
 
-        $this->getUserService()->markLoginInfo();
         $this->getUserService()->rememberLoginSessionId($user['id'], $sessionId);
-        $this->getUserService()->markLoginSuccess($user['id'], $request->getClientIp());
     }
 
     private function getUserService()

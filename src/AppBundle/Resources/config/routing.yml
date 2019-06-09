@@ -20,15 +20,7 @@ jstranslation_js:
         domain: "[\\w]+"
 
 
-login:
-    path:  /login
-    defaults: { _controller: AppBundle:Login:index }
 
-login_check:
-    path:  /login_check
-
-logout:
-    path:  /logout
 
 login_ajax:
     path:  /login/ajax
@@ -802,10 +794,6 @@ course_manage_items_sort:
   methods: ['POST']
 
 #my_course
-my_courses_learning:
-    path: /my/courses/learning
-    defaults: { _controller: AppBundle:My/Course:learning }
-    h5: false
 
 my_courses_learned:
     path: /my/courses/learned
@@ -1207,3 +1195,20 @@ event_dispatch:
 classroom_manage_exam_result_anlysis:
   path: /classroom/{id}/manage/exam/activity/{activityId}/analysis
   defaults: { _controller: AppBundle:Classroom/ClassroomManage:resultAnalysis }
+
+# uouyong
+login:
+  path:  /login
+  defaults: { _controller: AppBundle:Login:index }
+
+login_check:
+    path:  /login_check
+
+logout:
+    path:  /logout
+
+my_courses_learning:
+    path: /my/courses/learning
+    defaults: { _controller: AppBundle:My/Course:learning }
+    h5: false
+

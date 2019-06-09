@@ -62,17 +62,6 @@ class CourseMemberEventSubscriber extends EventSubscriber implements EventSubscr
         }
     }
 
-    public function onCourseJoin(Event $event)
-    {
-        $this->countStudentMember($event);
-        $this->sendWelcomeMsg($event);
-        $this->publishStatus($event, 'become_student');
-    }
-
-    public function onClassroomCourseJoin(Event $event)
-    {
-        $this->publishStatus($event, 'become_student');
-    }
 
     public function onClassroomCourseCopy(Event $event)
     {
@@ -114,25 +103,6 @@ class CourseMemberEventSubscriber extends EventSubscriber implements EventSubscr
         }
     }
 
-    private function publishStatus(Event $event, $type)
-    {
-        $course = $event->getSubject();
-        $member = $event->getArgument('member');
-
-        $status = array(
-            'type' => $type,
-            'courseId' => $course['id'],
-            'objectType' => 'course',
-            'objectId' => $course['id'],
-            'private' => $course['status'] == 'published' ? 0 : 1,
-            'userId' => $member['userId'],
-            'properties' => array(
-                'course' => $this->simplifyCourse($course),
-            ),
-        );
-
-        $this->getStatusService()->publishStatus($status);
-    }
 
     public function onMemberDelete(Event $event)
     {
@@ -261,13 +231,6 @@ class CourseMemberEventSubscriber extends EventSubscriber implements EventSubscr
         return $this->getBiz()->service('User:UserService');
     }
 
-    /**
-     * @return StatusService
-     */
-    protected function getStatusService()
-    {
-        return $this->getBiz()->service('User:StatusService');
-    }
 
     /**
      * @return MemberService

@@ -22,15 +22,6 @@ class AuthServiceImpl extends BaseService implements AuthService
 
     public function register($registration, $type = 'default')
     {
-        if (isset($registration['nickname']) && !empty($registration['nickname'])
-            && $this->getSensitiveService()->scanText($registration['nickname'])) {
-            throw $this->createInvalidArgumentException('site.register.sensitive_words');
-        }
-
-        //营销平台不需要注册频率限制
-        if (!$this->isMarketingType($registration) && $this->registerLimitValidator($registration)) {
-            $this->createNewException(UserException::FORBIDDEN_REGISTER_LIMIT());
-        }
 
         //FIXME 应该调用GeneralDaoImpl里的事务
         $this->getKernel()->getConnection()->beginTransaction();

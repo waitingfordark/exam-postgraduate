@@ -827,7 +827,7 @@ class UserServiceImpl extends BaseService implements UserService
             );
         }
 
-        $this->dispatchEvent('user.registered', new Event($user));
+        // $this->dispatchEvent('user.registered', new Event($user));
 
         return $user;
     }
@@ -1346,7 +1346,7 @@ class UserServiceImpl extends BaseService implements UserService
         }
 
         $this->getUserDao()->update($user['id'], array('locked' => 1));
-        $this->dispatchEvent('user.lock', new Event($user));
+        // $this->dispatchEvent('user.lock', new Event($user));
 
         return true;
     }
@@ -1361,7 +1361,7 @@ class UserServiceImpl extends BaseService implements UserService
 
         $this->getUserDao()->update($user['id'], array('locked' => 0));
 
-        $this->dispatchEvent('user.unlock', new Event($user));
+        // $this->dispatchEvent('user.unlock', new Event($user));
 
         return true;
     }
@@ -1676,11 +1676,7 @@ class UserServiceImpl extends BaseService implements UserService
 
         $this->getLogService()->info('user', 'approved', sprintf('用户%s实名认证成功，操作人:%s !', $user['nickname'], $currentUser['nickname']));
 
-        $message = array(
-            'note' => $note ? $note : '',
-            'type' => 'through',
-        );
-        $this->getNotificationService()->notify($user['id'], 'truename-authenticate', $message);
+
 
         return true;
     }
@@ -1711,11 +1707,6 @@ class UserServiceImpl extends BaseService implements UserService
         );
 
         $this->getLogService()->info('user', 'approval_fail', sprintf('用户%s实名认证失败，操作人:%s !', $user['nickname'], $currentUser['nickname']));
-        $message = array(
-            'note' => $note ? $note : '',
-            'type' => 'reject',
-        );
-        $this->getNotificationService()->notify($user['id'], 'truename-authenticate', $message);
 
         return true;
     }

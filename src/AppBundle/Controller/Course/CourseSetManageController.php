@@ -139,30 +139,6 @@ class CourseSetManageController extends BaseController
     public function baseAction(Request $request, $id)
     {
         $courseSet = $this->getCourseSetService()->tryManageCourseSet($id);
-        
-        if ($request->isMethod('POST')) {
-            $data = $request->request->all();
-            $this->getCourseSetService()->updateCourseSet($id, $data);
-
-            return $this->createJsonResponse(true);
-        }
-
-        if ($courseSet['locked']) {
-            return $this->redirectToRoute(
-                'course_set_manage_sync',
-                array(
-                    'id' => $id,
-                    'sideNav' => 'base',
-                )
-            );
-        }
-
-        $tags = $this->getTagService()->findTagsByOwner(array(
-            'ownerType' => 'course-set',
-            'ownerId' => $id,
-        ));
-
-        $isCoursesSummaryEmpty = $this->getCourseService()->isCourseSetCoursesSummaryEmpty($courseSet['id']);
 
         return $this->redirectToRoute(
             'course_set_manage_course_tasks',
@@ -172,40 +148,8 @@ class CourseSetManageController extends BaseController
             )
             );
 
-        // return $this->render(
-        //     'courseset-manage/base.html.twig',
-        //     array(
-        //         'courseSet' => $courseSet,
-        //         'isCoursesSummaryEmpty' => $isCoursesSummaryEmpty,
-        //         'tags' => ArrayToolkit::column($tags, 'name'),
-        //     )
-        // );
     }
 
-    public function coverCropAction(Request $request, $id)
-    {
-        $courseSet = $this->getCourseSetService()->tryManageCourseSet($id);
-
-        if ($courseSet['locked']) {
-            return $this->redirectToRoute(
-                'course_set_manage_sync',
-                array(
-                    'id' => $id,
-                    'sideNav' => 'cover',
-                )
-            );
-        }
-
-        if ('POST' == $request->getMethod()) {
-            $data = $request->request->all();
-            $courseSet = $this->getCourseSetService()->changeCourseSetCover($courseSet['id'], $data['images']);
-            $cover = $this->getWebExtension()->getFpath($courseSet['cover']['large']);
-
-            return $this->createJsonResponse(array('image' => $cover));
-        }
-
-        return $this->render('courseset-manage/cover-crop-modal.html.twig');
-    }
 
     public function deleteAction($id)
     {
@@ -249,134 +193,6 @@ class CourseSetManageController extends BaseController
         } catch (\Exception $e) {
             return $this->createJsonResponse(array('success' => false, 'message' => $e->getMessage()));
         }
-    }
-
-    public function syncInfoAction(Request $request, $id)
-    {
-        $sideNav = $request->query->get('sideNav', '');
-        $courseSet = $this->getCourseSetService()->tryManageCourseSet($id);
-
-        $courses = $this->getCourseService()->findCoursesByCourseSetId($id);
-        $course = empty($courses) ? array() : reset($courses);
-        if (!$courseSet['locked']) {
-            $courseSetId = $courseSet['id'];
-            $courseId = $course['id'];
-        } else {
-            $courseSetId = $courseSet['parentId'];
-            $courseId = $course['parentId'];
-        }
-
-        //同步的课程不允许操作的菜单列表
-        $lockedCourseSetMenus = array(
-            'base' => array(
-                'title' => '基本信息',
-                'route' => 'course_set_manage_base',
-                'params' => array(
-                    'id' => $courseSetId,
-                ),
-            ),
-            'detail' => array(
-                'title' => '详细信息',
-                'route' => 'course_set_manage_detail',
-                'params' => array(
-                    'id' => $courseSetId,
-                ),
-            ),
-            'cover' => array(
-                'title' => '课程封面',
-                'route' => 'course_set_manage_cover',
-                'params' => array(
-                    'id' => $courseSetId,
-                ),
-            ),
-            'question' => array(
-                'title' => '题目管理',
-                'route' => 'course_set_manage_question',
-                'params' => array(
-                    'id' => $courseSetId,
-                ),
-            ),
-            'question_plus' => array(
-                'title' => '题目导入/导出',
-                'route' => 'course_question_plumber',
-                'params' => array(
-                    'courseSetId' => $courseSetId,
-                    'type' => 'import',
-                ),
-            ),
-            'testpaper' => array(
-                'title' => '试卷管理',
-                'route' => 'course_set_manage_testpaper',
-                'params' => array(
-                    'id' => $courseSetId,
-                ),
-            ),
-            'files' => array(
-                'title' => '课程文件',
-                'route' => 'course_set_manage_files',
-                'params' => array(
-                    'id' => $courseSetId,
-                ),
-            ),
-        );
-        $lockedCourseMenus = array(
-            'tasks' => array(
-                'title' => '计划任务',
-                'route' => 'course_set_manage_course_tasks',
-                'params' => array('courseSetId' => $courseSetId, 'courseId' => $courseId),
-            ),
-            'info' => array(
-                'title' => '计划设置',
-                'route' => 'course_set_manage_course_info',
-                'params' => array('courseSetId' => $courseSetId, 'courseId' => $courseId),
-            ),
-            'replay' => array(
-                'title' => '录播管理',
-                'route' => 'course_set_manage_course_replay',
-                'params' => array('courseSetId' => $courseSetId, 'courseId' => $courseId),
-            ),
-            'marketing' => array(
-                'title' => '营销设置',
-                'route' => 'course_set_manage_course_marketing',
-                'params' => array('courseSetId' => $courseSetId, 'courseId' => $courseId),
-            ),
-            'teachers' => array(
-                'title' => '教师设置',
-                'route' => 'course_set_manage_course_teachers',
-                'params' => array('courseSetId' => $courseSetId, 'courseId' => $courseId),
-            ),
-        );
-
-        if (!empty($lockedCourseSetMenus[$sideNav])) {
-            $menuPath = $this->generateUrl($lockedCourseSetMenus[$sideNav]['route'], $lockedCourseSetMenus[$sideNav]['params']);
-            $menuTitle = $lockedCourseSetMenus[$sideNav]['title'];
-        } elseif (!empty($lockedCourseMenus[$sideNav])) {
-            $menuPath = $this->generateUrl($lockedCourseMenus[$sideNav]['route'], $lockedCourseMenus[$sideNav]['params']);
-            $menuTitle = $lockedCourseMenus[$sideNav]['title'];
-        } else {
-            throw new \Exception('Invalid Menu Key');
-        }
-
-        if (!$courseSet['locked']) {
-            return $this->redirect($menuPath);
-        }
-
-        $copyCourseSet = $this->getCourseSetService()->getCourseSet($courseSet['parentId']);
-
-        $template = $this->getTemplate($sideNav);
-
-        return $this->render(
-            $template,
-            array(
-                'id' => $id,
-                'sideNav' => $sideNav,
-                'courseSet' => $courseSet,
-                'copyCourseSet' => $copyCourseSet,
-                'menuPath' => $menuPath,
-                'menuTitle' => $menuTitle,
-                'course' => $course,
-            )
-        );
     }
 
     public function unlockConfirmAction($id)

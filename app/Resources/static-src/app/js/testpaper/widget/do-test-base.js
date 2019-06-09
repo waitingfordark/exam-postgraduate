@@ -69,6 +69,7 @@ class DoTestBase
     $current.closest('.js-testpaper-question').find('.js-testpaper-question-analysis').slideToggle();
   }
 
+  // 没过1000毫秒加1；
   _initUsedTimer() {
     let self = this;
     this.$usedTimer = window.setInterval(() =>{
@@ -261,7 +262,7 @@ class DoTestBase
         self._suspendSubmit(url);
         let currentTime = new Date().getHours()+ ':' + new Date().getMinutes()+ ':' +new Date().getSeconds();
         notify('success',currentTime + Translator.trans('testpaper.widget.save_success_hint'));
-      }, 3 * 60 * 1000);
+      }, 10 * 60 * 1000);
     }
   }
 

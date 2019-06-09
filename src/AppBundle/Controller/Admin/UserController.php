@@ -47,40 +47,6 @@ class UserController extends BaseController
             $paginator->getPerPageCount()
         );
 
-        //根据mobile查询user_profile获得userIds
-
-        if (isset($conditions['keywordType']) && 'verifiedMobile' == $conditions['keywordType'] && !empty($conditions['keyword'])) {
-            $profilesCount = $this->getUserService()->searchUserProfileCount(array('mobile' => $conditions['keyword']));
-            $userProfiles = $this->getUserService()->searchUserProfiles(
-                array('mobile' => $conditions['keyword']),
-                array('id' => 'DESC'),
-                0,
-                $profilesCount
-            );
-            $userIds = ArrayToolkit::column($userProfiles, 'id');
-
-            if (!empty($userIds)) {
-                unset($conditions['keywordType']);
-                unset($conditions['keyword']);
-                $conditions['userIds'] = array_merge(ArrayToolkit::column($users, 'userId'), $userIds);
-            }
-
-            $userCount = $this->getUserService()->countUsers($conditions);
-            $paginator = new Paginator(
-                $this->get('request'),
-                $userCount,
-                20
-            );
-
-            $users = $this->getUserService()->searchUsers(
-                $conditions,
-                array('createdTime' => 'DESC'),
-                $paginator->getOffsetCount(),
-                $paginator->getPerPageCount()
-            );
-        }
-
-
         $userIds = ArrayToolkit::column($users, 'id');
         $profiles = $this->getUserService()->findUserProfilesByIds($userIds);
 
@@ -169,7 +135,6 @@ class UserController extends BaseController
                 $this->getUserService()->changeUserRoles($user['id'], $roles);
             }
 
-            $this->getLogService()->info('user', 'add', "管理员添加新用户 {$user['nickname']} ({$user['id']})");
 
             return $this->redirect($this->generateUrl('admin_user'));
         }
@@ -206,15 +171,7 @@ class UserController extends BaseController
 
     protected function getCreateUserModal()
     {
-        $auth = $this->getSettingService()->get('auth');
-
-        if (isset($auth['register_mode']) && 'email_or_mobile' == $auth['register_mode']) {
-            return 'admin/user/create-by-mobile-or-email-modal.html.twig';
-        } elseif (isset($auth['register_mode']) && 'mobile' == $auth['register_mode']) {
-            return 'admin/user/create-by-mobile-modal.html.twig';
-        } else {
-            return 'admin/user/create-modal.html.twig';
-        }
+        return 'admin/user/create-modal.html.twig';
     }
 
     public function editAction(Request $request, $id)
@@ -245,23 +202,6 @@ class UserController extends BaseController
         ));
     }
 
-    public function orgUpdateAction(Request $request, $id)
-    {
-        $user = $this->getUserService()->getUser($id);
-
-        if ($request->isMethod('POST')) {
-            $orgCode = $request->request->get('orgCode', $user['orgCode']);
-            $this->getUserService()->changeUserOrg($user['id'], $orgCode);
-        }
-
-        $org = $this->getOrgService()->getOrgByOrgCode($user['orgCode']);
-
-        return $this->render('admin/user/update-org-modal.html.twig', array(
-            'user' => $user,
-            'org' => $org,
-        ));
-    }
-
     public function showAction(Request $request, $id)
     {
         $user = $this->getUserService()->getUser($id);
@@ -287,19 +227,6 @@ class UserController extends BaseController
 
             $this->getUserService()->changeUserRoles($user['id'], $roles);
 
-            if (!empty($roles)) {
-                $roleSet = $this->getRoleService()->searchRoles(array(), 'created', 0, 9999);
-                $rolesByIndexCode = ArrayToolkit::index($roleSet, 'code');
-                $roleNames = $this->getRoleNames($roles, $rolesByIndexCode);
-
-                $message = array(
-                    'userId' => $currentUser['id'],
-                    'userName' => $currentUser['nickname'],
-                    'role' => implode(',', $roleNames),
-                );
-
-                $this->getNotifiactionService()->notify($user['id'], 'role', $message);
-            }
             $user = $this->getUserService()->getUser($id);
 
             return $this->render('admin/user/user-table-tr.html.twig', array(
@@ -336,23 +263,6 @@ class UserController extends BaseController
         return $roleNames;
     }
 
-    public function avatarAction(Request $request, $id)
-    {
-        $user = $this->getUserService()->getUser($id);
-
-        $hasPartnerAuth = $this->getAuthService()->hasPartnerAuth();
-
-        if ($hasPartnerAuth) {
-            $partnerAvatar = $this->getAuthService()->getPartnerAvatar($user['id'], 'big');
-        } else {
-            $partnerAvatar = null;
-        }
-
-        return $this->render('admin/user/user-avatar-modal.html.twig', array(
-            'user' => $user,
-            'partnerAvatar' => $partnerAvatar,
-        ));
-    }
 
     protected function getFields()
     {
@@ -383,32 +293,10 @@ class UserController extends BaseController
         return $fields;
     }
 
-    public function avatarCropAction(Request $request, $id)
-    {
-        $user = $this->getUserService()->getUser($id);
-
-        if ('POST' === $request->getMethod()) {
-            $options = $request->request->all();
-            $this->getUserService()->changeAvatar($id, $options['images']);
-
-            return $this->createJsonResponse(true);
-        }
-
-        $fileId = $request->getSession()->get('fileId');
-        list($pictureUrl, $naturalSize, $scaledSize) = $this->getFileService()->getImgFileMetaInfo($fileId, 270, 270);
-
-        return $this->render('admin/user/user-avatar-crop-modal.html.twig', array(
-            'user' => $user,
-            'pictureUrl' => $pictureUrl,
-            'naturalSize' => $naturalSize,
-            'scaledSize' => $scaledSize,
-        ));
-    }
 
     public function lockAction($id)
     {
         $this->getUserService()->lockUser($id);
-        $this->kickUserLogout($id);
 
         return $this->render('admin/user/user-table-tr.html.twig', array(
             'user' => $this->getUserService()->getUser($id),
@@ -426,76 +314,6 @@ class UserController extends BaseController
         ));
     }
 
-    public function sendPasswordResetEmailAction(Request $request, $id)
-    {
-        $user = $this->getUserService()->getUser($id);
-
-        if (empty($user)) {
-            throw $this->createNotFoundException();
-        }
-
-        $token = $this->getUserService()->makeToken('password-reset', $user['id'], strtotime('+1 day'));
-        $site = $this->setting('site', array());
-        try {
-            $mailOptions = array(
-                'to' => $user['email'],
-                'template' => 'email_reset_password',
-                'params' => array(
-                    'nickname' => $user['nickname'],
-                    'verifyurl' => $this->generateUrl('password_reset_update', array('token' => $token), true),
-                    'sitename' => $site['name'],
-                    'siteurl' => $site['url'],
-                ),
-            );
-            $mailFactory = $this->getBiz()->offsetGet('mail_factory');
-            $mail = $mailFactory($mailOptions);
-            $mail->send();
-            $this->getLogService()->info('user', 'password-reset', "管理员给用户 ${user['nickname']}({$user['id']}) 发送密码重置邮件");
-        } catch (\Exception $e) {
-            $this->getLogService()->error('user', 'password-reset', "管理员给用户 ${user['nickname']}({$user['id']}) 发送密码重置邮件失败：".$e->getMessage());
-            throw $e;
-        }
-
-        return $this->createJsonResponse(true);
-    }
-
-    public function sendEmailVerifyEmailAction(Request $request, $id)
-    {
-        $user = $this->getUserService()->getUser($id);
-
-        if (empty($user)) {
-            throw $this->createNotFoundException();
-        }
-
-        $token = $this->getUserService()->makeToken('email-verify', $user['id'], strtotime('+1 day'));
-
-        $site = $this->getSettingService()->get('site', array());
-        $verifyurl = $this->generateUrl('register_email_verify', array('token' => $token), true);
-
-        try {
-            $mailOptions = array(
-                'to' => $user['email'],
-                'template' => 'email_registration',
-                'params' => array(
-                    'sitename' => $site['name'],
-                    'siteurl' => $site['url'],
-                    'verifyurl' => $verifyurl,
-                    'nickname' => $user['nickname'],
-                ),
-            );
-
-            $mailFactory = $this->getBiz()->offsetGet('mail_factory');
-            $mail = $mailFactory($mailOptions);
-            $mail->send();
-            $this->getLogService()->info('user', 'send_email_verify', "管理员给用户 {$user['nickname']}({$user['id']}) 发送Email验证邮件");
-        } catch (\Exception $e) {
-            $this->getLogService()->error('user', 'send_email_verify', "管理员给用户 {$user['nickname']}({$user['id']}) 发送Email验证邮件失败：".$e->getMessage());
-            throw $e;
-        }
-
-        return $this->createJsonResponse(true);
-    }
-
     public function changePasswordAction(Request $request, $userId)
     {
         $user = $this->getUserService()->getUser($userId);
@@ -503,7 +321,6 @@ class UserController extends BaseController
         if ('POST' === $request->getMethod()) {
             $formData = $request->request->all();
             $this->getAuthService()->changePassword($user['id'], null, $formData['newPassword']);
-            $this->kickUserLogout($user['id']);
 
             return $this->createJsonResponse(true);
         }
@@ -513,15 +330,6 @@ class UserController extends BaseController
         ));
     }
 
-    protected function kickUserLogout($userId)
-    {
-        $tokens = $this->getTokenService()->findTokensByUserIdAndType($userId, 'mobile_login');
-        if (!empty($tokens)) {
-            foreach ($tokens as $token) {
-                $this->getTokenService()->destoryToken($token['token']);
-            }
-        }
-    }
 
     /**
      * @return RoleService

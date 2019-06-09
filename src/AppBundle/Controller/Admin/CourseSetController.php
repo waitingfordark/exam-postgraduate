@@ -109,13 +109,6 @@ class CourseSetController extends BaseController
                 return $this->createJsonResponse(array('code' => 0, 'message' => '删除课程成功'));
             }
 
-            $isCheckPassword = $request->getSession()->get('checkPassword');
-            if (!$isCheckPassword) {
-                return $this->render('admin/course/delete.html.twig', array('courseSet' => $courseSet));
-            }
-
-            $request->getSession()->remove('checkPassword');
-
             $this->getCourseSetService()->deleteCourseSet($id);
 
             return $this->createJsonResponse(array('code' => 0, 'message' => '删除课程成功'));

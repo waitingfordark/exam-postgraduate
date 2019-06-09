@@ -11,56 +11,56 @@ class DefaultSdkProvider implements ServiceProviderInterface
 {
     public function register(Container $biz)
     {
-        $that = $this;
-        $biz['qiQiuYunSdk.drp'] = function ($biz) use ($that) {
-            $service = null;
-            $sdk = $that->generateSdk($biz, $that->getDrpConfig($biz));
-            if (!empty($sdk)) {
-                $service = $sdk->getDrpService();
-            }
+        // $that = $this;
+        // $biz['qiQiuYunSdk.drp'] = function ($biz) use ($that) {
+        //     $service = null;
+        //     $sdk = $that->generateSdk($biz, $that->getDrpConfig($biz));
+        //     if (!empty($sdk)) {
+        //         $service = $sdk->getDrpService();
+        //     }
 
-            return $service;
-        };
+        //     return $service;
+        // };
 
-        $biz['qiQiuYunSdk.xapi'] = function ($biz) use ($that) {
-            $service = null;
-            $sdk = $that->generateSdk($biz, $that->getXAPIConfig($biz));
-            if (!empty($sdk)) {
-                $service = $sdk->getXAPIService();
-            }
+        // $biz['qiQiuYunSdk.xapi'] = function ($biz) use ($that) {
+        //     $service = null;
+        //     $sdk = $that->generateSdk($biz, $that->getXAPIConfig($biz));
+        //     if (!empty($sdk)) {
+        //         $service = $sdk->getXAPIService();
+        //     }
 
-            return $service;
-        };
+        //     return $service;
+        // };
 
-        $biz['qiQiuYunSdk.play'] = function ($biz) use ($that) {
-            $service = null;
-            $sdk = $that->generateSdk($biz, array());
-            if (!empty($sdk)) {
-                $service = $sdk->getPlayService();
-            }
+        // $biz['qiQiuYunSdk.play'] = function ($biz) use ($that) {
+        //     $service = null;
+        //     $sdk = $that->generateSdk($biz, array());
+        //     if (!empty($sdk)) {
+        //         $service = $sdk->getPlayService();
+        //     }
 
-            return $service;
-        };
+        //     return $service;
+        // };
 
-        $biz['qiQiuYunSdk.esOp'] = function ($biz) use ($that) {
-            $service = null;
-            $sdk = $that->generateSdk($biz, $that->getESopConfig($biz));
-            if (!empty($sdk)) {
-                $service = $sdk->getESopService();
-            }
+        // $biz['qiQiuYunSdk.esOp'] = function ($biz) use ($that) {
+        //     $service = null;
+        //     $sdk = $that->generateSdk($biz, $that->getESopConfig($biz));
+        //     if (!empty($sdk)) {
+        //         $service = $sdk->getESopService();
+        //     }
 
-            return $service;
-        };
+        //     return $service;
+        // };
 
-        $biz['qiQiuYunSdk.mp'] = function ($biz) use ($that) {
-            $service = null;
-            $sdk = $that->generateSdk($biz, $that->getMpConfig($biz));
-            if (!empty($sdk)) {
-                $service = $sdk->getMpService();
-            }
+        // $biz['qiQiuYunSdk.mp'] = function ($biz) use ($that) {
+        //     $service = null;
+        //     $sdk = $that->generateSdk($biz, $that->getMpConfig($biz));
+        //     if (!empty($sdk)) {
+        //         $service = $sdk->getMpService();
+        //     }
 
-            return $service;
-        };
+        //     return $service;
+        // };
     }
 
     public function generateSdk($biz, $serviceConfig)

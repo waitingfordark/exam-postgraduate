@@ -62,7 +62,6 @@ security:
         - { path: ^/settings, role: ROLE_USER }
         - { path: ^/cashier, role: ROLE_USER }
         - { path: ^/order, role: ROLE_USER }
-        # - { path: ^/note, role: ROLE_USER }
         - { path: ^/message, role: ROLE_USER }
         - { path: ^/classroom/\d+/manage/, role: ROLE_USER }
         - { path: ^/admin/course, role: ROLE_BACKEND }
@@ -74,5 +73,3 @@ security:
         - { path: ^/admin/optimize, role: ROLE_BACKEND }
         - { path: ^/admin, role: ROLE_BACKEND }
         - { path: /.*, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        #- { path: ^/_internal, roles: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1 }
-        #ForCustomOnly

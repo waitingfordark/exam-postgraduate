@@ -21,7 +21,7 @@ class QuestionAnalysisEventSubscriber extends EventSubscriber implements EventSu
     {
         $paperResult = $event->getSubject();
 
-        if ('finished' != $paperResult['status'] || !in_array($paperResult['type'], array('testpaper', 'homework'))) {
+        if ('finished' != $paperResult['status'] ) {
             return;
         }
 

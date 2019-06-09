@@ -84,13 +84,6 @@ services:
         tags: 
             - { name: codeages_plugin.event.subscriber }
 
-
-    notification_event_subscriber:
-        class: Biz\Notification\Event\PushMessageEventSubscriber
-        arguments: ['@biz']
-        tags:
-            - { name: codeages_plugin.event.subscriber }
-
     tokenbucket_event_subscriber:
         class: Biz\PostFilter\Event\TokenBucketEventSubscriber
         arguments: ['@biz']
@@ -103,11 +96,6 @@ services:
         tags: 
             - { name: codeages_plugin.event.subscriber }
 
-    status_event_subscriber:
-        class: Biz\User\Event\StatusEventSubscriber
-        arguments: ['@biz']
-        tags: 
-            - { name: codeages_plugin.event.subscriber }
 
     user_account_event_subscriber:
         class: Codeages\Biz\Pay\Subscriber\AccountSubscriber
