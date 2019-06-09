@@ -8,7 +8,6 @@
 {% block body %}
 
 <form id="student-add-form" class="form-horizontal" method="post" action="{{ path('course_set_manage_course_teachers_add', {courseSetId: courseSetId, courseId: course.id}) }}">
-  {% if course.status == 'published' %}
   	<div class="row form-group">
       <div class="col-md-2 control-label">
         <label for="student-nickname">教师</label>
@@ -18,9 +17,6 @@
         data-url="{{ path('course_set_manage_course_students_check',{courseSetId: courseSetId, courseId: course.id})}}" >
     	</div>
     </div>
-  {% else %}
-    <div class="empty">{{dict_text('courseStatus', course.status)}}{{'course.members_manage.official_student.add.failed_tips'|trans}} {{'site.default.student'|trans}}，{{'course.members_manage.official_student.add.publish_tips'|trans}}</div>
-  {% endif %}
 
   <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
 
@@ -29,8 +25,8 @@
 {% endblock %}
 
 {% block footer %}
-  {% if course.status == 'published' %}
+  
     <button id="student-add-submit" type="button" class="btn btn-primary pull-right" data-loading-text="{{'form.btn.save.submiting'|trans}}" >{{'form.btn.save'|trans}}</button>
-  {% endif %}
+ 
   <button type="button" class="btn btn-link pull-right" data-dismiss="modal">{{'form.btn.cancel'|trans}}</button>
 {% endblock %}
