@@ -117,7 +117,7 @@ class CourseDeleteServiceImpl extends BaseService implements CourseDeleteService
             foreach ($tasks as $task) {
                 //delete activity
                 $this->getActivityService()->deleteActivity($task['activityId']);
-                $this->deleteJob($task);
+                // $this->deleteJob($task);
             }
         }
     }
@@ -244,10 +244,6 @@ class CourseDeleteServiceImpl extends BaseService implements CourseDeleteService
         return $this->createDao('Course:ReviewDao');
     }
 
-    protected function getCourseJobDao()
-    {
-        return $this->createDao('Course:CourseJobDao');
-    }
 
     /**
      * @return FavoriteDao

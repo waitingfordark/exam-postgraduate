@@ -86,12 +86,7 @@ class CourseSetController extends BaseController
         return $this->renderCourseTr($id, $request);
     }
 
-    /*
-    code 状态编号
-    1:　删除班级课程
-    2: 移除班级课程
-    0: 删除未发布课程成功
-     */
+ 
     public function deleteAction(Request $request, $id)
     {
         $currentUser = $this->getUser();
@@ -186,28 +181,11 @@ class CourseSetController extends BaseController
         $classrooms = array();
         $vips = array();
 
-        if ('classroom' == $fields['filter']) {
-            $classrooms = $this->getClassroomService()->findClassroomCourseByCourseSetIds(array($courseSet['id']));
-            $classrooms = ArrayToolkit::index($classrooms, 'courseSetId');
-
-            foreach ($classrooms as $key => $classroom) {
-                $classroomInfo = $this->getClassroomService()->getClassroom($classroom['classroomId']);
-                $classrooms[$key]['classroomTitle'] = $classroomInfo['title'];
-            }
-        } elseif ('vip' == $fields['filter']) {
-            if ($this->isPluginInstalled('Vip')) {
-                $vips = $this->getVipLevelService()->searchLevels(array(), 0, PHP_INT_MAX);
-                $vips = ArrayToolkit::index($vips, 'id');
-            }
-        }
-
         return $this->render(
             'admin/course-set/tr.html.twig',
             array(
                 'user' => $this->getUserService()->getUser($courseSet['creator']),
-                'category' => isset($courseSet['categoryId']) ? $this->getCategoryService()->getCategory(
-                    $courseSet['categoryId']
-                ) : array(),
+                'category' => array(),
                 'courseSet' => $courseSet,
                 'default' => $default,
                 'classrooms' => $classrooms,

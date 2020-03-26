@@ -838,7 +838,7 @@ course.teaching_plan.sort.save: 保存排序
 course.teaching_plan.sort.cancel: 取消排序
 course.teaching_plan.create.max_plan_number: 支持创建10个计划，若需新增，请对原有计划删除后添加。
 course.teaching_plan.create.new_plan_name: 新计划名称
-course.teaching_plan.create.create_tips: 教学计划创建后“学习模式”将不能修改。
+course.teaching_plan.create.create_tips: 
 course.teaching_plan.create.name: 名称
 course.teaching_plan.create.mode: 学习模式
 course.teaching_plan.create.mode.free: >
@@ -852,12 +852,12 @@ course.teaching_plan.create.status: 状态
 course.teaching_plan.create.operation: 操作
 course.teaching_plan.edit.copy: 复制%title%为一个新的教学计划
 course.teaching_plan.expiry_date: 学习有效期
-course.teaching_plan.expiry_date.not_change_tips: 教学计划首次发布后“学习有效期”不能再更改模式。
+course.teaching_plan.expiry_date.not_change_tips: 
 course.teaching_plan.expiry_date.anytime: >
   <b>随到随学：</b>有效期从学员加入的当天开始算起，截至到期当天晚上的23:59
 course.teaching_plan.expiry_date.real_time: >
   <b>固定周期：</b>有固定的学习开始日期和结束日期
-course.teaching_plan.expiry_date.overdue_tips: 过期后无法继续学习，系统会在到期前10天提醒学员。
+course.teaching_plan.expiry_date.overdue_tips: 
 course.teaching_plan.expiry_date.forever_mode: 永久有效
 course.teaching_plan.expiry_date.anywhere_mode: 随到随学
 course.teaching_plan.expiry_date.date_mode: 固定周期
@@ -902,7 +902,7 @@ course.members_manage.official_student.add_tips: 只能添加系统中已注册�
 course.members_manage.official_student.add.input_placeholder: 邮箱/用户名
 
 course.members_manage.official_student.remark.tips: >
-  请填写学员的备注信息
+  
 course.members_manage.official_student.modify_expiry_day: 修改学员有效期
 course.members_manage.official_student.add_expiry_day.add: 增加
 course.members_manage.official_student.add_expiry_day.course_expiry_date: 课程有效期
@@ -1038,19 +1038,19 @@ course.note.not_latest: 点赞最多
 course.task: %taskName%
 course.task.progress: %taskName%进度
 course.task.rate.finish: 完成率
-course.task.lock_tips: 需要解锁上一个%taskName%才能学习
+course.task.lock_tips: 
 course.task.learning: %taskName%学习
 course.task.learning.back_course_btn: 返回课程
 course.task.learning.finish_condition: %taskName%完成条件
 course.task.learning.finish_btn: %taskName%完成
 course.task.learning.learned_btn: 学过了
 course.task.preview.content_title: %taskName%预览
-course.task.preview.login_and_learn_tips: 登录后加入学习
-course.task.preview.login_and_buy_tips: 登录后购买学习完整的课程
-course.task.preview.free_join_tips: 觉得不错？点击加入此课程
-course.task.preview.buy_tips: 觉得不错？点击购买此课程（%price%）元
-course.task.preview.free_learn_tips: 免费加入学习
-course.task.classroom_sync_job_executing_tips: 班级课程同步中，请稍后发布
+course.task.preview.login_and_learn_tips: 
+course.task.preview.login_and_buy_tips: 
+course.task.preview.free_join_tips: 
+course.task.preview.buy_tips: 
+course.task.preview.free_learn_tips: 
+course.task.classroom_sync_job_executing_tips: 
 course.thread: 讨论区
 course.thread.empty: >
   还没有%thread%，赶快添加一个吧！
@@ -1078,7 +1078,7 @@ course.thread.nav.posted: 最后回复
 course.thread.nav.created: 最新发帖
 course.thread.post_form.create_btn: 发表
 course.thread.post_form.create_tips: 正在提交...
-course.material.unpublished_tips: %taskName%未发布，不能下载该资料
+course.material.unpublished_tips: 
 course.material.links: 网络链接资料
 course.material.upload_time: 上传于%createdTime%
 course.material.empty: 课程暂无资料
@@ -1135,7 +1135,7 @@ course.base.content_title: 课程信息
 course.base.title: 课程标题
 course.base.sub_title: 课程副标题
 course.base.tag: 标签
-course.base.tag_tips: 用于按标签搜索课程、相关课程的提取等，由网校管理员后台统一管理
+course.base.tag_tips: 
 course.base.category: 分类
 course.base.serialize_mode: 连载状态
 course.base.serialize_mode.none: 非连载课程
@@ -1223,7 +1223,7 @@ course.question_manage.manage.analysis: 解析
 course.question_manage.manage.advanced_options: 显示/隐藏 高级选项
 course.question_manage.manage.score: 分值
 course.question_manage.manage.steom_tips: >
-  点击编辑器按钮 <span style="color:red">[ ]</span>  可以插入填空项；也可手工输入，例如“今年是[[2014|马]]年”，回答“2014”或者“马”都算答对
+  点击编辑器按
 course.question_manage.manage.material: 材料
 course.question_manage.edit: 编辑题目
 
@@ -1253,7 +1253,7 @@ course.testpaper_manage.testpaper_status.draft: 草稿
 course.testpaper_manage.testpaper_status.open: 已发布
 course.testpaper_manage.testpaper_status.closed: 已关闭
 course.testpaper_manage.publish_btn: 发布试卷
-course.testpaper_manage.publish_tips:  试卷发布后无论是否关闭都将无法修改。
+course.testpaper_manage.publish_tips:  试卷发布后不能修改。
 course.testpaper_manage.close_btn: 关闭试卷
 course.testpaper_manage.close_tips: 真的要关闭试卷%name%吗？
 course.testpaper_manage.testpaper_quoted_close_tips: 
@@ -1272,7 +1272,7 @@ course.testpaper_manage.create.build_mode: 生成方式
 course.testpaper_manage.create.build_mode.rand: 随机生成
 course.testpaper_manage.create.build_mode.difficulty: 按难易程度
 course.testpaper_manage.create.difficulty: 试卷难度
-course.testpaper_manage.create.difficulty.tips: 如果某个难度的题目数不够，将会随机选择题目来补充。
+course.testpaper_manage.create.difficulty.tips: 
 course.testpaper_manage.create.range: 出题范围
 course.testpaper_manage.create.range.course: 按课程
 course.testpaper_manage.create.range.choose: 请选择
@@ -1387,7 +1387,7 @@ course.plan_task.unpublish_btn: 取消发布
 course.plan_task.delete_btn: 删除
 course.plan_task.preparation_tips: 学员可通过看视频、阅读资料等预习%taskName%，导入学习。
 course.plan_task.batch_create_tips: >
-  批量创建考试需要开通云视频服务，点击<a target="__blank" href="http://open.edusoho.com/show/cloud/video">这里</a>了解详情
+  批量创建考试需要开通云视频服务，解详情
 course.plan_task.empty: 现在没有考试
 course.plan_task.task_unpublished: 未发布
 course.plan_task.is_optional_task: 选修
@@ -1426,7 +1426,7 @@ course.plan_task.task_title: 《 %taskName%：%taskTitle% 》
 course.plan_task.study_rate: 学习进度
 course.plan_task.new_task_name: 新计划名称
 course.plan_task.activity_manage.activity_file_empty: 抱歉，%type%文件不存在，暂时无法学习。
-course.plan_task.activity_manage.preview_failed_tips: 当前%taskName%不支持预览，请加入教学计划进行学习。
+course.plan_task.activity_manage.preview_failed_tips: 当
 course.plan_task.activity_manage.title_name: 标题名称
 course.plan_task.activity_manage.setup_is_option: 设为选修
 course.plan_task.activity_manage.setup_is_option_tips: 选修%taskName%是否学习，不会影响下一%taskName%的解锁，学习结果不会计入学习进度、学习统计中。在课程页面的目录中，将不会显示选修%taskName%。
@@ -2357,7 +2357,7 @@ form.btn.continue: 完成并继续
 user.login.account_type_label: 用户名
 user.login.content_title: 登录
 user.login.login_link: 登录
-user.login.page_title: 登录帐号
+user.login.page_title: 登录
 user.login.account_label: 帐号
 user.login.account_placeholder: 用户名
 user.login.password_label: 密码
@@ -2367,7 +2367,7 @@ user.login.submit_button: 登录
 user.login.submiting_tips: 正在登录
 
 user.login.go_register: 立即注册
-user.login.login_account: 登录帐号
+user.login.login_account: 登录
 
 #用户绑定
 user.bind.bind_choose_btn: 绑定新帐号
@@ -2439,8 +2439,8 @@ user.register.reset_email.input_placeholder: 请输入网校密码
 user.register.reset_email.display: 网校密码
 user.register.reset_email.new_email: 新邮箱地址:
 user.register.reset_email.new_email_tips: 请输入新的邮箱地址
-user.register.login_account: 登录帐号
-user.register.register_account: 注册帐号
+user.register.login_account: 登录
+user.register.register_account: 注册
 user.register.system_close_tips: 系统暂时关闭注册，请联系管理员
 user.register.register_through_inviter: >
   您正在通过<span class="color-gray mhs">%inviteUser%</span>的邀请注册。

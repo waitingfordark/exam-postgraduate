@@ -14,7 +14,7 @@ class QuestionSyncSubscriber extends CourseSyncSubscriber
     public static function getSubscribedEvents()
     {
         return array(
-            'question.create' => array('onQuestionCreate', 1),
+            // 'question.create' => array('onQuestionCreate', 1),
             'question.update' => array('onQuestionUpdate', 1),
             'question.delete' => array('onQuestionDelete', 1),
         );
@@ -128,7 +128,7 @@ class QuestionSyncSubscriber extends CourseSyncSubscriber
             $updatedFields['lessonId'] = empty($parentTasks[$cc['courseSetId']]['id']) ? 0 : $parentTasks[$cc['courseSetId']]['id'];
             $this->getQuestionService()->update($cc['id'], $updatedFields);
             //file_used
-            $this->updateQuestionAttachments($cc, $question);
+            // $this->updateQuestionAttachments($cc, $question);
         }
     }
 
@@ -153,15 +153,15 @@ class QuestionSyncSubscriber extends CourseSyncSubscriber
         }
 
         foreach ($copiedQuestions as $cc) {
-            $files = $this->getUploadFileService()->searchUseFiles(
-                array('targetTypes' => array('question.stem', 'question.analysis'), 'targetId' => $cc['id'])
-            );
-            if (!empty($files)) {
-                $fileIds = ArrayToolkit::column($files, 'id');
-                foreach ($fileIds as $fid) {
-                    $this->getUploadFileService()->deleteUseFile($fid);
-                }
-            }
+            // $files = $this->getUploadFileService()->searchUseFiles(
+            //     array('targetTypes' => array('question.stem', 'question.analysis'), 'targetId' => $cc['id'])
+            // );
+            // if (!empty($files)) {
+            //     $fileIds = ArrayToolkit::column($files, 'id');
+            //     foreach ($fileIds as $fid) {
+            //         $this->getUploadFileService()->deleteUseFile($fid);
+            //     }
+            // }
             $this->getQuestionService()->delete($cc['id']);
         }
     }
@@ -179,7 +179,7 @@ class QuestionSyncSubscriber extends CourseSyncSubscriber
             'targetTypes' => array('question.stem', 'question.analysis'),
             'type' => 'attachment',
         );
-        $attachments = $this->getUploadFileService()->searchUseFiles($conditions, $bindFile = false);
+        // $attachments = $this->getUploadFileService()->searchUseFiles($conditions, $bindFile = false);
 
         $newAttachments = array();
         foreach ($copiedQuestions as $copyQuestion) {

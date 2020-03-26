@@ -48,12 +48,6 @@
 
     </div>
 
-    {# {% if not is_un_multi_courseset(courseSet.id) %}
-      <div class="courseset-manage-header-data hidden-xs">
-        <span class="cd-text-medium">{{ 'course.plan'|trans }}</span>
-        <div class="cd-mt16 cd-dark-major"><span class="courseset-manage-header-data__num">{% block courseTitle %}{{ couserNum|default(0) }}{% endblock %}</span></div>
-      </div>
-    {% endif %} #}
   </div>
 </div>
 
@@ -61,11 +55,5 @@
 {% block fold %}
   {% if couserNum|default(0) > 1 and foldType|default(0) == 1 %}
     <div class="text-center cd-dark-assist courseset-manage-fold js-shrink-item cd-mv8"><a class="js-shrink-courseset cd-link-assist hidden" href="javascript:;">{{ 'customer_service.close_btn'|trans }}<i class="es-icon es-icon-xiala"></i></a></div>
-  {% endif %}
-{% endblock %}
-
-{% block close %}
-  {% if courseSet.status == 'closed' %}
-    <div class="cd-alert cd-alert-warning cd-mt24">{{'course.remove_students_tips'|trans}}</div>
   {% endif %}
 {% endblock %}

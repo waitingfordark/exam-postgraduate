@@ -43,16 +43,6 @@ class CourseSetServiceImpl extends BaseService implements CourseSetService
             throw $this->createNotFoundException("CourseSet#{$id} Not Found");
         }
 
-        if ($courseSet['parentId'] > 0) {
-            $classroomCourse = $this->getClassroomService()->getClassroomCourseByCourseSetId($id);
-            if (!empty($classroomCourse)) {
-                $classroom = $this->getClassroomService()->getClassroom($classroomCourse['classroomId']);
-                if (!empty($classroom) && $classroom['headTeacherId'] == $user['id']) {
-                    //班主任有权管理班级下所有课程
-                    return $courseSet;
-                }
-            }
-        }
         if (!$this->hasCourseSetManageRole($id)) {
             throw $this->createAccessDeniedException('can not access');
         }
@@ -434,31 +424,14 @@ class CourseSetServiceImpl extends BaseService implements CourseSetService
 
         $publishedCourses = $this->getCourseService()->findPublishedCoursesByCourseSetId($id);
 
-        $classroomRef = $this->getClassroomService()->getClassroomCourseByCourseSetId($courseSet['id']);
-
         $courses = $this->getCourseService()->findCoursesByCourseSetId($courseSet['id']);
 
         $this->beginTransaction();
         try {
-            // 直播课程隐藏了教学计划，所以发布直播课程的时候自动发布教学计划
-            if (empty($publishedCourses) && 'live' === $courseSet['type']) {
-                //对于直播课程，有且仅有一个教学计划
-                $course = $courses[0];
-                if (empty($course['maxStudentNum'])) {
-                    throw $this->createAccessDeniedException('直播课程发布前需要在计划设置中设置课程人数');
-                }
-                $this->getCourseService()->publishCourse($course['id']);
-                $publishedCourses = $this->getCourseService()->findPublishedCoursesByCourseSetId($id);
-            }
 
             if (empty($publishedCourses)) {
-                if (!empty($classroomRef)) {
-                    $this->getCourseService()->publishCourse($classroomRef['courseId']);
-                } elseif (1 === count($courses)) {
-                    //如果普通课程下仅有一个教学计划且未发布，则级联发布该教学计划
+                if (1 === count($courses)) {
                     $this->getCourseService()->publishCourse($courses[0]['id']);
-                } else {
-                    throw $this->createAccessDeniedException('发布课程时请确保课程下至少有一个已发布的教学计划');
                 }
             }
 
@@ -466,7 +439,6 @@ class CourseSetServiceImpl extends BaseService implements CourseSetService
 
             $this->commit();
 
-            $this->dispatchEvent('course-set.publish', new Event($courseSet));
         } catch (\Exception $exception) {
             $this->rollback();
             throw $exception;
@@ -480,7 +452,6 @@ class CourseSetServiceImpl extends BaseService implements CourseSetService
             throw $this->createAccessDeniedException('CourseSet has not bean published');
         }
 
-        $classroomRef = $this->getClassroomService()->getClassroomCourseByCourseSetId($courseSet['id']);
 
         try {
             $this->beginTransaction();
@@ -496,7 +467,6 @@ class CourseSetServiceImpl extends BaseService implements CourseSetService
             throw $exception;
         }
 
-        $this->dispatchEvent('course-set.closed', new Event($courseSet));
     }
 
     public function countUserFavorites($userId)
@@ -683,14 +653,6 @@ class CourseSetServiceImpl extends BaseService implements CourseSetService
             $conditions['creator'] = $user ? $user['id'] : -1;
         }
 
-        if (isset($conditions['categoryId'])) {
-            $conditions['categoryIds'] = array();
-            if (!empty($conditions['categoryId'])) {
-                $childrenIds = $this->getCategoryService()->findCategoryChildrenIds($conditions['categoryId']);
-                $conditions['categoryIds'] = array_merge(array($conditions['categoryId']), $childrenIds);
-            }
-            unset($conditions['categoryId']);
-        }
 
         if (isset($conditions['recommendedSeq'])) {
             $conditions['recommended'] = 1;

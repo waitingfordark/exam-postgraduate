@@ -24,15 +24,14 @@ class TestpaperManage
     let $target = $(event.currentTarget);
     let $tr = $target.closest('tr');
 
-    if (!confirm($target.attr('title'))) {
+    if (!confirm('确认？')) {
       return ;
     }
 
     $.post($target.data('url'), function(html){
-      notify('success', Translator.trans('testpaper_manage.save_success_hint'));
       $tr.replaceWith(html);
     }).error(function(){
-      notify('danger', Translator.trans('testpaper_manage.save_error_hint'));
+      
     });
   }
   

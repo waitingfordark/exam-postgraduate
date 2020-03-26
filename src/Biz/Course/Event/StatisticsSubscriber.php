@@ -29,14 +29,6 @@ class StatisticsSubscriber extends EventSubscriber implements EventSubscriberInt
             'course.lesson.delete' => array('onLessonNumberChange', -100),
             'course.lesson.setOptional' => array('onLessonOptionalChange', -100),
 
-            'course.thread.create' => 'onCourseThreadChange',
-            'course.thread.delete' => 'onCourseThreadChange',
-
-            'course.review.add' => 'onReviewNumberChange',
-            'course.review.update' => 'onReviewNumberChange',
-            'course.review.delete' => 'onReviewNumberChange',
-
-            'course.marketing.update' => 'onCourseMarketingChange',
             'course.publish' => 'onCourseStatusChange',
             'course.close' => 'onCourseStatusChange',
             'course.delete' => 'onCourseDelete',

@@ -10,7 +10,7 @@
           <tbody>
             <tr>
               <td>名称</td>
-              <td>时间</td>
+              <td>提交时间</td>
               <td>得分</td>
               <td>操作</td>
             </tr>
@@ -23,24 +23,24 @@
               {% if paperResult %}
                 <tr>
                   <td>{{ paperResult.paperName|plain_text(60) }}</td>
-                  <td>{{ paperResult.beginTime|date('site.date_format'|trans) }}</td>
+                  <td>{{ paperResult.endTime|date('site.date_format'|trans) }}</td>
                   <td>
                     {% if paperResult.status == 'reviewing' %}
                       <span class="color-gray">{{'my.teaching.testpaper.checking'|trans}}</span>
                     {% elseif paperResult.status == 'finished' %}
                       {{paperResult.score}}
                     {% else %}
-                      <span class="color-gray">{{'my.teaching.testpaper.unsubmit'|trans}}</span>
+                      <span class="color-gray">{{'0.0'}}</span>
                     {% endif %}
                   </td>
                   <td>
-                    {% if paperResult.status in ['doing', 'paused'] and task %}
+                    {% if paperResult.status in ['doing'] %}
                       <a class="color-primary" href="{{ path('course_task_show',{courseId:paperResult.courseId,id:task.id}) }}" >{{'my.teaching.testpaper.continue_do'|trans}}</a>
                     {% elseif paperResult.status == 'finished' %}
-                      {% if task %}
+                      
                         <a class="color-primary" href="{{ path('testpaper_result_show',{resultId:paperResult.id,action:'my'}) }}" class="btn btn-link btn-sm" target="_blank">{{'my.teaching.testpaper.watch_result'|trans}}</a>
                       {% endif %}
-                    {% endif %}
+                    
                   </td>
               {% endif %}
             {% endfor %}

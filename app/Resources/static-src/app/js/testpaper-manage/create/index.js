@@ -103,7 +103,7 @@ class TestpaperForm {
       this.$description.val(delHtmlTag(editor.getData()));
     });
     editor.on('blur', () => {
-      this.$description.val(delHtmlTag(editor.getData()));//fix ie11
+      this.$description.val(delHtmlTag(editor.getData()));
       validator.form();
     });
   }
@@ -125,7 +125,7 @@ class TestpaperForm {
           trim: true,
         },
         description: {
-          //required: true,
+          
           maxlength: 500,
           trim: true,
         },

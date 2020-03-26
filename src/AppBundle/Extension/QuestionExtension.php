@@ -70,19 +70,6 @@ class QuestionExtension extends Extension implements ServiceProviderInterface
                 ),
                 'hasMissScore' => 0,
             ),
-            'fill' => array(
-                'name' => 'question.type.fill',
-                'actions' => array(
-                    'create' => 'AppBundle:Question/FillQuestion:create',
-                    'edit' => 'AppBundle:Question/FillQuestion:edit',
-                    'show' => 'AppBundle:Question/FillQuestion:show',
-                ),
-                'templates' => array(
-                    'do' => 'question/fill-do.html.twig',
-                    'analysis' => 'question/analysis/fill.html.twig',
-                ),
-                'hasMissScore' => 0,
-            ),
         );
     }
 

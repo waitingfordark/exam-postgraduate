@@ -377,14 +377,6 @@ class TestpaperServiceImpl extends BaseService implements TestpaperService
 
         $result = $this->getTestpaperResult($resultId);
 
-        if ($result['userId'] != $user['id']) {
-            throw $this->createAccessDeniedException('无权修改其他学员的试卷！');
-        }
-
-        if (in_array($result['status'], array('reviewing', 'finished'))) {
-            throw $this->createServiceException('已经交卷的试卷不能修改!');
-        }
-
         $answers = empty($formData['data']) ? array() : $formData['data'];
         $attachments = array();
         $orders = empty($formData['seq']) ? array() : $formData['seq'];

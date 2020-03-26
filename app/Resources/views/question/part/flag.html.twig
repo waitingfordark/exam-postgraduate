@@ -4,8 +4,8 @@
 {% if 'analysis' in flags %}
   {% if not question.analysis|default('') == '' %}
   <span class="view-toggle js-analysis-toggle">
-    <a class="btn link-gray view-show js-analysis"><span class="glyphicon glyphicon-chevron-down"></span> {{'course.question_manage.question.analysis_expand_btn'|trans}}</a>
-    <a class="btn link-gray view-hide js-analysis hidden"><span class="glyphicon glyphicon-chevron-up"></span> {{'course.question_manage.question.analysis_collapse_btn'|trans}}</a>
+    <a class="btn link-gray view-show js-analysis">{{'course.question_manage.question.analysis_expand_btn'|trans}}</a>
+    <a class="btn link-gray view-hide js-analysis hidden"> {{'course.question_manage.question.analysis_collapse_btn'|trans}}</a>
   </span>
   {% endif %}
 {% endif %}

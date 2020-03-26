@@ -648,7 +648,7 @@ class CourseServiceImpl extends BaseService implements CourseService
         );
         $this->dispatchEvent('course.publish', $course);
 
-        $this->getCourseLessonService()->publishLessonByCourseId($course['id']);
+        // $this->getCourseLessonService()->publishLessonByCourseId($course['id']);
     }
 
     public function hasNoTitleForDefaultPlanInMulPlansCourse($id)
@@ -811,13 +811,7 @@ class CourseServiceImpl extends BaseService implements CourseService
             );
         }
 
-        if ($course['parentId'] > 0) {
-            $classroom = $this->getClassroomService()->getClassroomByCourseId($courseId);
-            if (!empty($classroom) && $classroom['headTeacherId'] == $user['id']) {
-                //班主任有权管理班级下所有课程
-                return $course;
-            }
-        }
+        
 
         if (!$this->hasCourseManagerRole($courseId)) {
             throw $this->createAccessDeniedException('Unauthorized');
@@ -1253,22 +1247,7 @@ class CourseServiceImpl extends BaseService implements CourseService
             return true;
         }
 
-        if ($course['parentId'] > 0) {
-            $classroomRef = $this->getClassroomService()->getClassroomCourseByCourseSetId($course['courseSetId']);
-            if (!empty($classroomRef)) {
-                $isTeacher = $this->getClassroomService()->isClassroomTeacher(
-                    $classroomRef['classroomId'],
-                    $user['id']
-                );
-                $isHeadTeacher = $this->getClassroomService()->isClassroomHeadTeacher(
-                    $classroomRef['classroomId'],
-                    $user['id']
-                );
-                if ($isTeacher || $isHeadTeacher) {
-                    return true;
-                }
-            }
-        }
+        
 
         return false;
     }

@@ -16,9 +16,8 @@
   <title>
 
     {% block title %}
-      {{ currentMenu.name|trans({}, 'menu') }} - {{ menu|parent_permission.name|trans({}, 'menu') }} - {{ menu|parent_permission.code|parent_permission.name|trans({}, 'menu')  }}
+    在线考试系统
     {% endblock %}
-    {% if not setting('copyright.owned') %} | EduSoho{% endif %}
   </title>
 
   
@@ -91,8 +90,6 @@
     </div>
 
     {% block footer %}
-      {{ setting('site.analytics')|raw }}
-
       {% if setting('siteTrace.enabled')|default(false) %}
         {{ setting('siteTrace.script')|raw }}
       {% endif %}

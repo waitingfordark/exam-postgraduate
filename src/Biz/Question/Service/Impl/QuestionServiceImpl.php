@@ -338,21 +338,8 @@ class QuestionServiceImpl extends BaseService implements QuestionService
 
     public function findAttachments($questionIds)
     {
-        if (empty($questionIds)) {
-            return array();
-        }
 
-        $conditions = array(
-            'type' => 'attachment',
-            'targetTypes' => array('question.stem', 'question.analysis'),
-            'targetIds' => $questionIds,
-        );
-        $attachments = $this->getUploadFileService()->searchUseFiles($conditions);
-        array_walk($attachments, function (&$attachment) {
-            $attachment['dkey'] = $attachment['targetType'].$attachment['targetId'];
-        });
-
-        return ArrayToolkit::group($attachments, 'dkey');
+        return array();
     }
 
     public function hasStemImg($question)

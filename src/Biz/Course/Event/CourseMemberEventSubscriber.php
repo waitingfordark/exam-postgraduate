@@ -25,7 +25,7 @@ class CourseMemberEventSubscriber extends EventSubscriber implements EventSubscr
     public static function getSubscribedEvents()
     {
         return array(
-            'course.join' => 'onCourseJoin',
+            // 'course.join' => 'onCourseJoin',
             'course.quit' => 'onMemberDelete',
             'course.view' => 'onCourseView',
             'task.view' => 'onTaskView',

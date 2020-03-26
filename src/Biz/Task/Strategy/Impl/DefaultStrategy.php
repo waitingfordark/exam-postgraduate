@@ -69,13 +69,8 @@ class DefaultStrategy extends BaseStrategy implements CourseStrategy
     public function createTask($field)
     {
         $this->validateTaskMode($field);
-        if (isset($field['mode']) && 'lesson' != $field['mode']) {
-            // 创建课时中的环节
-            return $this->_createLessonLink($field);
-        } else {
-            // 创建课时
-            return $this->_createLesson($field);
-        }
+        
+        return $this->_createLesson($field);
     }
 
     public function updateTask($id, $fields)

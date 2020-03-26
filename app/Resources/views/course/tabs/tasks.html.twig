@@ -4,12 +4,12 @@
       <th>考试名称</th>
       <th>操作</th>
     </tr>
-    
-    {% for courseItem in courseItems %}
+   
+    {% for courseItem in courseItems if courseItem.status == 'published' %}
     <tr>
     <td>{{ loop.index }}</td>
     <td>{{ courseItem.title }}</td>
-    <td> <a href="{{ path('course_task_show', {courseId: courseItem.courseId, id: courseItem.id}) }}" target="_blank">进入</a></td>
+    <td> <a href="{{ path('course_task_show', {courseId: courseItem.courseId, id: courseItem.id}) }}" target="_blank">答题</a></td>
     </tr>
     {% endfor %}
 </table>

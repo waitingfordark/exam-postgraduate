@@ -70,9 +70,7 @@
 			  {% endif %}
 			  </div>
 
-				<div class="testpaper-question-actions pull-right mts">
-					{% include 'question/part/flag.html.twig' with { flags:['favorite', 'analysis'] } %}
-				</div>
+			
 			</div>
 
 			{% include 'question/part/show-analysis.html.twig' with {showAnalysis:1} %}
@@ -96,9 +94,7 @@
 
 		  </div>
 
-		  <div class="testpaper-question-actions pull-right mts">
-		  	{% include 'question/part/flag.html.twig' with { flags:['mark', 'favorite'],resultStatus:paperResult.status|default(null) } %}
-		  </div>
+	
 	  </div>
 
 	  {% if showAnswer|default(0) %}
@@ -112,7 +108,6 @@
 		  </div>
 	  {% endif %}
 
-		{% include 'question/part/show-analysis.html.twig' with {showAnalysis:showAnalysis|default(0)} %}
 
 	{% endif %}
 

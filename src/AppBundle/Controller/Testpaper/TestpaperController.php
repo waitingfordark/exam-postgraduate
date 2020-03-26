@@ -20,7 +20,7 @@ class TestpaperController extends BaseController
 {
     public function doTestpaperAction(Request $request, $lessonId, $testId)
     {
-        // die(1);
+     
         $user = $this->getUser();
 
         $testpaper = $this->getTestpaperService()->getTestpaperByIdAndType($testId, 'testpaper');
@@ -227,8 +227,6 @@ class TestpaperController extends BaseController
         }
 
         if ('POST' === $request->getMethod()) {
-            $activity = $this->getActivityService()->getActivity($testpaperResult['lessonId']);
-            $testpaperActivity = $this->getTestpaperActivityService()->getActivity($activity['mediaId']);
 
             $formData = $request->request->all();
 

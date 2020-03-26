@@ -638,11 +638,11 @@ class MemberServiceImpl extends BaseService implements MemberService
 
         // $this->refreshMemberNoteNumber($courseId, $userId);
 
-        $this->dispatchEvent(
-            'course.join',
-            $course,
-            array('userId' => $member['userId'], 'member' => $member)
-        );
+        // $this->dispatchEvent(
+        //     'course.join',
+        //     $course,
+        //     array('userId' => $member['userId'], 'member' => $member)
+        // );
 
         return $member;
     }

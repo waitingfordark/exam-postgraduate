@@ -22,7 +22,7 @@
         <th>操作</th>
       </tr>
 
-      {% for courseSet in courseSets if courseSet %}
+      {% for courseSet in courseSets if courseSet.status|default(null) == 'published' %}
         {% set currentCourses = courses[courseSet.id] %}
         {% set classroom = courseSet['classroom']|default(null) %}
 

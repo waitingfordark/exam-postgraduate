@@ -23,7 +23,7 @@ class PlanTitle {
       },
       messages: {
         title: {
-          maxlength: Translator.trans('course.manage.title_maxlength_error_hint'),
+          maxlength: '长度最大10位数',
         }
       }
     });
