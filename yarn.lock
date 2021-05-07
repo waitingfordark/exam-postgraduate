@@ -3588,6 +3588,10 @@ jquery-waypoints@2.0.5:
   version "2.0.5"
   resolved "http://registry.npm.taobao.org/jquery-waypoints/download/jquery-waypoints-2.0.5.tgz#c302b188e2957ed763098793304a76356aeeee04"
 
+jquery.cookie@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/jquery.cookie/-/jquery.cookie-1.4.1.tgz#d63dce209eab691fe63316db08ca9e47e0f9385b"
+
 jquery.countdown@1.2.8:
   version "1.2.8"
   resolved "http://registry.npm.taobao.org/jquery.countdown/download/jquery.countdown-1.2.8.tgz#9a224de619ae527aeb4f4eb4a790a93dee0e6276"
@@ -6129,9 +6133,9 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.npmjs.org/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-ua-parser-js@^0.7.17, ua-parser-js@^0.7.9:
-  version "0.7.17"
-  resolved "http://registry.npm.taobao.org/ua-parser-js/download/ua-parser-js-0.7.17.tgz#e9ec5f9498b9ec910e7ae3ac626a805c4d09ecac"
+ua-parser-js@^0.7.24, ua-parser-js@^0.7.9:
+  version "0.7.24"
+  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.24.tgz#8d3ecea46ed4f1f1d63ec25f17d8568105dc027c"
 
 uglify-js@^2.6, uglify-js@^2.8.29:
   version "2.8.29"
