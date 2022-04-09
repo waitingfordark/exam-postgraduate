@@ -3588,6 +3588,10 @@ jquery-waypoints@2.0.5:
   version "2.0.5"
   resolved "http://registry.npm.taobao.org/jquery-waypoints/download/jquery-waypoints-2.0.5.tgz#c302b188e2957ed763098793304a76356aeeee04"
 
+jquery.cookie@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/jquery.cookie/-/jquery.cookie-1.4.1.tgz#d63dce209eab691fe63316db08ca9e47e0f9385b"
+
 jquery.countdown@1.2.8:
   version "1.2.8"
   resolved "http://registry.npm.taobao.org/jquery.countdown/download/jquery.countdown-1.2.8.tgz#9a224de619ae527aeb4f4eb4a790a93dee0e6276"
@@ -4211,13 +4215,9 @@ mochawesome@^3.0.2:
     strip-ansi "^4.0.0"
     uuid "^3.0.1"
 
-moment@2.19.4:
-  version "2.19.4"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.19.4.tgz#17e5e2c6ead8819c8ecfad83a0acccb312e94682"
-
-moment@^2.9.0:
-  version "2.20.1"
-  resolved "http://registry.npm.taobao.org/moment/download/moment-2.20.1.tgz#d6eb1a46cbcc14a2b2f9434112c1ff8907f313fd"
+moment@2.29.2, moment@^2.9.0:
+  version "2.29.2"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.2.tgz#00910c60b20843bcba52d37d58c628b47b1f20e4"
 
 ms@2.0.0:
   version "2.0.0"
