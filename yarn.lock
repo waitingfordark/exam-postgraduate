@@ -3578,15 +3578,17 @@ jquery-qrcode@^1.0.0:
   version "1.0.0"
   resolved "http://registry.npm.taobao.org/jquery-qrcode/download/jquery-qrcode-1.0.0.tgz#549d96679a1f6dcf48ac4af8d03ad84fd955dbae"
 
-jquery-validation@1.15.1:
-  version "1.15.1"
-  resolved "http://registry.npm.taobao.org/jquery-validation/download/jquery-validation-1.15.1.tgz#7c165711b611f6dce5a12ae3e4855c10b5a3e331"
-  dependencies:
-    jquery "^1.7 || ^2.0"
+jquery-validation@1.19.4:
+  version "1.19.4"
+  resolved "https://registry.yarnpkg.com/jquery-validation/-/jquery-validation-1.19.4.tgz#a765781d954e5876fa437d5c75b7a9440bfa37a8"
 
 jquery-waypoints@2.0.5:
   version "2.0.5"
   resolved "http://registry.npm.taobao.org/jquery-waypoints/download/jquery-waypoints-2.0.5.tgz#c302b188e2957ed763098793304a76356aeeee04"
+
+jquery.cookie@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/jquery.cookie/-/jquery.cookie-1.4.1.tgz#d63dce209eab691fe63316db08ca9e47e0f9385b"
 
 jquery.countdown@1.2.8:
   version "1.2.8"
@@ -3602,7 +3604,7 @@ jquery.cycle2@2.1.7:
   version "3.2.1"
   resolved "http://registry.npm.taobao.org/jquery/download/jquery-3.2.1.tgz#5c4d9de652af6cd0a770154a631bba12b015c787"
 
-"jquery@^1.7 || ^2.0", jquery@^2.1.2:
+jquery@^2.1.2:
   version "2.2.4"
   resolved "http://registry.npm.taobao.org/jquery/download/jquery-2.2.4.tgz#2c89d6889b5eac522a7eea32c14521559c6cbf02"
 
