@@ -27,7 +27,7 @@
   "dependencies": {
     "babel-plugin-module-resolver": "^3.1.0",
     "babel-polyfill": "6.5.0",
-    "bootstrap": "3.3.7",
+    "bootstrap": "3.4.1",
     "bootstrap-daterangepicker": "2.1.24",
     "bootstrap-datetime-picker": "2.3.10",
     "bootstrap-notify": "3.1.3",
