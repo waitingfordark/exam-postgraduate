@@ -19,7 +19,7 @@
   },
   "require": {
     "php": ">=5.3.10",
-    "twig/twig": "1.33.0",
+    "twig/twig": "2.12.5",
     "symfony/symfony": "2.8.18",
     "symfony/twig-bundle": "2.8.18",
     "symfony/assetic-bundle": "2.8.1",
